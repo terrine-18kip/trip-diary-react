@@ -14,7 +14,7 @@ const TripCreate: React.FC = () => {
 
   async function handleSubmit() {
     try {
-      const res = await axios.post('http://localhost/api/trips', data)
+      const res = await axios.post('https://trip.18kipper.com/api/trips', data)
       console.log(res)
       navigation('/')
     } catch (error) {
@@ -40,19 +40,21 @@ const TripCreate: React.FC = () => {
         <Form.Item label="旅の期間">
           <DatePicker
             placeholder=""
-            onChange={(date, dateString) => setData({ ...data, start_date: dateString })}
+            onChange={(date, dateString) =>
+              setData({ ...data, start_date: dateString })
+            }
           />{' '}
           ～{' '}
           <DatePicker
             placeholder=""
-            onChange={(date, dateString) => setData({ ...data, end_date: dateString })}
+            onChange={(date, dateString) =>
+              setData({ ...data, end_date: dateString })
+            }
           />
         </Form.Item>
         <Form.Item name="memo" label="メモ">
           <Input.TextArea
-            onChange={(event) =>
-              setData({ ...data, memo: event.target.value })
-            }
+            onChange={(event) => setData({ ...data, memo: event.target.value })}
           />
         </Form.Item>
         <Form.Item style={{ textAlign: 'center' }}>
