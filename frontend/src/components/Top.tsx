@@ -33,10 +33,6 @@ const Top: React.FC = () => {
     }
   }
 
-  function edit(): void {
-    console.log('edit')
-  }
-
   return (
     <div className="container">
       <div className="title">
@@ -69,7 +65,9 @@ const Top: React.FC = () => {
                 // hoverable
                 bordered={false}
                 actions={[
-                  <EditOutlined key="edit" onClick={edit} />,
+                  <Link key="edit" to={`${trip.id}/edit`}>
+                    <EditOutlined />
+                  </Link>,
                   <DeleteOutlined
                     key="delete"
                     onClick={() => {
