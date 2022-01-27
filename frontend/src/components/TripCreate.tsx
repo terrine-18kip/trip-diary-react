@@ -4,8 +4,17 @@ import axios from 'axios'
 import { Button, Form, Input, DatePicker, Space } from 'antd'
 import '../Top.css'
 
+type Trip = {
+  id?: number
+  title?: string
+  start_date?: string
+  end_date?: string
+  memo?: string
+  thumb?: string
+}
+
 const TripCreate: React.FC = () => {
-  const [data, setData] = useState<any>({})
+  const [data, setData] = useState<Trip>({})
   const navigation = useNavigate()
 
   // useEffect(() => {

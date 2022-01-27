@@ -6,8 +6,19 @@ import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import '../Top.css'
 import titleLogo from '../img/title_logo.png'
 
+type Trip = {
+  id: number
+  title: string
+  start_date: string | null
+  end_date: string | null
+  memo: string | null
+  thumb: string | null
+  created_at?: string
+  updated_at?: string
+}
+
 const Top: React.FC = () => {
-  const [trips, setTrips] = useState<any>([])
+  const [trips, setTrips] = useState<Array<Trip>>([])
 
   useEffect(() => {
     getTrips()
@@ -49,7 +60,7 @@ const Top: React.FC = () => {
       </div>
 
       <Row gutter={16}>
-        {trips.map((trip: any) => {
+        {trips.map((trip: Trip) => {
           return (
             <Col
               key={trip.id}

@@ -5,8 +5,19 @@ import { Button, Form, Input, DatePicker, Space } from 'antd'
 import moment from 'moment'
 import '../Top.css'
 
+type Trip = {
+  id?: number,
+  title?: string,
+  start_date?: string | null,
+  end_date?: string | null,
+  memo?: string | null,
+  thumb?: string | null,
+  created_at?: string,
+  updated_at?: string,
+}
+
 const TripEdit: React.FC = () => {
-  const [data, setData] = useState<any>({})
+  const [data, setData] = useState<Trip>({})
   const navigation = useNavigate()
   const params = useParams()
 
