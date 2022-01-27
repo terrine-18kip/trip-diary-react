@@ -45,8 +45,8 @@ const Top: React.FC = () => {
   }
 
   return (
-    <div className="container">
-      <div className="title">
+    <div className='container'>
+      <div className='title'>
         <img src={titleLogo} />
         <h2>trip diary</h2>
       </div>
@@ -54,8 +54,8 @@ const Top: React.FC = () => {
         旅行の計画を立ててみんなと共有、思い出を残せるようなwebアプリを開発中です。
       </p>
       <div style={{ marginBottom: '20px' }}>
-        <Link to="/new">
-          <Button type="primary">新しい旅</Button>
+        <Link to='/new'>
+          <Button type='primary'>新しい旅</Button>
         </Link>
       </div>
 
@@ -76,11 +76,11 @@ const Top: React.FC = () => {
                 // hoverable
                 bordered={false}
                 actions={[
-                  <Link key="edit" to={`${trip.id}/edit`}>
+                  <Link key='edit' to={`${trip.id}/edit`}>
                     <EditOutlined />
                   </Link>,
                   <DeleteOutlined
-                    key="delete"
+                    key='delete'
                     onClick={() => {
                       deleteTrip(trip.id)
                     }}

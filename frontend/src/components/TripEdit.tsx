@@ -6,14 +6,14 @@ import moment from 'moment'
 import '../Top.css'
 
 type Trip = {
-  id?: number,
-  title?: string,
-  start_date?: string | null,
-  end_date?: string | null,
-  memo?: string | null,
-  thumb?: string | null,
-  created_at?: string,
-  updated_at?: string,
+  id?: number
+  title?: string
+  start_date?: string | null
+  end_date?: string | null
+  memo?: string | null
+  thumb?: string | null
+  created_at?: string
+  updated_at?: string
 }
 
 const TripEdit: React.FC = () => {
@@ -27,7 +27,9 @@ const TripEdit: React.FC = () => {
 
   async function getTrip() {
     try {
-      const res = await axios.get(`https://trip.18kipper.com/api/trips/${params.id}`)
+      const res = await axios.get(
+        `https://trip.18kipper.com/api/trips/${params.id}`,
+      )
       setData(res.data)
       console.log(res)
     } catch (error) {
@@ -36,7 +38,10 @@ const TripEdit: React.FC = () => {
   }
   async function handleSubmit() {
     try {
-      const res = await axios.put(`https://trip.18kipper.com/api/trips/${params.id}`, data)
+      const res = await axios.put(
+        `https://trip.18kipper.com/api/trips/${params.id}`,
+        data,
+      )
       console.log(res)
       navigation('/')
     } catch (error) {
@@ -47,15 +52,15 @@ const TripEdit: React.FC = () => {
   const formElement: JSX.Element = (
     <Form labelCol={{ span: 3 }} onFinish={handleSubmit} initialValues={data}>
       <Form.Item
-        name="title"
-        label="タイトル"
+        name='title'
+        label='タイトル'
         rules={[{ required: true, message: 'タイトルを入力してください' }]}
       >
         <Input
           onChange={(event) => setData({ ...data, title: event.target.value })}
         />
       </Form.Item>
-      <Form.Item label="旅の期間">
+      <Form.Item label='旅の期間'>
         {data.start_date ? (
           <DatePicker
             defaultValue={moment(data.start_date, 'YYYY-MM-DD')}
@@ -65,7 +70,7 @@ const TripEdit: React.FC = () => {
           />
         ) : (
           <DatePicker
-            placeholder=""
+            placeholder=''
             onChange={(date, dateString) =>
               setData({ ...data, start_date: dateString })
             }
@@ -81,25 +86,25 @@ const TripEdit: React.FC = () => {
           />
         ) : (
           <DatePicker
-            placeholder=""
+            placeholder=''
             onChange={(date, dateString) =>
               setData({ ...data, end_date: dateString })
             }
           />
         )}
       </Form.Item>
-      <Form.Item name="memo" label="メモ">
+      <Form.Item name='memo' label='メモ'>
         <Input.TextArea
           onChange={(event) => setData({ ...data, memo: event.target.value })}
         />
       </Form.Item>
       <Form.Item style={{ textAlign: 'center' }}>
         <Space>
-          <Button type="primary" htmlType="submit">
+          <Button type='primary' htmlType='submit'>
             登録
           </Button>
-          <Link to="/">
-            <Button htmlType="submit">キャンセル</Button>
+          <Link to='/'>
+            <Button htmlType='submit'>キャンセル</Button>
           </Link>
         </Space>
       </Form.Item>
@@ -107,7 +112,7 @@ const TripEdit: React.FC = () => {
   )
 
   return (
-    <div className="container">
+    <div className='container'>
       <h2>☆旅の編集☆</h2>
       {data.id && formElement}
     </div>

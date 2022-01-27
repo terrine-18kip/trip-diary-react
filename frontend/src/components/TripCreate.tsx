@@ -32,12 +32,12 @@ const TripCreate: React.FC = () => {
   }
 
   return (
-    <div className="container">
+    <div className='container'>
       <h2>☆旅の作成☆</h2>
       <Form labelCol={{ span: 3 }} onFinish={handleSubmit}>
         <Form.Item
-          name="title"
-          label="タイトル"
+          name='title'
+          label='タイトル'
           rules={[{ required: true, message: 'タイトルを入力してください' }]}
         >
           <Input
@@ -46,33 +46,33 @@ const TripCreate: React.FC = () => {
             }
           />
         </Form.Item>
-        <Form.Item label="旅の期間">
+        <Form.Item label='旅の期間'>
           <DatePicker
-            placeholder=""
+            placeholder=''
             onChange={(date, dateString) =>
               setData({ ...data, start_date: dateString })
             }
-          />{' '}
-          ～{' '}
+          />
+          ～
           <DatePicker
-            placeholder=""
+            placeholder=''
             onChange={(date, dateString) =>
               setData({ ...data, end_date: dateString })
             }
           />
         </Form.Item>
-        <Form.Item name="memo" label="メモ">
+        <Form.Item name='memo' label='メモ'>
           <Input.TextArea
             onChange={(event) => setData({ ...data, memo: event.target.value })}
           />
         </Form.Item>
         <Form.Item style={{ textAlign: 'center' }}>
           <Space>
-            <Button type="primary" htmlType="submit">
+            <Button type='primary' htmlType='submit'>
               登録
             </Button>
-            <Link to="/">
-              <Button htmlType="submit">キャンセル</Button>
+            <Link to='/'>
+              <Button htmlType='submit'>キャンセル</Button>
             </Link>
           </Space>
         </Form.Item>
