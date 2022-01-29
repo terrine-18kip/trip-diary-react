@@ -5,6 +5,8 @@ import { Button, Form, Input, DatePicker, Space } from 'antd'
 import moment from 'moment'
 import '../Top.css'
 
+const apiUrl = process.env.REACT_APP_API_URL
+
 type Trip = {
   id?: number
   title?: string
@@ -27,9 +29,7 @@ const TripEdit: React.FC = () => {
 
   async function getTrip() {
     try {
-      const res = await axios.get(
-        `https://trip.18kipper.com/api/trips/${params.id}`,
-      )
+      const res = await axios.get(`${apiUrl}/trips/${params.id}`)
       setData(res.data)
       console.log(res)
     } catch (error) {
@@ -38,10 +38,7 @@ const TripEdit: React.FC = () => {
   }
   async function handleSubmit() {
     try {
-      const res = await axios.put(
-        `https://trip.18kipper.com/api/trips/${params.id}`,
-        data,
-      )
+      const res = await axios.put(`${apiUrl}/trips/${params.id}`, data)
       console.log(res)
       navigation('/')
     } catch (error) {

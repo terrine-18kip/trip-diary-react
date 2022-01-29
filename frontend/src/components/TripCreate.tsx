@@ -4,6 +4,8 @@ import axios from 'axios'
 import { Button, Form, Input, DatePicker, Space } from 'antd'
 import '../Top.css'
 
+const apiUrl = process.env.REACT_APP_API_URL
+
 type Trip = {
   id?: number
   title?: string
@@ -23,7 +25,7 @@ const TripCreate: React.FC = () => {
 
   async function handleSubmit() {
     try {
-      const res = await axios.post('https://trip.18kipper.com/api/trips', data)
+      const res = await axios.post(`${apiUrl}/trips`, data)
       console.log(res)
       navigation('/')
     } catch (error) {

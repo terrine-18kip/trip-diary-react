@@ -6,6 +6,8 @@ import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import '../Top.css'
 import titleLogo from '../img/title_logo.png'
 
+const apiUrl = process.env.REACT_APP_API_URL
+
 type Trip = {
   id: number
   title: string
@@ -26,7 +28,7 @@ const Top: React.FC = () => {
 
   async function getTrips() {
     try {
-      const res = await axios.get('https://trip.18kipper.com/api/trips')
+      const res = await axios.get(`${apiUrl}/trips`)
       setTrips(res.data)
       console.log(res)
     } catch (error) {
@@ -36,7 +38,7 @@ const Top: React.FC = () => {
 
   async function deleteTrip(id: number) {
     try {
-      await axios.delete(`https://trip.18kipper.com/api/trips/${id}`)
+      await axios.delete(`${apiUrl}/trips/${id}`)
       alert('削除しました')
       return getTrips()
     } catch (error) {
