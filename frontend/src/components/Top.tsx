@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { Button, Row, Col, Card } from 'antd'
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
+import { BarsOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import titleLogo from '../img/title_logo.png'
@@ -38,9 +38,12 @@ const Top: React.FC = () => {
   }
 
   async function deleteTrip(id: number) {
+    const result = confirm('削除しますか？')
+    if (!result) {
+      return
+    }
     try {
       await axios.delete(`${apiUrl}/trips/${id}`)
-      alert('削除しました')
       return getTrips()
     } catch (error) {
       console.log(error)
@@ -101,7 +104,10 @@ const Top: React.FC = () => {
                 // hoverable
                 bordered={false}
                 actions={[
-                  <Link key='edit' to={`${trip.id}/edit`}>
+                  <Link key='show' to={`/${trip.id}`}>
+                    <BarsOutlined />
+                  </Link>,
+                  <Link key='edit' to={`/${trip.id}/edit`}>
                     <EditOutlined />
                   </Link>,
                   <DeleteOutlined

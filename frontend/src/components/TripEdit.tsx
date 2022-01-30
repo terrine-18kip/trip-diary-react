@@ -41,7 +41,7 @@ const TripEdit: React.FC = () => {
     try {
       const res = await axios.put(`${apiUrl}/trips/${params.id}`, data)
       console.log(res)
-      navigation('/')
+      navigation(`/${res.data.id}`)
     } catch (error) {
       console.log(error)
     }

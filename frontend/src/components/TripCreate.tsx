@@ -24,7 +24,7 @@ const TripCreate: React.FC = () => {
     try {
       const res = await axios.post(`${apiUrl}/trips`, data)
       console.log(res)
-      navigation('/')
+      navigation(`/${res.data.id}`)
     } catch (error) {
       console.log(error)
     }
