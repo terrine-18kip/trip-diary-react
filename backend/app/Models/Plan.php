@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Trip extends Model
+class Plan extends Model
 {
     protected $guarded = [
         'id',
@@ -13,8 +13,8 @@ class Trip extends Model
         'updated_at'
     ];
 
-    public function plans()
+    public function trip()
     {
-        return $this->hasMany(Plan::class);
+        return $this->belongsTo(Trip::class);
     }
 }
