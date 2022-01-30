@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Top from './components/Top'
 import TripCreate from './components/TripCreate'
 import TripEdit from './components/TripEdit'
-import './App.css'
 
 const App: React.FC = () => {
   return (
