@@ -15,6 +15,6 @@ class Trip extends Model
 
     public function plans()
     {
-        return $this->hasMany(Plan::class);
+        return $this->hasMany(Plan::class)->orderBy('daily', 'asc');
     }
 }

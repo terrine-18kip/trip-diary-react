@@ -3,21 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Trip;
+use App\Models\Plan;
 
-class TripController extends Controller
+class PlanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $trips = Trip::all();
-        return $trips;
-    }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -26,7 +15,7 @@ class TripController extends Controller
      */
     public function store(Request $request)
     {
-        return Trip::create($request->all());
+        return Plan::create($request->all());
     }
 
     /**
@@ -35,10 +24,9 @@ class TripController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Trip $trip)
+    public function show(Plan $plan)
     {
-        $trip->plans;
-        return $trip;
+        return $plan;
     }
 
     /**
@@ -48,10 +36,10 @@ class TripController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Trip $trip)
+    public function update(Request $request, Plan $plan)
     {
-        $trip->update($request->all());
-        return $trip;
+        $plan->update($request->all());
+        return $plan;
     }
 
     /**
@@ -60,8 +48,8 @@ class TripController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Trip $trip)
+    public function destroy(Plan $plan)
     {
-        $trip->delete();
+        $plan->delete();
     }
 }
