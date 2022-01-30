@@ -3,7 +3,8 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { Button, Form, Input, DatePicker, Space } from 'antd'
 import moment from 'moment'
-import '../Top.css'
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react'
 
 const apiUrl = process.env.REACT_APP_API_URL
 
@@ -44,6 +45,15 @@ const TripEdit: React.FC = () => {
     } catch (error) {
       console.log(error)
     }
+  }
+
+  const styles = {
+    container: css`
+      width: 100%;
+      min-height: 100vh;
+      padding: 10px 20px;
+      background-color: #fafafa;
+    `,
   }
 
   const formElement: JSX.Element = (
@@ -109,7 +119,7 @@ const TripEdit: React.FC = () => {
   )
 
   return (
-    <div className='container'>
+    <div css={styles.container}>
       <h2>☆旅の編集☆</h2>
       {data.id && formElement}
     </div>

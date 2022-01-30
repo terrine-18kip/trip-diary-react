@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { Button, Form, Input, DatePicker, Space } from 'antd'
-import '../Top.css'
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react'
 
 const apiUrl = process.env.REACT_APP_API_URL
 
@@ -19,10 +20,6 @@ const TripCreate: React.FC = () => {
   const [data, setData] = useState<Trip>({})
   const navigation = useNavigate()
 
-  // useEffect(() => {
-  //   getTrips()
-  // }, [])
-
   async function handleSubmit() {
     try {
       const res = await axios.post(`${apiUrl}/trips`, data)
@@ -33,8 +30,17 @@ const TripCreate: React.FC = () => {
     }
   }
 
+  const styles = {
+    container: css`
+      width: 100%;
+      min-height: 100vh;
+      padding: 10px 20px;
+      background-color: #fafafa;
+    `,
+  }
+
   return (
-    <div className='container'>
+    <div css={styles.container}>
       <h2>☆旅の作成☆</h2>
       <Form labelCol={{ span: 3 }} onFinish={handleSubmit}>
         <Form.Item
