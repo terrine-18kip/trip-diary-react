@@ -40,12 +40,22 @@ const TripDetail: React.FC = () => {
   const [trip, setTrip] = useState<Trip>({})
   const [plans, setPlans] = useState<Plan[]>([])
   const [planNum, setPlanNum] = useState<number | null>(1)
+  const [editingPlan, setEditingPlan] = useState<number | null>()
   const navigation = useNavigate()
   const params = useParams()
 
   useEffect(() => {
     getTrip()
   }, [])
+
+  useEffect(() => {
+    if (plans.length === 0) {
+      setPlanNum(1)
+      return
+    }
+    const dailyNum: number = plans[plans.length - 1].daily
+    setPlanNum(dailyNum + 1)
+  }, [plans])
 
   async function getTrip() {
     try {
@@ -73,7 +83,7 @@ const TripDetail: React.FC = () => {
 
   async function addPlan() {
     if (!planNum) {
-      return console.log('cancel')
+      return
     }
     try {
       const res = await axios.post(`${apiUrl}/plans`, {
@@ -81,7 +91,23 @@ const TripDetail: React.FC = () => {
         daily: planNum,
       })
       getTrip()
-      setPlanNum(planNum + 1)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async function updatePlan(id: number, value: string) {
+    if (!value) {
+      setEditingPlan(null)
+      return
+    }
+    try {
+      await axios.put(`${apiUrl}/plans/${id}`, {
+        trip_id: trip.id,
+        daily: Number(value),
+      })
+      await getTrip()
+      setEditingPlan(null)
     } catch (error) {
       console.log(error)
     }
@@ -122,6 +148,7 @@ const TripDetail: React.FC = () => {
     `,
     planNum: css`
       margin: 0;
+      cursor: pointer;
     `,
     planForm: css`
       width: 80%;
@@ -131,6 +158,29 @@ const TripDetail: React.FC = () => {
       width: 55px;
       background-color: #fff;
     `,
+  }
+
+  const dailyElement = (plan: Plan): JSX.Element => {
+    if (plan.id === editingPlan) {
+      return (
+        <span>
+          <InputNumber
+            css={styles.planInput}
+            size='small'
+            defaultValue={plan.daily}
+            autoFocus={true}
+            onBlur={(event) => updatePlan(plan.id, event.target.value)}
+          />
+          日目
+        </span>
+      )
+    } else {
+      return (
+        <p css={styles.planNum} onClick={() => setEditingPlan(plan.id)}>
+          {plan.daily}日目
+        </p>
+      )
+    }
   }
 
   return (
@@ -159,10 +209,10 @@ const TripDetail: React.FC = () => {
       </Card>
 
       <div css={styles.plans}>
-        {plans.map((plan) => {
+        {plans.map((plan: Plan) => {
           return (
             <div key={plan.id} css={styles.plan}>
-              <p css={styles.planNum}>{plan.daily}日目</p>
+              {dailyElement(plan)}
               <Button
                 type='text'
                 shape='circle'
