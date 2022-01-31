@@ -38,6 +38,9 @@ class TripController extends Controller
     public function show(Trip $trip)
     {
         $trip->plans;
+        foreach ($trip->plans as $plan) {
+            $plan->spots;
+        }
         return $trip;
     }
 

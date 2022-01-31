@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TripController;
 use App\Http\Controllers\PlanController;
+use App\Http\Controllers\SpotController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,3 +23,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::resource('trips', TripController::class, ['only' => ['index','store', 'show', 'update', 'destroy']]);
 Route::resource('plans', PlanController::class, ['only' => ['store', 'show', 'update', 'destroy']]);
+Route::resource('spots', SpotController::class, ['only' => ['store', 'update', 'destroy']]);
