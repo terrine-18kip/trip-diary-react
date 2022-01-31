@@ -96,8 +96,8 @@ const TripDetail: React.FC = () => {
     }
   }
 
-  async function updatePlan(id: number, value: string) {
-    if (!value) {
+  async function updatePlan(id: number, old: number, value: string) {
+    if (!value || Number(value) === old) {
       setEditingPlan(null)
       return
     }
@@ -124,6 +124,16 @@ const TripDetail: React.FC = () => {
       getTrip()
     } catch (error) {
       console.log(error)
+    }
+  }
+
+  const onEnter = (
+    id: number,
+    old: number,
+    event: React.KeyboardEvent<HTMLInputElement>,
+  ): void => {
+    if (event.key === 'Enter') {
+      updatePlan(id, old, event.currentTarget.value)
     }
   }
 
@@ -169,7 +179,10 @@ const TripDetail: React.FC = () => {
             size='small'
             defaultValue={plan.daily}
             autoFocus={true}
-            onBlur={(event) => updatePlan(plan.id, event.target.value)}
+            onBlur={(event) =>
+              updatePlan(plan.id, plan.daily, event.target.value)
+            }
+            onKeyPress={(event) => onEnter(plan.id, plan.daily, event)}
           />
           日目
         </span>
