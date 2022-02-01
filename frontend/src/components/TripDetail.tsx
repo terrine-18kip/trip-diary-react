@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
+import SpotList from './SpotList'
 import axios from 'axios'
-import { Card, Space, Button, Form, Input, InputNumber } from 'antd'
+import { Card, Space, Button, Form, InputNumber } from 'antd'
 import {
   FormOutlined,
-  EditOutlined,
   DeleteOutlined,
   DeleteFilled,
-  PlusOutlined,
   PlusCircleFilled,
 } from '@ant-design/icons'
 import moment from 'moment'
@@ -224,17 +223,20 @@ const TripDetail: React.FC = () => {
       <div css={styles.plans}>
         {plans.map((plan: Plan) => {
           return (
-            <div key={plan.id} css={styles.plan}>
-              {dailyElement(plan)}
-              <Button
-                type='text'
-                shape='circle'
-                size='small'
-                icon={<DeleteFilled />}
-                onClick={() => {
-                  deletePlan(plan.id)
-                }}
-              />
+            <div key={plan.id}>
+              <div css={styles.plan}>
+                {dailyElement(plan)}
+                <Button
+                  type='text'
+                  shape='circle'
+                  size='small'
+                  icon={<DeleteFilled />}
+                  onClick={() => {
+                    deletePlan(plan.id)
+                  }}
+                />
+              </div>
+              <SpotList plan={plan} getTrip={getTrip} />
             </div>
           )
         })}
@@ -256,7 +258,6 @@ const TripDetail: React.FC = () => {
             icon={<PlusCircleFilled />}
           />
         </Form>
-        {/* <Button shape='circle' icon={<PlusOutlined />} onClick={addPlan} /> */}
       </div>
     </div>
   )
