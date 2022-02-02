@@ -150,7 +150,6 @@ const TripDetail: React.FC = () => {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
       padding: 2px 10px;
       border-radius: 2px;
       background-color: #ecd4c2;
@@ -197,7 +196,6 @@ const TripDetail: React.FC = () => {
 
   return (
     <div css={styles.container}>
-      <h2>☆旅の詳細☆</h2>
       <Card
         title={trip.title}
         extra={
