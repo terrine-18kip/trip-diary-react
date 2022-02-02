@@ -176,7 +176,7 @@ const TripDetail: React.FC = () => {
             css={styles.planInput}
             size='small'
             defaultValue={plan.daily}
-            autoFocus={true}
+            autoFocus
             onBlur={(event) =>
               updatePlan(plan.id, plan.daily, event.target.value)
             }
