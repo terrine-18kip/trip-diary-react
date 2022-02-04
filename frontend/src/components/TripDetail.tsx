@@ -227,7 +227,7 @@ const TripDetail: React.FC = () => {
                 <Button
                   type='text'
                   shape='circle'
-                  size='small'
+                  // size='small'
                   icon={<DeleteFilled />}
                   onClick={() => {
                     deletePlan(plan.id)
@@ -251,7 +251,6 @@ const TripDetail: React.FC = () => {
           <Button
             shape='circle'
             type='text'
-            size='small'
             htmlType='submit'
             icon={<PlusCircleFilled />}
           />

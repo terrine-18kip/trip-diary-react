@@ -10,19 +10,11 @@ import {
   Space,
 } from 'antd'
 const { Option } = Select
+import moment from 'moment'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
 const apiUrl = process.env.REACT_APP_API_URL
-
-type Plan = {
-  id: number
-  daily: number
-  trip_id: number
-  created_at?: string
-  updated_at?: string
-  spots?: Spot[]
-}
 
 type Spot = {
   id?: number
@@ -39,17 +31,17 @@ type Spot = {
 }
 
 type Props = {
-  plan: Plan
+  spot: Spot
   getTrip: any
   setFlag: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
-  const [data, setData] = useState<any>({ plan_id: plan.id })
+const SpotCreate: React.FC<Props> = ({ spot, getTrip, setFlag }) => {
+  const [data, setData] = useState<Spot>(spot)
 
   async function addSpot() {
     try {
-      const res = await axios.post(`${apiUrl}/spots`, data)
+      const res = await axios.put(`${apiUrl}/spots/${spot.id}`, data)
       console.log(res)
       await getTrip()
       setFlag(false)
@@ -89,6 +81,7 @@ const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
             format='HH:mm'
             size='small'
             autoFocus
+            value={data.start_time ? moment(data.start_time, 'HH:mm') : null}
             onChange={(time, timeString) =>
               setData({ ...data, start_time: timeString })
             }
@@ -97,6 +90,7 @@ const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
             placeholder='終了時間'
             format='HH:mm'
             size='small'
+            value={data.end_time ? moment(data.end_time, 'HH:mm') : null}
             onChange={(time, timeString) =>
               setData({ ...data, end_time: timeString })
             }
@@ -104,11 +98,12 @@ const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
           <Select
             placeholder='カテゴリーを選択'
             size='small'
+            value={data.category_id}
             onChange={(event) => setData({ ...data, category_id: event })}
           >
-            <Option value='1'>新幹線</Option>
-            <Option value='2'>飛行機</Option>
-            <Option value='3'>車</Option>
+            <Option value={1}>新幹線</Option>
+            <Option value={2}>飛行機</Option>
+            <Option value={3}>車</Option>
           </Select>
         </div>
 
@@ -116,12 +111,14 @@ const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
           <Input
             placeholder='スポット名'
             size='small'
+            value={data.name}
             onChange={(event) => setData({ ...data, name: event.target.value })}
           />
           <InputNumber
             placeholder='金額'
             size='small'
-            onChange={(event) => setData({ ...data, fee: event })}
+            value={spot.fee}
+            onChange={(event) => setData({ ...data, fee: Number(event) })}
           />
         </div>
 
@@ -129,17 +126,19 @@ const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
           <Input
             placeholder='リンク'
             size='small'
+            value={spot.link}
             onChange={(event) => setData({ ...data, link: event.target.value })}
           />
           <Input
             placeholder='メモ'
             size='small'
+            value={spot.memo}
             onChange={(event) => setData({ ...data, memo: event.target.value })}
           />
         </div>
         <Space>
           <Button shape='round' size='small' htmlType='submit' type='primary'>
-            追加
+            更新
           </Button>
           <Button shape='round' size='small' onClick={() => setFlag(false)}>
             キャンセル
