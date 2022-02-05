@@ -20,9 +20,7 @@ use App\Http\Controllers\SpotController;
 
 Route::post('/entry', [AuthController::class, 'entry']);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::middleware('auth:sanctum')->get('/user', [AuthController::class, 'me']);
 
 Route::resource('trips', TripController::class, ['only' => ['index','store', 'show', 'update', 'destroy']]);
 Route::resource('plans', PlanController::class, ['only' => ['store', 'show', 'update', 'destroy']]);

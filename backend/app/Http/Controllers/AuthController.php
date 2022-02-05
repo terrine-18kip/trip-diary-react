@@ -36,4 +36,11 @@ class AuthController extends Controller
     {
         Auth::logout();
     }
+
+    public function me(Request $request)
+    {
+        $user = $request->user();
+        $user->trips;
+        return $user;
+    }
 }

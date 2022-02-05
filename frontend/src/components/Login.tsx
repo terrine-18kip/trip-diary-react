@@ -18,7 +18,9 @@ const Login: React.FC = () => {
 
   const initializeCsrf = async () => {
     try {
-      const res = await axios.get(`${apiUrl}/sanctum/csrf-cookie`)
+      const res = await axios.get(`${apiUrl}/sanctum/csrf-cookie`, {
+        withCredentials: true,
+      })
       console.log(res)
     } catch (error) {
       console.log(error)
@@ -31,7 +33,7 @@ const Login: React.FC = () => {
         withCredentials: true,
       })
       console.log(res)
-      // navigation(`/${res.data.id}`)
+      navigation(`/`)
     } catch (error) {
       console.log(error)
     }

@@ -29,9 +29,11 @@ const Top: React.FC = () => {
 
   async function getTrips() {
     try {
-      const res = await axios.get(`${apiUrl}/trips`)
-      setTrips(res.data)
-      console.log(res)
+      const res = await axios.get(`${apiUrl}/user`, {
+        withCredentials: true,
+      })
+      console.log(res.data)
+      setTrips(res.data.trips)
     } catch (error) {
       console.log(error)
     }
