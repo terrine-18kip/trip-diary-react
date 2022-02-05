@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
-import { Button, Form, Input, DatePicker, Space } from 'antd'
+import { PageHeader, Button, Form, Input, DatePicker, Space } from 'antd'
 import moment from 'moment'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
@@ -114,9 +114,7 @@ const TripEdit: React.FC = () => {
           <Button type='primary' htmlType='submit'>
             登録
           </Button>
-          <Link to='/'>
-            <Button htmlType='submit'>キャンセル</Button>
-          </Link>
+          <Button onClick={() => window.history.back()}>キャンセル</Button>
         </Space>
       </Form.Item>
     </Form>
@@ -124,7 +122,7 @@ const TripEdit: React.FC = () => {
 
   return (
     <div css={styles.container}>
-      <h2>☆旅の編集☆</h2>
+      <PageHeader title='旅の編集' onBack={() => window.history.back()} />
       {data.id && formElement}
     </div>
   )

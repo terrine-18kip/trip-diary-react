@@ -77,7 +77,7 @@ const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
       }
     `,
     spotTime: css`
-      width: 50px;
+      width: 45px;
       font-size: 12px;
       text-align: center;
       p {
@@ -86,20 +86,22 @@ const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
       }
     `,
     spotCategory: css`
-      width: 50px;
+      width: 45px;
       text-align: center;
     `,
     spotName: css`
       width: 100%;
       margin-bottom: 0;
+      flex: 1;
     `,
     spotFee: css`
       width: 70px;
       font-size: 13px;
       text-align: right;
+      white-space: nowrap;
     `,
     spotDelete: css`
-      width: 50px;
+      padding: 0 5px;
       text-align: center;
     `,
     form: css`

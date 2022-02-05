@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-import { Button, Row, Col, Card } from 'antd'
+import { PageHeader, Button, Row, Col, Card } from 'antd'
 import { BarsOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
@@ -85,11 +85,14 @@ const Top: React.FC = () => {
       <p>
         旅行の計画を立ててみんなと共有、思い出を残せるようなwebアプリを開発中です。
       </p>
-      <div style={{ marginBottom: '20px' }}>
-        <Link to='/new'>
-          <Button type='primary'>新しい旅</Button>
-        </Link>
-      </div>
+      <PageHeader
+        title='自分の旅'
+        extra={
+          <Link to='/new'>
+            <Button type='primary'>新しい旅</Button>
+          </Link>
+        }
+      />
 
       <Row gutter={16}>
         {trips.map((trip: Trip) => {

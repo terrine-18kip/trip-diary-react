@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { Button, Form, Input, DatePicker, Space } from 'antd'
+import { PageHeader, Button, Form, Input, DatePicker, Space } from 'antd'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
@@ -43,7 +43,7 @@ const TripCreate: React.FC = () => {
 
   return (
     <div css={styles.container}>
-      <h2>☆旅の作成☆</h2>
+      <PageHeader title='旅の作成' onBack={() => window.history.back()} />
       <Form labelCol={{ span: 3 }} onFinish={handleSubmit}>
         <Form.Item
           name='title'
@@ -81,9 +81,7 @@ const TripCreate: React.FC = () => {
             <Button type='primary' htmlType='submit'>
               登録
             </Button>
-            <Link to='/'>
-              <Button htmlType='submit'>キャンセル</Button>
-            </Link>
+            <Button onClick={() => window.history.back()}>キャンセル</Button>
           </Space>
         </Form.Item>
       </Form>

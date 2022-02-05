@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import SpotList from './SpotList'
 import axios from 'axios'
-import { Card, Space, Button, Form, InputNumber } from 'antd'
+import { PageHeader, Card, Space, Button, Form, InputNumber } from 'antd'
 import {
   FormOutlined,
   DeleteOutlined,
@@ -160,9 +160,15 @@ const TripDetail: React.FC = () => {
       min-height: 100vh;
       padding: 10px 20px;
       background-color: #fafafa;
+      @media screen and (max-width: 768px) {
+        padding: 5px 3%;
+      }
     `,
     plans: css`
       padding: 20px 10px;
+      @media screen and (max-width: 768px) {
+        padding: 15px 2%;
+      }
     `,
     plan: css`
       display: flex;
@@ -214,6 +220,7 @@ const TripDetail: React.FC = () => {
 
   return (
     <div css={styles.container}>
+      <PageHeader title='旅の詳細' onBack={() => window.history.back()} />
       <Card
         title={trip.title}
         extra={
