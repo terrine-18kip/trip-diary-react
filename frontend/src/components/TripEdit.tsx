@@ -30,7 +30,9 @@ const TripEdit: React.FC = () => {
 
   async function getTrip() {
     try {
-      const res = await axios.get(`${apiUrl}/trips/${params.id}`)
+      const res = await axios.get(`${apiUrl}/trips/${params.id}`, {
+        withCredentials: true,
+      })
       setData(res.data)
       console.log(res)
     } catch (error) {
@@ -39,7 +41,9 @@ const TripEdit: React.FC = () => {
   }
   async function handleSubmit() {
     try {
-      const res = await axios.put(`${apiUrl}/trips/${params.id}`, data)
+      const res = await axios.put(`${apiUrl}/trips/${params.id}`, data, {
+        withCredentials: true,
+      })
       console.log(res)
       navigation(`/${res.data.id}`)
     } catch (error) {

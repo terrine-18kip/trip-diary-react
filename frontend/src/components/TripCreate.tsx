@@ -22,7 +22,9 @@ const TripCreate: React.FC = () => {
 
   async function handleSubmit() {
     try {
-      const res = await axios.post(`${apiUrl}/trips`, data)
+      const res = await axios.post(`${apiUrl}/trips`, data, {
+        withCredentials: true,
+      })
       console.log(res)
       navigation(`/${res.data.id}`)
     } catch (error) {

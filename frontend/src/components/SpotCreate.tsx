@@ -49,7 +49,9 @@ const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
 
   async function addSpot() {
     try {
-      const res = await axios.post(`${apiUrl}/spots`, data)
+      const res = await axios.post(`${apiUrl}/spots`, data, {
+        withCredentials: true,
+      })
       console.log(res)
       await getTrip()
       setFlag(false)

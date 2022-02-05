@@ -49,7 +49,9 @@ const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
       return
     }
     try {
-      const res = await axios.delete(`${apiUrl}/spots/${id}`)
+      const res = await axios.delete(`${apiUrl}/spots/${id}`, {
+        withCredentials: true,
+      })
       console.log(res)
       getTrip()
     } catch (error) {

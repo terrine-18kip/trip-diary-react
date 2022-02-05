@@ -18,14 +18,14 @@ const Entry: React.FC = () => {
   const [data, setData] = useState<Login>({})
   const navigation = useNavigate()
 
-  const initializeCsrf = async () => {
-    try {
-      const res = await axios.get(`${apiUrl}/sanctum/csrf-cookie`)
-      console.log(res)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  // const initializeCsrf = async () => {
+  //   try {
+  //     const res = await axios.get(`${apiUrl}/sanctum/csrf-cookie`)
+  //     console.log(res)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
   async function handleSubmit() {
     try {
@@ -36,9 +36,9 @@ const Entry: React.FC = () => {
     }
   }
 
-  useEffect(() => {
-    initializeCsrf()
-  }, [])
+  // useEffect(() => {
+  //   initializeCsrf()
+  // }, [])
 
   const styles = {
     container: css`

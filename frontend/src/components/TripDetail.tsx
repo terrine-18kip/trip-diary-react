@@ -58,7 +58,9 @@ const TripDetail: React.FC = () => {
 
   async function getTrip() {
     try {
-      const res = await axios.get(`${apiUrl}/trips/${params.id}`)
+      const res = await axios.get(`${apiUrl}/trips/${params.id}`, {
+        withCredentials: true,
+      })
       setTrip(res.data)
       setPlans(res.data.plans)
       console.log(res)
@@ -73,7 +75,9 @@ const TripDetail: React.FC = () => {
       return
     }
     try {
-      await axios.delete(`${apiUrl}/trips/${trip.id}`)
+      await axios.delete(`${apiUrl}/trips/${trip.id}`, {
+        withCredentials: true,
+      })
       navigation('/')
     } catch (error) {
       console.log(error)
@@ -85,10 +89,16 @@ const TripDetail: React.FC = () => {
       return
     }
     try {
-      const res = await axios.post(`${apiUrl}/plans`, {
-        trip_id: trip.id,
-        daily: planNum,
-      })
+      const res = await axios.post(
+        `${apiUrl}/plans`,
+        {
+          trip_id: trip.id,
+          daily: planNum,
+        },
+        {
+          withCredentials: true,
+        },
+      )
       getTrip()
     } catch (error) {
       console.log(error)
@@ -101,10 +111,16 @@ const TripDetail: React.FC = () => {
       return
     }
     try {
-      await axios.put(`${apiUrl}/plans/${id}`, {
-        trip_id: trip.id,
-        daily: Number(value),
-      })
+      await axios.put(
+        `${apiUrl}/plans/${id}`,
+        {
+          trip_id: trip.id,
+          daily: Number(value),
+        },
+        {
+          withCredentials: true,
+        },
+      )
       await getTrip()
       setEditingPlan(null)
     } catch (error) {
@@ -118,7 +134,9 @@ const TripDetail: React.FC = () => {
       return
     }
     try {
-      const res = await axios.delete(`${apiUrl}/plans/${id}`)
+      const res = await axios.delete(`${apiUrl}/plans/${id}`, {
+        withCredentials: true,
+      })
       console.log(res)
       getTrip()
     } catch (error) {

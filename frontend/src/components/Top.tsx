@@ -45,7 +45,9 @@ const Top: React.FC = () => {
       return
     }
     try {
-      await axios.delete(`${apiUrl}/trips/${id}`)
+      await axios.delete(`${apiUrl}/trips/${id}`, {
+        withCredentials: true,
+      })
       return getTrips()
     } catch (error) {
       console.log(error)
