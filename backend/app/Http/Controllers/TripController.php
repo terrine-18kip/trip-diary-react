@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Trip;
+use App\Models\User;
 
 class TripController extends Controller
 {
@@ -26,7 +27,9 @@ class TripController extends Controller
      */
     public function store(Request $request)
     {
-        return Trip::create($request->all());
+        $trip = Trip::create($request->all());
+        $trip->users()->sync($request->user_id);
+        return $trip;
     }
 
     /**
@@ -37,6 +40,7 @@ class TripController extends Controller
      */
     public function show(Trip $trip)
     {
+        $trip->users;
         $trip->plans;
         foreach ($trip->plans as $plan) {
             $plan->spots;
@@ -66,5 +70,14 @@ class TripController extends Controller
     public function destroy(Trip $trip)
     {
         $trip->delete();
+    }
+
+    public function add_member(Request $request, Trip $trip)
+    {
+        $trip = Trip::find($request->trip_id);
+        $user = User::where('email', $request->email)->first();
+        $trip->users()->syncWithoutDetaching($user->id);
+        $trip->users;
+        return $trip;
     }
 }

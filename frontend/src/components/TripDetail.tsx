@@ -1,17 +1,28 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
+import TripMember from './TripMember'
 import SpotList from './SpotList'
 import axios from 'axios'
-import { PageHeader, Card, Space, Button, Form, InputNumber } from 'antd'
+import {
+  PageHeader,
+  Card,
+  Avatar,
+  Space,
+  Button,
+  Form,
+  InputNumber,
+} from 'antd'
 import {
   FormOutlined,
   DeleteOutlined,
   DeleteFilled,
   PlusCircleFilled,
+  UserOutlined,
 } from '@ant-design/icons'
 import moment from 'moment'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
+import { StringDecoder } from 'string_decoder'
 
 const apiUrl = process.env.REACT_APP_API_URL
 
@@ -25,6 +36,7 @@ type Trip = {
   created_at?: string
   updated_at?: string
   plans?: Plan[]
+  users?: User[]
 }
 
 type Plan = {
@@ -35,10 +47,17 @@ type Plan = {
   updated_at?: string
 }
 
+type User = {
+  id: number
+  name: string
+  email: string
+}
+
 const TripDetail: React.FC = () => {
   const [trip, setTrip] = useState<Trip>({})
   const [plans, setPlans] = useState<Plan[]>([])
   const [planNum, setPlanNum] = useState<number | null>(1)
+  const [showMember, setShowMember] = useState<boolean>(false)
   const [editingPlan, setEditingPlan] = useState<number | null>()
   const navigation = useNavigate()
   const params = useParams()
@@ -164,6 +183,11 @@ const TripDetail: React.FC = () => {
         padding: 5px 3%;
       }
     `,
+    tripMember: css`
+      display: flex;
+      align-items: center;
+      margin-right: 10px;
+    `,
     plans: css`
       padding: 20px 10px;
       @media screen and (max-width: 768px) {
@@ -220,7 +244,18 @@ const TripDetail: React.FC = () => {
 
   return (
     <div css={styles.container}>
-      <PageHeader title='旅の詳細' onBack={() => window.history.back()} />
+      <PageHeader
+        title='旅の詳細'
+        onBack={() => navigation('/')}
+        extra={
+          <Button type='primary' onClick={() => setShowMember(true)}>
+            メンバーを招待
+          </Button>
+        }
+      />
+      {showMember && (
+        <TripMember trip={trip} getTrip={getTrip} setFlag={setShowMember} />
+      )}
       <Card
         title={trip.title}
         extra={
@@ -241,6 +276,17 @@ const TripDetail: React.FC = () => {
           期間：{trip.start_date} ～ {trip.end_date}
         </p>
         <p>メモ：{trip.memo}</p>
+        <div css={styles.tripMember}>
+          メンバー：
+          {trip.users?.map((user) => {
+            return (
+              <span css={styles.tripMember} key={user.id}>
+                <Avatar size='small' icon={<UserOutlined />} />
+                {user.name}
+              </span>
+            )
+          })}
+        </div>
       </Card>
 
       <div css={styles.plans}>

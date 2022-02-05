@@ -29,7 +29,9 @@ const Entry: React.FC = () => {
 
   async function handleSubmit() {
     try {
-      const res = await axios.post(`${apiUrl}/entry`, data)
+      const res = await axios.post(`${apiUrl}/entry`, data, {
+        withCredentials: true,
+      })
       console.log(res)
     } catch (error) {
       console.log(error)

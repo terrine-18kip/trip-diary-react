@@ -14,10 +14,11 @@ type Trip = {
   end_date?: string
   memo?: string
   thumb?: string
+  user_id: number
 }
 
 const TripCreate: React.FC = () => {
-  const [data, setData] = useState<Trip>({})
+  const [data, setData] = useState<Trip>({ user_id: 2 })
   const navigation = useNavigate()
 
   async function handleSubmit() {
