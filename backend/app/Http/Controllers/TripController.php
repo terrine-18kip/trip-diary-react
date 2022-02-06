@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Trip;
 use App\Models\User;
+use Exception;
 
 class TripController extends Controller
 {
@@ -76,6 +77,9 @@ class TripController extends Controller
     {
         $trip = Trip::find($request->trip_id);
         $user = User::where('email', $request->email)->first();
+        if (!$user) {
+            throw new Exception('ユーザーが存在しません');
+        }
         $trip->users()->syncWithoutDetaching($user->id);
         $trip->users;
         return $trip;

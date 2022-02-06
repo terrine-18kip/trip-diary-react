@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import { PageHeader, Avatar, Button, Form, Input } from 'antd'
+import { PageHeader, Alert, Avatar, Button, Form, Input } from 'antd'
 import { UserOutlined, CloseOutlined } from '@ant-design/icons'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
@@ -39,16 +39,19 @@ type Data = {
 
 const TripMember: React.FC<Props> = ({ trip, getTrip, setFlag }) => {
   const [data, setData] = useState<Data>({ trip_id: trip.id })
+  const [errorMessage, setErrorMessage] = useState<string>('')
 
   async function addMember() {
     try {
-      const res = await axios.post(`${apiUrl}/trips/add_member`, data, {
+      await axios.post(`${apiUrl}/trips/add_member`, data, {
         withCredentials: true,
       })
-      console.log(res)
+      setErrorMessage('')
       await getTrip()
     } catch (error) {
-      console.log(error)
+      if (axios.isAxiosError(error)) {
+        return setErrorMessage(error.response?.data.message)
+      }
     }
   }
 
@@ -121,6 +124,10 @@ const TripMember: React.FC<Props> = ({ trip, getTrip, setFlag }) => {
             />
           }
         />
+        {
+          errorMessage && 
+          <Alert message={errorMessage} type="error" banner style={{textAlign: 'left', marginBottom: '10px'}} />
+        }
         <div>
           {trip.users?.map((user) => {
             return (
