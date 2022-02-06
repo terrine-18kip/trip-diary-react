@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { PageHeader, Button, Form, Input, Space } from 'antd'
 /** @jsxImportSource @emotion/react */
@@ -112,10 +112,11 @@ const Entry: React.FC = () => {
         </Form.Item>
 
         <Form.Item style={{ textAlign: 'center' }}>
-          <Space>
+          <Space direction='vertical'>
             <Button type='primary' htmlType='submit'>
               新規登録
             </Button>
+            <Link to='/login'>ログインはこちら</Link>
           </Space>
         </Form.Item>
       </Form>

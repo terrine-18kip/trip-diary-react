@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { PageHeader, Button, Form, Input, DatePicker, Space } from 'antd'
 /** @jsxImportSource @emotion/react */
@@ -33,17 +33,8 @@ const TripCreate: React.FC = () => {
     }
   }
 
-  const styles = {
-    container: css`
-      width: 100%;
-      min-height: 100vh;
-      padding: 10px 20px;
-      background-color: #fafafa;
-    `,
-  }
-
   return (
-    <div css={styles.container}>
+    <div>
       <PageHeader title='旅の作成' onBack={() => window.history.back()} />
       <Form labelCol={{ span: 3 }} onFinish={handleSubmit}>
         <Form.Item

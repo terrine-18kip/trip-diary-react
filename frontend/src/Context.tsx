@@ -35,16 +35,8 @@ const UserProvider = (props: any) => {
   const locationHook = useLocation()
 
   useEffect(() => {
-    checkUser()
-  }, [locationHook.pathname])
-
-  const checkUser = (): void => {
-    const path: string = locationHook.pathname
-    if (path === '/login/' || path === '/entry/') {
-      return
-    }
     fetchUser()
-  }
+  }, [locationHook.pathname])
 
   async function fetchUser() {
     try {

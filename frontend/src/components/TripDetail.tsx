@@ -242,7 +242,7 @@ const TripDetail: React.FC = () => {
   }
 
   return (
-    <div css={styles.container}>
+    <div>
       <PageHeader
         title='旅の詳細'
         onBack={() => navigation('/')}
@@ -297,7 +297,6 @@ const TripDetail: React.FC = () => {
                 <Button
                   type='text'
                   shape='circle'
-                  // size='small'
                   icon={<DeleteFilled />}
                   onClick={() => {
                     deletePlan(plan.id)

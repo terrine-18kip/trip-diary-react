@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { PageHeader, Button, Form, Input, Space } from 'antd'
 /** @jsxImportSource @emotion/react */
@@ -35,16 +35,6 @@ const Login: React.FC = () => {
       })
       console.log(res)
       navigation(`/`)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  async function logout() {
-    try {
-      const res = await axios.get(`${apiUrl}/logout`)
-      console.log(res)
-      // navigation(`/${res.data.id}`)
     } catch (error) {
       console.log(error)
     }
@@ -89,13 +79,11 @@ const Login: React.FC = () => {
           />
         </Form.Item>
         <Form.Item style={{ textAlign: 'center' }}>
-          <Space>
+          <Space direction='vertical'>
             <Button type='primary' htmlType='submit'>
               ログイン
             </Button>
-            <Button type='primary' onClick={logout}>
-              ログアウト
-            </Button>
+            <Link to='/entry'>新規登録はこちら</Link>
           </Space>
         </Form.Item>
       </Form>

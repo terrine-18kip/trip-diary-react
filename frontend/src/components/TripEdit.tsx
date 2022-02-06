@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { PageHeader, Button, Form, Input, DatePicker, Space } from 'antd'
 import moment from 'moment'
@@ -49,15 +49,6 @@ const TripEdit: React.FC = () => {
     } catch (error) {
       console.log(error)
     }
-  }
-
-  const styles = {
-    container: css`
-      width: 100%;
-      min-height: 100vh;
-      padding: 10px 20px;
-      background-color: #fafafa;
-    `,
   }
 
   const formElement: JSX.Element = (
@@ -121,7 +112,7 @@ const TripEdit: React.FC = () => {
   )
 
   return (
-    <div css={styles.container}>
+    <div>
       <PageHeader title='旅の編集' onBack={() => window.history.back()} />
       {data.id && formElement}
     </div>

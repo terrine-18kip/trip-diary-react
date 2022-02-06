@@ -5,7 +5,6 @@ import { PageHeader, Button, Row, Col, Card } from 'antd'
 import { BarsOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import titleLogo from '../img/title_logo.png'
 
 const apiUrl = process.env.REACT_APP_API_URL
 
@@ -54,34 +53,8 @@ const Top: React.FC = () => {
     }
   }
 
-  const styles = {
-    container: css`
-      width: 100%;
-      min-height: 100vh;
-      padding: 10px 20px;
-      background-color: #fafafa;
-    `,
-    title: css`
-      display: flex;
-      align-items: center;
-    `,
-    titleImg: css`
-      height: 1.5em;
-      margin-right: 0.5em;
-    `,
-    titleText: css`
-      color: #ce8d75;
-      margin: 0;
-      margin-bottom: 2px;
-    `,
-  }
-
   return (
-    <div css={styles.container}>
-      <div css={styles.title}>
-        <img css={styles.titleImg} src={titleLogo} />
-        <h2 css={styles.titleText}>trip diary</h2>
-      </div>
+    <div>
       <p>
         旅行の計画を立ててみんなと共有、思い出を残せるようなwebアプリを開発中です。
       </p>
