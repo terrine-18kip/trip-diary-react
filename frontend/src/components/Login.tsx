@@ -29,6 +29,7 @@ const Login: React.FC = () => {
 
   async function handleSubmit() {
     try {
+      await initializeCsrf()
       const res = await axios.post(`${apiUrl}/login`, data, {
         withCredentials: true,
       })
@@ -48,10 +49,6 @@ const Login: React.FC = () => {
       console.log(error)
     }
   }
-
-  useEffect(() => {
-    initializeCsrf()
-  }, [])
 
   const styles = {
     container: css`

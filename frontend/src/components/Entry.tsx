@@ -18,29 +18,37 @@ const Entry: React.FC = () => {
   const [data, setData] = useState<Login>({})
   const navigation = useNavigate()
 
-  // const initializeCsrf = async () => {
-  //   try {
-  //     const res = await axios.get(`${apiUrl}/sanctum/csrf-cookie`)
-  //     console.log(res)
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
+  const initializeCsrf = async () => {
+    const res = await axios.get(`${apiUrl}/sanctum/csrf-cookie`, {
+      withCredentials: true,
+    })
+    console.log(res)
+  }
+
+  async function entry() {
+    const res = await axios.post(`${apiUrl}/entry`, data, {
+      withCredentials: true,
+    })
+    console.log(res)
+  }
+
+  async function login() {
+    const res = await axios.post(`${apiUrl}/login`, data, {
+      withCredentials: true,
+    })
+    console.log(res)
+  }
 
   async function handleSubmit() {
     try {
-      const res = await axios.post(`${apiUrl}/entry`, data, {
-        withCredentials: true,
-      })
-      console.log(res)
+      await entry()
+      await initializeCsrf()
+      await login()
+      navigation(`/`)
     } catch (error) {
       console.log(error)
     }
   }
-
-  // useEffect(() => {
-  //   initializeCsrf()
-  // }, [])
 
   const styles = {
     container: css`

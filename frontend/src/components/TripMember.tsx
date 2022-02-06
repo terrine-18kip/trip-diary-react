@@ -124,10 +124,14 @@ const TripMember: React.FC<Props> = ({ trip, getTrip, setFlag }) => {
             />
           }
         />
-        {
-          errorMessage && 
-          <Alert message={errorMessage} type="error" banner style={{textAlign: 'left', marginBottom: '10px'}} />
-        }
+        {errorMessage && (
+          <Alert
+            message={errorMessage}
+            type='error'
+            banner
+            style={{ textAlign: 'left', marginBottom: '10px' }}
+          />
+        )}
         <div>
           {trip.users?.map((user) => {
             return (
