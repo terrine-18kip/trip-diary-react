@@ -22,7 +22,6 @@ import {
 import moment from 'moment'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { StringDecoder } from 'string_decoder'
 
 const apiUrl = process.env.REACT_APP_API_URL
 
@@ -249,7 +248,7 @@ const TripDetail: React.FC = () => {
         onBack={() => navigation('/')}
         extra={
           <Button type='primary' onClick={() => setShowMember(true)}>
-            メンバーを招待
+            メンバーを編集
           </Button>
         }
       />

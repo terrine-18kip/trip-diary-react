@@ -1,18 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import {
-  PageHeader,
-  Avatar,
-  Button,
-  Form,
-  Input,
-  TimePicker,
-  Select,
-  InputNumber,
-  Space,
-} from 'antd'
-import { UserOutlined, PlusOutlined, CloseOutlined } from '@ant-design/icons'
-const { Option } = Select
+import { PageHeader, Avatar, Button, Form, Input } from 'antd'
+import { UserOutlined, CloseOutlined } from '@ant-design/icons'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
@@ -56,6 +45,29 @@ const TripMember: React.FC<Props> = ({ trip, getTrip, setFlag }) => {
       const res = await axios.post(`${apiUrl}/trips/add_member`, data, {
         withCredentials: true,
       })
+      console.log(res)
+      await getTrip()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async function removeMember(userId: number, userName: string) {
+    const result = confirm(`${userName}さんを削除しますか？`)
+    if (!result) {
+      return
+    }
+    try {
+      const res = await axios.post(
+        `${apiUrl}/trips/remove_member`,
+        {
+          trip_id: trip.id,
+          user_id: userId,
+        },
+        {
+          withCredentials: true,
+        },
+      )
       console.log(res)
       await getTrip()
     } catch (error) {
@@ -117,7 +129,14 @@ const TripMember: React.FC<Props> = ({ trip, getTrip, setFlag }) => {
                   style={{ marginRight: '5px' }}
                   icon={<UserOutlined />}
                 />
-                {user.name}
+                <span style={{ marginRight: '5px' }}>{user.name}</span>
+                <Button
+                  shape='circle'
+                  size='small'
+                  type='text'
+                  icon={<CloseOutlined />}
+                  onClick={() => removeMember(user.id, user.name)}
+                />
               </div>
             )
           })}
@@ -130,7 +149,7 @@ const TripMember: React.FC<Props> = ({ trip, getTrip, setFlag }) => {
             }
           />
           <Button type='primary' htmlType='submit'>
-            追加
+            招待
           </Button>
         </Form>
       </div>

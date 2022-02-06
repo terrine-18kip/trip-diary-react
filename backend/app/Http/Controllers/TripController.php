@@ -80,4 +80,13 @@ class TripController extends Controller
         $trip->users;
         return $trip;
     }
+
+    public function remove_member(Request $request, Trip $trip)
+    {
+        $trip = Trip::find($request->trip_id);
+        $user = User::find($request->user_id);
+        $trip->users()->detach($user->id);
+        $trip->users;
+        return $trip;
+    }
 }
