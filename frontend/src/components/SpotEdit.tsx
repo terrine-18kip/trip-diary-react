@@ -103,9 +103,16 @@ const SpotCreate: React.FC<Props> = ({ spot, getTrip, setFlag }) => {
             value={data.category_id}
             onChange={(event) => setData({ ...data, category_id: event })}
           >
-            <Option value={1}>新幹線</Option>
-            <Option value={2}>飛行機</Option>
-            <Option value={3}>車</Option>
+            <Option value={1}>スポット</Option>
+            <Option value={2}>ごはん</Option>
+            <Option value={3}>宿泊</Option>
+            <Option value={4}>鉄道</Option>
+            <Option value={5}>バス</Option>
+            <Option value={6}>飛行機</Option>
+            <Option value={7}>車</Option>
+            <Option value={8}>徒歩</Option>
+            <Option value={9}>自転車</Option>
+            <Option value={10}>船</Option>
           </Select>
         </div>
 

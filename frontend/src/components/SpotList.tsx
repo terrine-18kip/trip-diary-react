@@ -86,8 +86,17 @@ const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
       }
     `,
     spotCategory: css`
-      width: 45px;
-      text-align: center;
+      width: 30px;
+      height: 30px;
+      margin: 0 10px;
+      border-radius: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f5f5f5;
+      img {
+        width: 24px;
+      }
     `,
     spotName: css`
       width: 100%;
@@ -129,7 +138,7 @@ const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
                   <p>↓</p>
                   <p>{spot.end_time && spot.end_time.slice(0, -3)}</p>
                 </div>
-                <div css={styles.spotCategory}>{spot.category_id}</div>
+                <div css={styles.spotCategory}><img src={`/img/icon_${spot.category_id}.svg`} /></div>
                 <div css={styles.spotName}>{spot.name}</div>
                 <div css={styles.spotFee}>
                   {spot.fee}
