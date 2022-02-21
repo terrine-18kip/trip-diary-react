@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { UserContext } from '../Context'
 import axios from 'axios'
 import { PageHeader, Button, Form, Input, DatePicker, Space } from 'antd'
 /** @jsxImportSource @emotion/react */
@@ -14,11 +15,12 @@ type Trip = {
   end_date?: string
   memo?: string
   thumb?: string
-  user_id: number
+  user_id?: number
 }
 
 const TripCreate: React.FC = () => {
-  const [data, setData] = useState<Trip>({ user_id: 2 })
+  const { user } = useContext(UserContext)
+  const [data, setData] = useState<Trip>({ user_id: user.id })
   const navigation = useNavigate()
 
   async function handleSubmit() {

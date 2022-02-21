@@ -138,7 +138,9 @@ const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
                   <p>↓</p>
                   <p>{spot.end_time && spot.end_time.slice(0, -3)}</p>
                 </div>
-                <div css={styles.spotCategory}><img src={`/img/icon_${spot.category_id}.svg`} /></div>
+                <div css={styles.spotCategory}>
+                  <img src={`/img/icon_${spot.category_id}.svg`} />
+                </div>
                 <div css={styles.spotName}>{spot.name}</div>
                 <div css={styles.spotFee}>
                   {spot.fee}
