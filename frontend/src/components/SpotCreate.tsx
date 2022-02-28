@@ -34,6 +34,7 @@ type Spot = {
   fee?: number
   link?: string
   memo?: string
+  order?: number
   created_at?: string
   updated_at?: string
 }
