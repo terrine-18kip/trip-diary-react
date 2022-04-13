@@ -20,6 +20,6 @@ class Plan extends Model
 
     public function spots()
     {
-        return $this->hasMany(Spot::class);
+        return $this->hasMany(Spot::class)->orderBy('order');
     }
 }

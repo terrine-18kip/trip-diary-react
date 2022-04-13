@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button } from 'antd'
-import { PlusOutlined, DeleteOutlined } from '@ant-design/icons'
+import { PlusOutlined, DeleteOutlined, MenuOutlined } from '@ant-design/icons'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import SpotCreate from './SpotCreate'
@@ -16,7 +16,7 @@ type Plan = {
   trip_id: number
   created_at?: string
   updated_at?: string
-  spots?: Spot[]
+  spots: Spot[]
 }
 
 type Spot = {
@@ -29,6 +29,7 @@ type Spot = {
   fee?: number
   link?: string
   memo?: string
+  order: number
   created_at?: string
   updated_at?: string
 }
@@ -39,9 +40,14 @@ type Props = {
 }
 
 const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
-  const [spot, setSpot] = useState<Spot>({})
+  const [spots, setSpots] = useState<Spot[]>(plan.spots)
+  const [spot, setSpot] = useState<Spot>({ order: 0 })
   const [showCreate, setShowCreate] = useState<boolean>(false)
   const [showEdit, setShowEdit] = useState<boolean>(false)
+
+  useEffect(() => {
+    setSpots(plan.spots)
+  }, [plan.spots])
 
   async function deleteSpot(event: React.MouseEvent, id: number | undefined) {
     event.stopPropagation()
@@ -61,7 +67,23 @@ const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
   }
 
   const onDragEnd = (result: any) => {
-    console.log(result)
+    const items = Array.from(spots)
+    const [reorderedItem] = items.splice(result.source.index, 1)
+    items.splice(result.destination.index, 0, reorderedItem)
+    console.log('items', items)
+    setSpots(items)
+    updateOrder(items)
+  }
+
+  async function updateOrder(items: Spot[]) {
+    try {
+      const res = await axios.post(`${apiUrl}/spots/order`, items, {
+        withCredentials: true,
+      })
+      console.log(res.data)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const styles = {
@@ -77,8 +99,16 @@ const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
       align-items: center;
       cursor: pointer;
       transition: background 0.2s;
+      background-color: rgba(250, 250, 250, 0.7);
       &:hover {
         background-color: #f5f5f5;
+      }
+    `,
+    spotDrag: css`
+      margin-right: 5px;
+      font-size: 1.2em;
+      &:hover {
+        cursor: grab;
       }
     `,
     spotTime: css`
@@ -136,59 +166,57 @@ const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
                 ref={provided.innerRef}
                 style={{ padding: 0 }}
               >
-                {plan.spots &&
-                  plan.spots.map((spot, index) => {
-                    return (
-                      <Draggable
-                        key={spot.id}
-                        draggableId={String(spot.id)}
-                        index={index}
-                      >
-                        {(provided) => (
-                          <li
-                            key={spot.id}
-                            css={styles.spot}
-                            onClick={() => {
-                              setSpot(spot)
-                              setShowEdit(true)
-                            }}
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
+                {spots.map((spot, index) => {
+                  return (
+                    <Draggable
+                      key={spot.id}
+                      draggableId={String(spot.id)}
+                      index={index}
+                    >
+                      {(provided) => (
+                        <li
+                          key={spot.id}
+                          css={styles.spot}
+                          onClick={() => {
+                            setSpot(spot)
+                            setShowEdit(true)
+                          }}
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                        >
+                          <MenuOutlined
+                            css={styles.spotDrag}
                             {...provided.dragHandleProps}
-                          >
-                            <div css={styles.spotTime}>
-                              <p>
-                                {spot.start_time &&
-                                  spot.start_time.slice(0, -3)}
-                              </p>
-                              <p>↓</p>
-                              <p>
-                                {spot.end_time && spot.end_time.slice(0, -3)}
-                              </p>
-                            </div>
-                            <div css={styles.spotCategory}>
-                              <img src={`/img/icon_${spot.category_id}.svg`} />
-                            </div>
-                            <div css={styles.spotName}>{spot.name}</div>
-                            <div css={styles.spotFee}>
-                              {spot.fee}
-                              {spot.fee && '円'}
-                            </div>
-                            <div css={styles.spotDelete}>
-                              <Button
-                                shape='circle'
-                                size='small'
-                                icon={<DeleteOutlined />}
-                                onClick={(event) => {
-                                  deleteSpot(event, spot.id)
-                                }}
-                              />
-                            </div>
-                          </li>
-                        )}
-                      </Draggable>
-                    )
-                  })}
+                          />
+                          <div css={styles.spotTime}>
+                            <p>{spot.start_time?.slice(0, -3)}</p>
+                            <p>↓</p>
+                            <p>{spot.end_time?.slice(0, -3)}</p>
+                          </div>
+                          <div css={styles.spotCategory}>
+                            <img src={`/img/icon_${spot.category_id}.svg`} />
+                          </div>
+                          <div css={styles.spotName}>{spot.name}</div>
+                          <div css={styles.spotFee}>
+                            {spot.fee}
+                            {spot.fee && '円'}
+                          </div>
+                          <div css={styles.spotDelete}>
+                            <Button
+                              shape='circle'
+                              size='small'
+                              icon={<DeleteOutlined />}
+                              onClick={(event) => {
+                                deleteSpot(event, spot.id)
+                              }}
+                            />
+                          </div>
+                        </li>
+                      )}
+                    </Draggable>
+                  )
+                })}
+                {provided.placeholder}
               </ul>
             )}
           </Droppable>

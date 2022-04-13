@@ -21,7 +21,7 @@ type Plan = {
   trip_id: number
   created_at?: string
   updated_at?: string
-  spots?: Spot[]
+  spots: Spot[]
 }
 
 type Spot = {
@@ -34,7 +34,7 @@ type Spot = {
   fee?: number
   link?: string
   memo?: string
-  order?: number
+  order: number
   created_at?: string
   updated_at?: string
 }
@@ -46,7 +46,12 @@ type Props = {
 }
 
 const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
-  const [data, setData] = useState<any>({ plan_id: plan.id })
+  const spotOrder: number | undefined =
+    plan.spots[plan.spots.length - 1]?.order + 1
+  const [data, setData] = useState<Spot>({
+    plan_id: plan.id,
+    order: spotOrder || 0,
+  })
 
   async function addSpot() {
     try {
@@ -131,7 +136,7 @@ const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
           <InputNumber
             placeholder='金額'
             size='small'
-            onChange={(event) => setData({ ...data, fee: event })}
+            onChange={(event) => setData({ ...data, fee: Number(event) })}
           />
         </div>
 

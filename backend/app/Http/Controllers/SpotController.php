@@ -41,4 +41,17 @@ class SpotController extends Controller
     {
         $spot->delete();
     }
+
+    public function order(Request $request)
+    {
+        $spots = $request->all();
+        $data = array();
+        foreach ($spots as $index => $spot) {
+            $spot['order'] = $index;
+            unset($spot['created_at']);
+            unset($spot['updated_at']);
+            array_push($data, $spot);
+        }
+        return Spot::upsert($data, ['id'], ['order']);
+    }
 }

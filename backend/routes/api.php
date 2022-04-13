@@ -28,4 +28,5 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::resource('spots', SpotController::class, ['only' => ['store', 'update', 'destroy']]);
     Route::post('trips/add_member', [TripController::class, 'add_member']);
     Route::post('trips/remove_member', [TripController::class, 'remove_member']);
+    Route::post('spots/order', [SpotController::class, 'order']);
 });

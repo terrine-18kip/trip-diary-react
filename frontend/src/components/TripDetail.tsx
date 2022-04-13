@@ -44,6 +44,22 @@ type Plan = {
   trip_id: number
   created_at?: string
   updated_at?: string
+  spots: Spot[]
+}
+
+type Spot = {
+  id?: number
+  plan_id?: number
+  start_time?: string
+  end_time?: string
+  category_id?: number
+  name?: string
+  fee?: number
+  link?: string
+  memo?: string
+  order: number
+  created_at?: string
+  updated_at?: string
 }
 
 type User = {
