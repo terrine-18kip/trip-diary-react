@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { UserContext } from '../Context'
 import axios from 'axios'
-import { PageHeader, Button, Form, Input, Space } from 'antd'
+import { Button } from 'antd'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import titleLogo from '../img/title_logo.png'
@@ -9,6 +10,7 @@ import titleLogo from '../img/title_logo.png'
 const apiUrl = process.env.REACT_APP_API_URL
 
 const Header: React.FC = () => {
+  const { user } = useContext(UserContext)
   const navigation = useNavigate()
 
   async function logout() {
@@ -17,7 +19,9 @@ const Header: React.FC = () => {
       if (!result) {
         return
       }
-      const res = await axios.get(`${apiUrl}/logout`)
+      const res = await axios.get(`${apiUrl}/logout`, {
+        withCredentials: true,
+      })
       console.log(res)
       navigation(`/login`)
     } catch (error) {
@@ -60,9 +64,15 @@ const Header: React.FC = () => {
         <img css={styles.titleImg} src={titleLogo} />
         <h2 css={styles.titleText}>trip diary</h2>
       </Link>
-      <Button type='text' shape='round' onClick={logout}>
-        ログアウト
-      </Button>
+      {user.id ? (
+        <Button type='text' shape='round' onClick={logout}>
+          ログアウト
+        </Button>
+      ) : (
+        <Button type='text' shape='round'>
+          <Link to='/login'>ログイン</Link>
+        </Button>
+      )}
     </div>
   )
 }

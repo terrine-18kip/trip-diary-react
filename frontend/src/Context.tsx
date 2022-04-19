@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react'
+import React, { createContext, useLayoutEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
@@ -14,6 +14,7 @@ type User = {
 }
 type Trip = {
   id: number
+  uniqid: string
   title: string
   start_date: string | null
   end_date: string | null
@@ -31,10 +32,10 @@ const UserContext = createContext(
 
 const UserProvider = (props: any) => {
   const [user, setUser] = useState<User>({})
-  const navigation = useNavigate()
+  // const navigation = useNavigate()
   const locationHook = useLocation()
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     fetchUser()
   }, [locationHook.pathname])
 
@@ -44,8 +45,9 @@ const UserProvider = (props: any) => {
         withCredentials: true,
       })
       setUser(res.data)
+      console.log(res.data)
     } catch (error) {
-      navigation('/login')
+      setUser({ id: undefined })
     }
   }
 
