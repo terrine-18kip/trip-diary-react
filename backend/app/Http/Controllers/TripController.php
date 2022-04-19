@@ -51,6 +51,17 @@ class TripController extends Controller
         return $trip;
     }
 
+    public function find($uniqid)
+    {
+        $trip = Trip::where('uniqid', $uniqid)->first();
+        $trip->users;
+        $trip->plans;
+        foreach ($trip->plans as $plan) {
+            $plan->spots;
+        }
+        return $trip;
+    }
+
     /**
      * Update the specified resource in storage.
      *

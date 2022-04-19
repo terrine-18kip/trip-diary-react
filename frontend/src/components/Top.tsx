@@ -10,6 +10,7 @@ const apiUrl = process.env.REACT_APP_API_URL
 
 type Trip = {
   id: number
+  uniqid: string
   title: string
   start_date: string | null
   end_date: string | null
@@ -84,10 +85,10 @@ const Top: React.FC = () => {
                 // hoverable
                 bordered={false}
                 actions={[
-                  <Link key='show' to={`/${trip.id}`}>
+                  <Link key='show' to={`/${trip.uniqid}`}>
                     <BarsOutlined />
                   </Link>,
-                  <Link key='edit' to={`/${trip.id}/edit`}>
+                  <Link key='edit' to={`/${trip.uniqid}/edit`}>
                     <EditOutlined />
                   </Link>,
                   <DeleteOutlined

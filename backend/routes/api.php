@@ -19,6 +19,7 @@ use App\Http\Controllers\SpotController;
 */
 
 Route::post('/entry', [AuthController::class, 'entry']);
+Route::get('/trips/find/{uniqid}', [TripController::class, 'find']);
 
 Route::middleware('auth:sanctum')->get('/user', [AuthController::class, 'me']);
 

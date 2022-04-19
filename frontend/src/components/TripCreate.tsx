@@ -39,7 +39,7 @@ const TripCreate: React.FC = () => {
         withCredentials: true,
       })
       console.log(res)
-      navigation(`/${res.data.id}`)
+      navigation(`/${res.data.uniqid}`)
     } catch (error) {
       console.log(error)
     }

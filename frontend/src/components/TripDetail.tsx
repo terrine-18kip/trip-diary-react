@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import TripMember from './TripMember'
 import SpotList from './SpotList'
@@ -79,7 +79,7 @@ const TripDetail: React.FC = () => {
   const navigation = useNavigate()
   const params = useParams()
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     getTrip()
   }, [])
 
@@ -94,7 +94,7 @@ const TripDetail: React.FC = () => {
 
   async function getTrip() {
     try {
-      const res = await axios.get(`${apiUrl}/trips/${params.id}`, {
+      const res = await axios.get(`${apiUrl}/trips/find/${params.id}`, {
         withCredentials: true,
       })
       setTrip(res.data)
@@ -277,7 +277,7 @@ const TripDetail: React.FC = () => {
         title={trip.title}
         extra={
           <Space>
-            <Link key='edit' to={`/${trip.id}/edit`}>
+            <Link key='edit' to={`/${trip.uniqid}/edit`}>
               <Button shape='circle' icon={<FormOutlined />} />
             </Link>
             <Button
@@ -308,7 +308,7 @@ const TripDetail: React.FC = () => {
       </Card>
 
       <div css={styles.plans}>
-        {plans.map((plan: Plan) => {
+        {plans?.map((plan: Plan) => {
           return (
             <div key={plan.id}>
               <div css={styles.plan}>
