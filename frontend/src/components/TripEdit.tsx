@@ -1,7 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
-import { PageHeader, Button, Form, Input, DatePicker, Space } from 'antd'
+import {
+  PageHeader,
+  Button,
+  Form,
+  Input,
+  DatePicker,
+  Select,
+  Space,
+} from 'antd'
+const { Option } = Select
 import moment from 'moment'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
@@ -10,11 +19,13 @@ const apiUrl = process.env.REACT_APP_API_URL
 
 type Trip = {
   id?: number
+  uniqid?: string
   title?: string
   start_date?: string | null
   end_date?: string | null
   memo?: string | null
   thumb?: string | null
+  privacy_id?: number
   created_at?: string
   updated_at?: string
 }
@@ -24,7 +35,7 @@ const TripEdit: React.FC = () => {
   const navigation = useNavigate()
   const params = useParams()
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     getTrip()
   }, [])
 
@@ -99,6 +110,16 @@ const TripEdit: React.FC = () => {
         <Input.TextArea
           onChange={(event) => setData({ ...data, memo: event.target.value })}
         />
+      </Form.Item>
+      <Form.Item
+        name='privacy_id'
+        label='公開設定'
+        rules={[{ required: true, message: '公開設定を選択してください' }]}
+      >
+        <Select onChange={(event) => setData({ ...data, privacy_id: event })}>
+          <Option value={1}>非公開</Option>
+          <Option value={2}>公開</Option>
+        </Select>
       </Form.Item>
       <Form.Item style={{ textAlign: 'center' }}>
         <Space>

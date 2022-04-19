@@ -27,11 +27,13 @@ const apiUrl = process.env.REACT_APP_API_URL
 
 type Trip = {
   id?: number
+  uniqid?: string
   title?: string
   start_date?: string | null
   end_date?: string | null
   memo?: string | null
   thumb?: string | null
+  privacy_id?: number
   created_at?: string
   updated_at?: string
   plans?: Plan[]
@@ -291,6 +293,7 @@ const TripDetail: React.FC = () => {
           期間：{trip.start_date} ～ {trip.end_date}
         </p>
         <p>メモ：{trip.memo}</p>
+        <p>公開設定：{trip.privacy_id === 2 ? '公開' : '非公開'}</p>
         <div css={styles.tripMember}>
           メンバー：
           {trip.users?.map((user) => {

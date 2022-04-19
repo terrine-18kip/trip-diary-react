@@ -2,7 +2,16 @@ import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { UserContext } from '../Context'
 import axios from 'axios'
-import { PageHeader, Button, Form, Input, DatePicker, Space } from 'antd'
+import {
+  PageHeader,
+  Button,
+  Form,
+  Input,
+  DatePicker,
+  Select,
+  Space,
+} from 'antd'
+const { Option } = Select
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
@@ -16,6 +25,7 @@ type Trip = {
   memo?: string
   thumb?: string
   user_id?: number
+  privacy_id?: number
 }
 
 const TripCreate: React.FC = () => {
@@ -69,6 +79,16 @@ const TripCreate: React.FC = () => {
           <Input.TextArea
             onChange={(event) => setData({ ...data, memo: event.target.value })}
           />
+        </Form.Item>
+        <Form.Item
+          name='privacy_id'
+          label='公開設定'
+          rules={[{ required: true, message: '公開設定を選択してください' }]}
+        >
+          <Select onChange={(event) => setData({ ...data, privacy_id: event })}>
+            <Option value={1}>非公開</Option>
+            <Option value={2}>公開</Option>
+          </Select>
         </Form.Item>
         <Form.Item style={{ textAlign: 'center' }}>
           <Space>

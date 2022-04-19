@@ -28,7 +28,9 @@ class TripController extends Controller
      */
     public function store(Request $request)
     {
-        $trip = Trip::create($request->all());
+        $inputs = $request->all();
+        $inputs['uniqid'] = uniqid();
+        $trip = Trip::create($inputs);
         $trip->users()->sync($request->user_id);
         return $trip;
     }
