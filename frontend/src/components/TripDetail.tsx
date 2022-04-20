@@ -257,7 +257,7 @@ const TripDetail: React.FC = () => {
         font-size: 16px;
         font-weight: 500;
       }
-    `
+    `,
   }
 
   const dailyElement = (plan: Plan): JSX.Element => {
@@ -289,10 +289,12 @@ const TripDetail: React.FC = () => {
   }
 
   if (unauthorized) {
-    return <div css={styles.unauthorized}>
-      <InfoCircleOutlined style={{color: '#999', fontSize: '24px'}} />
-      <p>ページが見つかりませんでした</p>
-    </div>
+    return (
+      <div css={styles.unauthorized}>
+        <InfoCircleOutlined style={{ color: '#999', fontSize: '24px' }} />
+        <p>ページが見つかりませんでした</p>
+      </div>
+    )
   }
 
   return (
