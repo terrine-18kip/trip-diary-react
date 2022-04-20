@@ -1,4 +1,5 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState, useContext } from 'react'
+import { UserContext } from '../Context'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import TripMember from './TripMember'
 import SpotList from './SpotList'
@@ -18,6 +19,7 @@ import {
   DeleteFilled,
   PlusCircleFilled,
   UserOutlined,
+  InfoCircleOutlined,
 } from '@ant-design/icons'
 import moment from 'moment'
 /** @jsxImportSource @emotion/react */
@@ -71,11 +73,13 @@ type User = {
 }
 
 const TripDetail: React.FC = () => {
+  const { user } = useContext(UserContext)
   const [trip, setTrip] = useState<Trip>({})
   const [plans, setPlans] = useState<Plan[]>([])
   const [planNum, setPlanNum] = useState<number | null>(1)
   const [showMember, setShowMember] = useState<boolean>(false)
   const [editingPlan, setEditingPlan] = useState<number | null>()
+  const [unauthorized, setUnauthorized] = useState<boolean>(false)
   const navigation = useNavigate()
   const params = useParams()
 
@@ -102,10 +106,14 @@ const TripDetail: React.FC = () => {
       console.log(res)
     } catch (error) {
       console.log(error)
+      setUnauthorized(true)
     }
   }
 
   async function deleteTrip() {
+    if (!user.id) {
+      return
+    }
     const result = confirm('削除しますか？')
     if (!result) {
       return
@@ -121,7 +129,7 @@ const TripDetail: React.FC = () => {
   }
 
   async function addPlan() {
-    if (!planNum) {
+    if (!user.id || !planNum) {
       return
     }
     try {
@@ -142,7 +150,7 @@ const TripDetail: React.FC = () => {
   }
 
   async function updatePlan(id: number, old: number, value: string) {
-    if (!value || Number(value) === old) {
+    if (!user.id || !value || Number(value) === old) {
       setEditingPlan(null)
       return
     }
@@ -165,6 +173,9 @@ const TripDetail: React.FC = () => {
   }
 
   async function deletePlan(id: number) {
+    if (!user.id) {
+      return
+    }
     const result = confirm('削除しますか？')
     if (!result) {
       return
@@ -231,10 +242,28 @@ const TripDetail: React.FC = () => {
       width: 55px;
       background-color: #fff;
     `,
+    disabled: css`
+      cursor: auto;
+    `,
+    unauthorized: css`
+      height: calc(100vh - 100px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      p {
+        margin-left: 10px;
+        margin-bottom: 0;
+        color: #555;
+        font-size: 16px;
+        font-weight: 500;
+      }
+    `
   }
 
   const dailyElement = (plan: Plan): JSX.Element => {
-    if (plan.id === editingPlan) {
+    if (!user.id) {
+      return <p css={[styles.planNum, styles.disabled]}>{plan.daily}日目</p>
+    } else if (plan.id === editingPlan) {
       return (
         <span>
           <InputNumber
@@ -259,15 +288,24 @@ const TripDetail: React.FC = () => {
     }
   }
 
+  if (unauthorized) {
+    return <div css={styles.unauthorized}>
+      <InfoCircleOutlined style={{color: '#999', fontSize: '24px'}} />
+      <p>ページが見つかりませんでした</p>
+    </div>
+  }
+
   return (
     <div>
       <PageHeader
         title='旅の詳細'
         onBack={() => navigation('/')}
         extra={
-          <Button type='primary' onClick={() => setShowMember(true)}>
-            メンバーを編集
-          </Button>
+          user.id && (
+            <Button type='primary' onClick={() => setShowMember(true)}>
+              メンバーを編集
+            </Button>
+          )
         }
       />
       {showMember && (
@@ -276,16 +314,18 @@ const TripDetail: React.FC = () => {
       <Card
         title={trip.title}
         extra={
-          <Space>
-            <Link key='edit' to={`/${trip.uniqid}/edit`}>
-              <Button shape='circle' icon={<FormOutlined />} />
-            </Link>
-            <Button
-              shape='circle'
-              icon={<DeleteOutlined />}
-              onClick={deleteTrip}
-            />
-          </Space>
+          user.id && (
+            <Space>
+              <Link key='edit' to={`/${trip.uniqid}/edit`}>
+                <Button shape='circle' icon={<FormOutlined />} />
+              </Link>
+              <Button
+                shape='circle'
+                icon={<DeleteOutlined />}
+                onClick={deleteTrip}
+              />
+            </Space>
+          )
         }
         bordered={false}
       >
@@ -313,36 +353,41 @@ const TripDetail: React.FC = () => {
             <div key={plan.id}>
               <div css={styles.plan}>
                 {dailyElement(plan)}
-                <Button
-                  type='text'
-                  shape='circle'
-                  icon={<DeleteFilled />}
-                  onClick={() => {
-                    deletePlan(plan.id)
-                  }}
-                />
+                {user.id && (
+                  <Button
+                    type='text'
+                    shape='circle'
+                    icon={<DeleteFilled />}
+                    onClick={() => {
+                      deletePlan(plan.id)
+                    }}
+                  />
+                )}
               </div>
               <SpotList plan={plan} getTrip={getTrip} />
             </div>
           )
         })}
-        <Form onFinish={addPlan} css={[styles.plan, styles.planForm]}>
-          <span>
-            <InputNumber
-              value={planNum ? planNum : ''}
-              css={styles.planInput}
-              size='small'
-              onChange={(event) => setPlanNum(event ? Number(event) : null)}
+
+        {user.id && (
+          <Form onFinish={addPlan} css={[styles.plan, styles.planForm]}>
+            <span>
+              <InputNumber
+                value={planNum ? planNum : ''}
+                css={styles.planInput}
+                size='small'
+                onChange={(event) => setPlanNum(event ? Number(event) : null)}
+              />
+              日目
+            </span>
+            <Button
+              shape='circle'
+              type='text'
+              htmlType='submit'
+              icon={<PlusCircleFilled />}
             />
-            日目
-          </span>
-          <Button
-            shape='circle'
-            type='text'
-            htmlType='submit'
-            icon={<PlusCircleFilled />}
-          />
-        </Form>
+          </Form>
+        )}
       </div>
     </div>
   )

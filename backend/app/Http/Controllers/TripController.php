@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Trip;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Exception;
 
 class TripController extends Controller
@@ -54,6 +55,10 @@ class TripController extends Controller
     public function find($uniqid)
     {
         $trip = Trip::where('uniqid', $uniqid)->first();
+        $user = Auth::user();
+        if (!$user && $trip->privacy_id === 1) {
+            abort(401);
+        }
         $trip->users;
         $trip->plans;
         foreach ($trip->plans as $plan) {
