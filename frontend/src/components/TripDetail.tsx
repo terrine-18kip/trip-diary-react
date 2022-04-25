@@ -4,15 +4,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import TripMember from './TripMember'
 import SpotList from './SpotList'
 import axios from 'axios'
-import {
-  PageHeader,
-  Card,
-  Avatar,
-  Space,
-  Button,
-  Form,
-  InputNumber,
-} from 'antd'
+import { PageHeader, Card, Avatar, Space, Button, Form, InputNumber } from 'antd'
 import {
   FormOutlined,
   DeleteOutlined,
@@ -103,7 +95,7 @@ const TripDetail: React.FC = () => {
       })
       setTrip(res.data)
       setPlans(res.data.plans)
-      console.log(res)
+      console.log(res.data)
     } catch (error) {
       console.log(error)
       setUnauthorized(true)
@@ -191,11 +183,7 @@ const TripDetail: React.FC = () => {
     }
   }
 
-  const onEnter = (
-    id: number,
-    old: number,
-    event: React.KeyboardEvent<HTMLInputElement>,
-  ): void => {
+  const onEnter = (id: number, old: number, event: React.KeyboardEvent<HTMLInputElement>): void => {
     if (event.key === 'Enter') {
       updatePlan(id, old, event.currentTarget.value)
     }
@@ -208,18 +196,24 @@ const TripDetail: React.FC = () => {
       padding: 10px 20px;
       background-color: #fafafa;
       @media screen and (max-width: 768px) {
-        padding: 5px 3%;
+        padding: 5px 1%;
       }
+    `,
+    tripMembers: css`
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
     `,
     tripMember: css`
       display: flex;
       align-items: center;
       margin-right: 10px;
+      padding: 2px 0;
     `,
     plans: css`
       padding: 20px 10px;
       @media screen and (max-width: 768px) {
-        padding: 15px 2%;
+        padding: 15px 1%;
       }
     `,
     plan: css`
@@ -271,9 +265,7 @@ const TripDetail: React.FC = () => {
             size='small'
             defaultValue={plan.daily}
             autoFocus
-            onBlur={(event) =>
-              updatePlan(plan.id, plan.daily, event.target.value)
-            }
+            onBlur={(event) => updatePlan(plan.id, plan.daily, event.target.value)}
             onKeyPress={(event) => onEnter(plan.id, plan.daily, event)}
           />
           日目
@@ -310,9 +302,8 @@ const TripDetail: React.FC = () => {
           )
         }
       />
-      {showMember && (
-        <TripMember trip={trip} getTrip={getTrip} setFlag={setShowMember} />
-      )}
+      {showMember && <TripMember trip={trip} getTrip={getTrip} setFlag={setShowMember} />}
+
       <Card
         title={trip.title}
         extra={
@@ -321,11 +312,7 @@ const TripDetail: React.FC = () => {
               <Link key='edit' to={`/${trip.uniqid}/edit`}>
                 <Button shape='circle' icon={<FormOutlined />} />
               </Link>
-              <Button
-                shape='circle'
-                icon={<DeleteOutlined />}
-                onClick={deleteTrip}
-              />
+              <Button shape='circle' icon={<DeleteOutlined />} onClick={deleteTrip} />
             </Space>
           )
         }
@@ -336,7 +323,7 @@ const TripDetail: React.FC = () => {
         </p>
         <p>メモ：{trip.memo}</p>
         <p>公開設定：{trip.privacy_id === 2 ? '公開' : '非公開'}</p>
-        <div css={styles.tripMember}>
+        <div css={styles.tripMembers}>
           メンバー：
           {trip.users?.map((user) => {
             return (
@@ -360,9 +347,7 @@ const TripDetail: React.FC = () => {
                     type='text'
                     shape='circle'
                     icon={<DeleteFilled />}
-                    onClick={() => {
-                      deletePlan(plan.id)
-                    }}
+                    onClick={() => deletePlan(plan.id)}
                   />
                 )}
               </div>
@@ -382,12 +367,7 @@ const TripDetail: React.FC = () => {
               />
               日目
             </span>
-            <Button
-              shape='circle'
-              type='text'
-              htmlType='submit'
-              icon={<PlusCircleFilled />}
-            />
+            <Button shape='circle' type='text' htmlType='submit' icon={<PlusCircleFilled />} />
           </Form>
         )}
       </div>

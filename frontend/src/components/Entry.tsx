@@ -68,23 +68,15 @@ const Entry: React.FC = () => {
           label='名前'
           rules={[{ required: true, message: '名前を入力してください' }]}
         >
-          <Input
-            onChange={(event) => setData({ ...data, name: event.target.value })}
-          />
+          <Input onChange={(event) => setData({ ...data, name: event.target.value })} />
         </Form.Item>
 
         <Form.Item
           name='email'
           label='メールアドレス'
-          rules={[
-            { required: true, message: 'メールアドレスを入力してください' },
-          ]}
+          rules={[{ required: true, message: 'メールアドレスを入力してください' }]}
         >
-          <Input
-            onChange={(event) =>
-              setData({ ...data, email: event.target.value })
-            }
-          />
+          <Input onChange={(event) => setData({ ...data, email: event.target.value })} />
         </Form.Item>
 
         <Form.Item
@@ -93,9 +85,7 @@ const Entry: React.FC = () => {
           rules={[{ required: true, message: 'パスワードを入力してください' }]}
         >
           <Input.Password
-            onChange={(event) =>
-              setData({ ...data, password: event.target.value })
-            }
+            onChange={(event) => setData({ ...data, password: event.target.value })}
           />
         </Form.Item>
 
@@ -105,9 +95,7 @@ const Entry: React.FC = () => {
           rules={[{ required: true, message: 'パスワードを入力してください' }]}
         >
           <Input.Password
-            onChange={(event) =>
-              setData({ ...data, password_confirmation: event.target.value })
-            }
+            onChange={(event) => setData({ ...data, password_confirmation: event.target.value })}
           />
         </Form.Item>
 

@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import { UserContext } from '../Context'
 import axios from 'axios'
 import { PageHeader, Alert, Avatar, Button, Form, Input } from 'antd'
 import { UserOutlined, CloseOutlined } from '@ant-design/icons'
@@ -38,6 +39,7 @@ type Data = {
 }
 
 const TripMember: React.FC<Props> = ({ trip, getTrip, setFlag }) => {
+  const { user } = useContext(UserContext)
   const [data, setData] = useState<Data>({ trip_id: trip.id })
   const [errorMessage, setErrorMessage] = useState<string>('')
 
@@ -116,13 +118,7 @@ const TripMember: React.FC<Props> = ({ trip, getTrip, setFlag }) => {
         <PageHeader
           style={{ padding: 0, marginBottom: '16px' }}
           title='メンバーを編集'
-          extra={
-            <Button
-              shape='circle'
-              icon={<CloseOutlined />}
-              onClick={() => setFlag(false)}
-            />
-          }
+          extra={<Button shape='circle' icon={<CloseOutlined />} onClick={() => setFlag(false)} />}
         />
         {errorMessage && (
           <Alert
@@ -133,21 +129,20 @@ const TripMember: React.FC<Props> = ({ trip, getTrip, setFlag }) => {
           />
         )}
         <div>
-          {trip.users?.map((user) => {
+          {trip.users?.map((el) => {
             return (
-              <div css={styles.tripMember} key={user.id}>
-                <Avatar
-                  style={{ marginRight: '5px' }}
-                  icon={<UserOutlined />}
-                />
-                <span style={{ marginRight: '5px' }}>{user.name}</span>
-                <Button
-                  shape='circle'
-                  size='small'
-                  type='text'
-                  icon={<CloseOutlined />}
-                  onClick={() => removeMember(user.id, user.name)}
-                />
+              <div css={styles.tripMember} key={el.id}>
+                <Avatar style={{ marginRight: '5px' }} icon={<UserOutlined />} />
+                <span style={{ marginRight: '5px' }}>{el.name}</span>
+                {el.id !== user.id && (
+                  <Button
+                    shape='circle'
+                    size='small'
+                    type='text'
+                    icon={<CloseOutlined />}
+                    onClick={() => removeMember(el.id, el.name)}
+                  />
+                )}
               </div>
             )
           })}
@@ -155,9 +150,7 @@ const TripMember: React.FC<Props> = ({ trip, getTrip, setFlag }) => {
         <Form css={styles.form} onFinish={addMember}>
           <Input
             placeholder='メールアドレスを入力'
-            onChange={(event) =>
-              setData({ ...data, email: event.target.value })
-            }
+            onChange={(event) => setData({ ...data, email: event.target.value })}
           />
           <Button type='primary' htmlType='submit'>
             招待

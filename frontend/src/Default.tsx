@@ -18,7 +18,7 @@ const Default: React.FC = () => {
       padding-top: 45px;
       background-color: #fafafa;
       @media screen and (max-width: 768px) {
-        padding: 5px 3%;
+        padding: 5px 1%;
         padding-top: 45px;
       }
     `,

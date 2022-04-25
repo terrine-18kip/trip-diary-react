@@ -111,6 +111,9 @@ const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
       cursor: pointer;
       transition: background 0.2s;
       background-color: rgba(250, 250, 250, 0.7);
+      @media screen and (max-width: 768px) {
+        padding: 5px 1.5%;
+      }
       &:hover {
         background-color: #f5f5f5;
       }
@@ -140,6 +143,9 @@ const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
       justify-content: center;
       align-items: center;
       background-color: #f5f5f5;
+      @media screen and (max-width: 768px) {
+        margin: 0 1.5%;
+      }
       img {
         width: 24px;
       }
@@ -182,11 +188,7 @@ const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
               >
                 {spots.map((spot, index) => {
                   return (
-                    <Draggable
-                      key={spot.id}
-                      draggableId={String(spot.id)}
-                      index={index}
-                    >
+                    <Draggable key={spot.id} draggableId={String(spot.id)} index={index}>
                       {(provided) => (
                         <li
                           key={spot.id}
@@ -199,33 +201,32 @@ const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
                           {...provided.draggableProps}
                         >
                           {user.id && (
-                            <MenuOutlined
-                              css={styles.spotDrag}
-                              {...provided.dragHandleProps}
-                            />
+                            <MenuOutlined css={styles.spotDrag} {...provided.dragHandleProps} />
                           )}
+
                           <div css={styles.spotTime}>
                             <p>{spot.start_time?.slice(0, -3)}</p>
-                            <p>↓</p>
+                            {spot.start_time && spot.end_time && <p>↓</p>}
                             <p>{spot.end_time?.slice(0, -3)}</p>
                           </div>
+
                           <div css={styles.spotCategory}>
                             <img src={`/img/icon_${spot.category_id}.svg`} />
                           </div>
+
                           <div css={styles.spotName}>{spot.name}</div>
+
                           <div css={styles.spotFee}>
-                            {spot.fee}
-                            {spot.fee && '円'}
+                            {spot.fee !== null && spot.fee !== 0 && `${spot.fee}円`}
                           </div>
+
                           <div css={styles.spotDelete}>
                             {user.id && (
                               <Button
                                 shape='circle'
                                 size='small'
                                 icon={<DeleteOutlined />}
-                                onClick={(event) => {
-                                  deleteSpot(event, spot.id)
-                                }}
+                                onClick={(event) => deleteSpot(event, spot.id)}
                               />
                             )}
                           </div>
@@ -254,12 +255,8 @@ const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
             </div>
           )}
 
-          {showCreate && (
-            <SpotCreate plan={plan} getTrip={getTrip} setFlag={setShowCreate} />
-          )}
-          {showEdit && (
-            <SpotEdit spot={spot} getTrip={getTrip} setFlag={setShowEdit} />
-          )}
+          {showCreate && <SpotCreate plan={plan} getTrip={getTrip} setFlag={setShowCreate} />}
+          {showEdit && <SpotEdit spot={spot} getTrip={getTrip} setFlag={setShowEdit} />}
         </>
       )}
     </>

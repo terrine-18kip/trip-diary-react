@@ -1,15 +1,7 @@
 import React, { useLayoutEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
-import {
-  PageHeader,
-  Button,
-  Form,
-  Input,
-  DatePicker,
-  Select,
-  Space,
-} from 'antd'
+import { PageHeader, Button, Form, Input, DatePicker, Select, Space } from 'antd'
 const { Option } = Select
 import moment from 'moment'
 /** @jsxImportSource @emotion/react */
@@ -69,47 +61,35 @@ const TripEdit: React.FC = () => {
         label='タイトル'
         rules={[{ required: true, message: 'タイトルを入力してください' }]}
       >
-        <Input
-          onChange={(event) => setData({ ...data, title: event.target.value })}
-        />
+        <Input onChange={(event) => setData({ ...data, title: event.target.value })} />
       </Form.Item>
       <Form.Item label='旅の期間'>
         {data.start_date ? (
           <DatePicker
             defaultValue={moment(data.start_date, 'YYYY-MM-DD')}
-            onChange={(date, dateString) =>
-              setData({ ...data, start_date: dateString })
-            }
+            onChange={(date, dateString) => setData({ ...data, start_date: dateString })}
           />
         ) : (
           <DatePicker
             placeholder=''
-            onChange={(date, dateString) =>
-              setData({ ...data, start_date: dateString })
-            }
+            onChange={(date, dateString) => setData({ ...data, start_date: dateString })}
           />
         )}
         ～
         {data.end_date ? (
           <DatePicker
             defaultValue={moment(data.end_date, 'YYYY-MM-DD')}
-            onChange={(date, dateString) =>
-              setData({ ...data, end_date: dateString })
-            }
+            onChange={(date, dateString) => setData({ ...data, end_date: dateString })}
           />
         ) : (
           <DatePicker
             placeholder=''
-            onChange={(date, dateString) =>
-              setData({ ...data, end_date: dateString })
-            }
+            onChange={(date, dateString) => setData({ ...data, end_date: dateString })}
           />
         )}
       </Form.Item>
       <Form.Item name='memo' label='メモ'>
-        <Input.TextArea
-          onChange={(event) => setData({ ...data, memo: event.target.value })}
-        />
+        <Input.TextArea onChange={(event) => setData({ ...data, memo: event.target.value })} />
       </Form.Item>
       <Form.Item
         name='privacy_id'

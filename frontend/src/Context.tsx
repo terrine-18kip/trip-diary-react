@@ -51,11 +51,7 @@ const UserProvider = (props: any) => {
     }
   }
 
-  return (
-    <UserContext.Provider value={{ user }}>
-      {props.children}
-    </UserContext.Provider>
-  )
+  return <UserContext.Provider value={{ user }}>{props.children}</UserContext.Provider>
 }
 
 export { UserContext, UserProvider }

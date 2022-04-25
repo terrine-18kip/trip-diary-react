@@ -1,14 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import {
-  Button,
-  Form,
-  Input,
-  TimePicker,
-  Select,
-  InputNumber,
-  Space,
-} from 'antd'
+import { Button, Form, Input, TimePicker, Select, InputNumber, Space } from 'antd'
 const { Option } = Select
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
@@ -46,8 +38,7 @@ type Props = {
 }
 
 const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
-  const spotOrder: number | undefined =
-    plan.spots[plan.spots.length - 1]?.order + 1
+  const spotOrder: number | undefined = plan.spots[plan.spots.length - 1]?.order + 1
   const [data, setData] = useState<Spot>({
     plan_id: plan.id,
     order: spotOrder || 0,
@@ -97,17 +88,13 @@ const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
             format='HH:mm'
             size='small'
             autoFocus
-            onChange={(time, timeString) =>
-              setData({ ...data, start_time: timeString })
-            }
+            onChange={(time, timeString) => setData({ ...data, start_time: timeString })}
           />
           <TimePicker
             placeholder='終了時間'
             format='HH:mm'
             size='small'
-            onChange={(time, timeString) =>
-              setData({ ...data, end_time: timeString })
-            }
+            onChange={(time, timeString) => setData({ ...data, end_time: timeString })}
           />
           <Select
             placeholder='カテゴリーを選択'

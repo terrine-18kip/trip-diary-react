@@ -56,15 +56,9 @@ const Login: React.FC = () => {
         <Form.Item
           name='email'
           label='メールアドレス'
-          rules={[
-            { required: true, message: 'メールアドレスを入力してください' },
-          ]}
+          rules={[{ required: true, message: 'メールアドレスを入力してください' }]}
         >
-          <Input
-            onChange={(event) =>
-              setData({ ...data, email: event.target.value })
-            }
-          />
+          <Input onChange={(event) => setData({ ...data, email: event.target.value })} />
         </Form.Item>
 
         <Form.Item
@@ -73,9 +67,7 @@ const Login: React.FC = () => {
           rules={[{ required: true, message: 'パスワードを入力してください' }]}
         >
           <Input.Password
-            onChange={(event) =>
-              setData({ ...data, password: event.target.value })
-            }
+            onChange={(event) => setData({ ...data, password: event.target.value })}
           />
         </Form.Item>
         <Form.Item style={{ textAlign: 'center' }}>

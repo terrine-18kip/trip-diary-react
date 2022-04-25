@@ -2,15 +2,7 @@ import React, { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { UserContext } from '../Context'
 import axios from 'axios'
-import {
-  PageHeader,
-  Button,
-  Form,
-  Input,
-  DatePicker,
-  Select,
-  Space,
-} from 'antd'
+import { PageHeader, Button, Form, Input, DatePicker, Select, Space } from 'antd'
 const { Option } = Select
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
@@ -54,31 +46,21 @@ const TripCreate: React.FC = () => {
           label='タイトル'
           rules={[{ required: true, message: 'タイトルを入力してください' }]}
         >
-          <Input
-            onChange={(event) =>
-              setData({ ...data, title: event.target.value })
-            }
-          />
+          <Input onChange={(event) => setData({ ...data, title: event.target.value })} />
         </Form.Item>
         <Form.Item label='旅の期間'>
           <DatePicker
             placeholder=''
-            onChange={(date, dateString) =>
-              setData({ ...data, start_date: dateString })
-            }
+            onChange={(date, dateString) => setData({ ...data, start_date: dateString })}
           />
           ～
           <DatePicker
             placeholder=''
-            onChange={(date, dateString) =>
-              setData({ ...data, end_date: dateString })
-            }
+            onChange={(date, dateString) => setData({ ...data, end_date: dateString })}
           />
         </Form.Item>
         <Form.Item name='memo' label='メモ'>
-          <Input.TextArea
-            onChange={(event) => setData({ ...data, memo: event.target.value })}
-          />
+          <Input.TextArea onChange={(event) => setData({ ...data, memo: event.target.value })} />
         </Form.Item>
         <Form.Item
           name='privacy_id'

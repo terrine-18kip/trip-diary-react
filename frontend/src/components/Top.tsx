@@ -46,9 +46,7 @@ const Top: React.FC = () => {
 
   return (
     <div>
-      <p>
-        旅行の計画を立ててみんなと共有、思い出を残せるようなwebアプリを開発中です。
-      </p>
+      <p>旅行の計画を立ててみんなと共有、思い出を残せるようなwebアプリを開発中です。</p>
 
       {user.id ? (
         <>
@@ -64,13 +62,7 @@ const Top: React.FC = () => {
           <Row gutter={16}>
             {trips?.map((trip: Trip) => {
               return (
-                <Col
-                  key={trip.id}
-                  xs={24}
-                  sm={12}
-                  lg={6}
-                  style={{ marginBottom: '10px' }}
-                >
+                <Col key={trip.id} xs={24} sm={12} lg={6} style={{ marginBottom: '10px' }}>
                   <Link to={`/${trip.uniqid}`}>
                     <Card title={trip.title} hoverable bordered={false}>
                       <p>

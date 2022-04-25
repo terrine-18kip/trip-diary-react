@@ -1,14 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import {
-  Button,
-  Form,
-  Input,
-  TimePicker,
-  Select,
-  InputNumber,
-  Space,
-} from 'antd'
+import { Button, Form, Input, TimePicker, Select, InputNumber, Space } from 'antd'
 const { Option } = Select
 import moment from 'moment'
 /** @jsxImportSource @emotion/react */
@@ -85,18 +77,14 @@ const SpotCreate: React.FC<Props> = ({ spot, getTrip, setFlag }) => {
             size='small'
             autoFocus
             value={data.start_time ? moment(data.start_time, 'HH:mm') : null}
-            onChange={(time, timeString) =>
-              setData({ ...data, start_time: timeString })
-            }
+            onChange={(time, timeString) => setData({ ...data, start_time: timeString })}
           />
           <TimePicker
             placeholder='終了時間'
             format='HH:mm'
             size='small'
             value={data.end_time ? moment(data.end_time, 'HH:mm') : null}
-            onChange={(time, timeString) =>
-              setData({ ...data, end_time: timeString })
-            }
+            onChange={(time, timeString) => setData({ ...data, end_time: timeString })}
           />
           <Select
             placeholder='カテゴリーを選択'
