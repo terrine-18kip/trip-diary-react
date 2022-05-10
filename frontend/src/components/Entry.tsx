@@ -41,8 +41,8 @@ const Entry: React.FC = () => {
 
   async function handleSubmit() {
     try {
-      await entry()
       await initializeCsrf()
+      await entry()
       await login()
       navigation(`/`)
     } catch (error) {
