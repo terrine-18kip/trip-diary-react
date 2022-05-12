@@ -69,9 +69,11 @@ const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
       justify-content: center;
       align-items: center;
       background-color: rgba(0, 0, 0, 0.4);
-      z-index: 100;
+      z-index: 1000;
     `,
     form: css`
+      width: 90%;
+      max-width: 500px;
       padding: 30px;
       margin-bottom: 20px;
       border-radius: 5px;
@@ -83,24 +85,32 @@ const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
   return (
     <div css={styles.wrapper}>
       <Form onFinish={addSpot} css={styles.form}>
-        <div style={{ display: 'flex' }}>
-          <TimePicker
-            placeholder='開始時間'
-            format='HH:mm'
-            size='small'
+        <div style={{ marginBottom: '10px' }}>
+          <Input
             autoFocus
-            onChange={(time, timeString) => setData({ ...data, start_time: timeString })}
+            placeholder='スポット名'
+            onChange={(event) => setData({ ...data, name: event.target.value })}
           />
-          <TimePicker
+        </div>
+
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+          <Input
+            type='time'
+            placeholder='開始時間'
+            onChange={(event) => setData({ ...data, start_time: event.target.value })}
+          />
+          <span style={{ padding: '0 5px' }}>～</span>
+          <Input
+            type='time'
             placeholder='終了時間'
-            format='HH:mm'
-            size='small'
-            onChange={(time, timeString) => setData({ ...data, end_time: timeString })}
+            onChange={(event) => setData({ ...data, end_time: event.target.value })}
           />
+        </div>
+
+        <div style={{ marginBottom: '10px' }}>
           <Select
             placeholder='カテゴリーを選択'
-            defaultValue={0}
-            size='small'
+            style={{ width: '100%', textAlign: 'left' }}
             onChange={(event) => setData({ ...data, category_id: event })}
           >
             <Option value={0}>なし</Option>
@@ -117,36 +127,33 @@ const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
           </Select>
         </div>
 
-        <div style={{ display: 'flex' }}>
-          <Input
-            placeholder='スポット名'
-            size='small'
-            onChange={(event) => setData({ ...data, name: event.target.value })}
-          />
+        <div style={{ marginBottom: '10px' }}>
           <InputNumber
             placeholder='金額'
-            size='small'
+            style={{ width: '100%' }}
             onChange={(event) => setData({ ...data, fee: Number(event) })}
           />
         </div>
 
-        <div style={{ display: 'flex', marginBottom: '5px' }}>
+        <div style={{ marginBottom: '10px' }}>
           <Input
             placeholder='リンク'
-            size='small'
             onChange={(event) => setData({ ...data, link: event.target.value })}
           />
+        </div>
+
+        <div style={{ marginBottom: '20px' }}>
           <Input
             placeholder='メモ'
-            size='small'
             onChange={(event) => setData({ ...data, memo: event.target.value })}
           />
         </div>
+
         <Space>
-          <Button shape='round' size='small' htmlType='submit' type='primary'>
-            追加
+          <Button shape='round' htmlType='submit' type='primary'>
+            登録
           </Button>
-          <Button shape='round' size='small' onClick={() => setFlag(false)}>
+          <Button shape='round' onClick={() => setFlag(false)}>
             キャンセル
           </Button>{' '}
         </Space>
