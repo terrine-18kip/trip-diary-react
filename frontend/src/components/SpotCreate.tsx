@@ -41,6 +41,7 @@ const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
   const spotOrder: number | undefined = plan.spots[plan.spots.length - 1]?.order + 1
   const [data, setData] = useState<Spot>({
     plan_id: plan.id,
+    category_id: 0,
     order: spotOrder || 0,
   })
 
@@ -98,9 +99,11 @@ const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
           />
           <Select
             placeholder='カテゴリーを選択'
+            defaultValue={0}
             size='small'
             onChange={(event) => setData({ ...data, category_id: event })}
           >
+            <Option value={0}>なし</Option>
             <Option value={1}>スポット</Option>
             <Option value={2}>ごはん</Option>
             <Option value={3}>宿泊</Option>

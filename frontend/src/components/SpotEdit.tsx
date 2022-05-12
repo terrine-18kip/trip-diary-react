@@ -92,6 +92,7 @@ const SpotCreate: React.FC<Props> = ({ spot, getTrip, setFlag }) => {
             value={data.category_id}
             onChange={(event) => setData({ ...data, category_id: event })}
           >
+            <Option value={0}>なし</Option>
             <Option value={1}>スポット</Option>
             <Option value={2}>ごはん</Option>
             <Option value={3}>宿泊</Option>

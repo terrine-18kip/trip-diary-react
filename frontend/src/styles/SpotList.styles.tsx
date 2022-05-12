@@ -45,12 +45,29 @@ export const styles = {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #f5f5f5;
+    background-color: #f3f3f3;
     @media screen and (max-width: 768px) {
       margin: 0 1.5%;
     }
     img {
-      width: 24px;
+      width: 22px;
+    }
+  `,
+  noCategory: css`
+    width: 30px;
+    height: 15px;
+    margin: 0 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @media screen and (max-width: 768px) {
+      margin: 0 1.5%;
+    }
+    span {
+      width: 11px;
+      height: 11px;
+      border: 3px solid #888;
+      border-radius: 100vh;
     }
   `,
   spotName: css`
