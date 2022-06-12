@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import { UserContext } from '../Context'
 import axios from 'axios'
-import { Button, Form, Input, TimePicker, Select, InputNumber, Space } from 'antd'
+import { Button, Form, Input, Select, InputNumber, Space } from 'antd'
 const { Option } = Select
 import moment from 'moment'
 /** @jsxImportSource @emotion/react */
@@ -27,12 +28,17 @@ type Props = {
   spot: Spot
   getTrip: any
   setFlag: React.Dispatch<React.SetStateAction<boolean>>
+  setShowDetail: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const SpotCreate: React.FC<Props> = ({ spot, getTrip, setFlag }) => {
+const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) => {
   const [data, setData] = useState<Spot>(spot)
+  const { user } = useContext(UserContext)
 
-  async function addSpot() {
+  async function updateSpot() {
+    if (!user.id) {
+      return
+    }
     try {
       const res = await axios.put(`${apiUrl}/spots/${spot.id}`, data, {
         withCredentials: true,
@@ -40,6 +46,28 @@ const SpotCreate: React.FC<Props> = ({ spot, getTrip, setFlag }) => {
       console.log(res)
       await getTrip()
       setFlag(false)
+      setShowDetail(false)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async function deleteSpot() {
+    if (!user.id) {
+      return
+    }
+    const result = confirm('削除しますか？')
+    if (!result) {
+      return
+    }
+    try {
+      const res = await axios.delete(`${apiUrl}/spots/${spot.id}`, {
+        withCredentials: true,
+      })
+      console.log(res)
+      await getTrip()
+      setFlag(false)
+      setShowDetail(false)
     } catch (error) {
       console.log(error)
     }
@@ -71,7 +99,7 @@ const SpotCreate: React.FC<Props> = ({ spot, getTrip, setFlag }) => {
 
   return (
     <div css={styles.wrapper}>
-      <Form onFinish={addSpot} css={styles.form}>
+      <Form onFinish={updateSpot} css={styles.form}>
         <div style={{ marginBottom: '10px' }}>
           <Input
             autoFocus
@@ -122,8 +150,9 @@ const SpotCreate: React.FC<Props> = ({ spot, getTrip, setFlag }) => {
         <div style={{ marginBottom: '10px' }}>
           <InputNumber
             placeholder='金額'
-            value={spot.fee}
+            value={data.fee}
             style={{ width: '100%' }}
+            addonAfter='円'
             onChange={(event) => setData({ ...data, fee: Number(event) })}
           />
         </div>
@@ -131,7 +160,7 @@ const SpotCreate: React.FC<Props> = ({ spot, getTrip, setFlag }) => {
         <div style={{ marginBottom: '10px' }}>
           <Input
             placeholder='リンク'
-            value={spot.link}
+            value={data.link}
             onChange={(event) => setData({ ...data, link: event.target.value })}
           />
         </div>
@@ -139,7 +168,7 @@ const SpotCreate: React.FC<Props> = ({ spot, getTrip, setFlag }) => {
         <div style={{ marginBottom: '20px' }}>
           <Input
             placeholder='メモ'
-            value={spot.memo}
+            value={data.memo}
             onChange={(event) => setData({ ...data, memo: event.target.value })}
           />
         </div>
@@ -150,11 +179,14 @@ const SpotCreate: React.FC<Props> = ({ spot, getTrip, setFlag }) => {
           </Button>
           <Button shape='round' onClick={() => setFlag(false)}>
             キャンセル
-          </Button>{' '}
+          </Button>
+          <Button shape='round' danger onClick={deleteSpot}>
+            削除
+          </Button>
         </Space>
       </Form>
     </div>
   )
 }
 
-export default SpotCreate
+export default SpotEdit

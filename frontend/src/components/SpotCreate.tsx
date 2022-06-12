@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import { Button, Form, Input, TimePicker, Select, InputNumber, Space } from 'antd'
+import { Button, Form, Input, Select, InputNumber, Space } from 'antd'
 const { Option } = Select
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
@@ -130,6 +130,7 @@ const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
         <div style={{ marginBottom: '10px' }}>
           <InputNumber
             placeholder='金額'
+            addonAfter='円'
             style={{ width: '100%' }}
             onChange={(event) => setData({ ...data, fee: Number(event) })}
           />

@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { UserContext } from '../Context'
+import SpotDetail from './SpotDetail'
 import SpotCreate from './SpotCreate'
 import SpotEdit from './SpotEdit'
 import axios from 'axios'
 import { styles } from '../styles/SpotList.styles'
 import { Button } from 'antd'
-import { PlusOutlined, DeleteOutlined, MenuOutlined } from '@ant-design/icons'
+import { PlusOutlined, MenuOutlined } from '@ant-design/icons'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 /** @jsxImportSource @emotion/react */
 
@@ -44,32 +45,13 @@ const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
   const { user } = useContext(UserContext)
   const [spots, setSpots] = useState<Spot[]>(plan.spots)
   const [spot, setSpot] = useState<Spot>({ order: 0 })
+  const [showDetail, setShowDetail] = useState<boolean>(false)
   const [showCreate, setShowCreate] = useState<boolean>(false)
   const [showEdit, setShowEdit] = useState<boolean>(false)
 
   useEffect(() => {
     setSpots(plan.spots)
   }, [plan.spots])
-
-  async function deleteSpot(event: React.MouseEvent, id: number | undefined) {
-    if (!user.id) {
-      return
-    }
-    event.stopPropagation()
-    const result = confirm('削除しますか？')
-    if (!result) {
-      return
-    }
-    try {
-      const res = await axios.delete(`${apiUrl}/spots/${id}`, {
-        withCredentials: true,
-      })
-      console.log(res)
-      getTrip()
-    } catch (error) {
-      console.log(error)
-    }
-  }
 
   const onDragEnd = (result: any) => {
     if (!user.id) {
@@ -115,10 +97,10 @@ const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
                       {(provided) => (
                         <li
                           key={spot.id}
-                          css={[styles.spot, !user.id && styles.disabled]}
+                          css={[styles.spot]}
                           onClick={() => {
                             setSpot(spot)
-                            setShowEdit(true)
+                            setShowDetail(true)
                           }}
                           ref={provided.innerRef}
                           {...provided.draggableProps}
@@ -148,17 +130,6 @@ const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
                           <div css={styles.spotFee}>
                             {spot.fee !== null && spot.fee !== 0 && `${spot.fee}円`}
                           </div>
-
-                          <div css={styles.spotDelete}>
-                            {user.id && (
-                              <Button
-                                shape='circle'
-                                size='small'
-                                icon={<DeleteOutlined />}
-                                onClick={(event) => deleteSpot(event, spot.id)}
-                              />
-                            )}
-                          </div>
                         </li>
                       )}
                     </Draggable>
@@ -184,8 +155,18 @@ const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
             </div>
           )}
 
+          {showDetail && (
+            <SpotDetail spot={spot} setShowDetail={setShowDetail} setShowEdit={setShowEdit} />
+          )}
           {showCreate && <SpotCreate plan={plan} getTrip={getTrip} setFlag={setShowCreate} />}
-          {showEdit && <SpotEdit spot={spot} getTrip={getTrip} setFlag={setShowEdit} />}
+          {showEdit && (
+            <SpotEdit
+              spot={spot}
+              getTrip={getTrip}
+              setFlag={setShowEdit}
+              setShowDetail={setShowDetail}
+            />
+          )}
         </>
       )}
     </>
