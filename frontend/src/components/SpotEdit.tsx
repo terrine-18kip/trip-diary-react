@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import { UserContext } from '../Context'
 import axios from 'axios'
-import { Button, Form, Input, TimePicker, Select, InputNumber, Space } from 'antd'
+import { Button, Form, Input, Select, InputNumber, Space } from 'antd'
 const { Option } = Select
 import moment from 'moment'
 /** @jsxImportSource @emotion/react */
@@ -27,12 +28,17 @@ type Props = {
   spot: Spot
   getTrip: any
   setFlag: React.Dispatch<React.SetStateAction<boolean>>
+  setShowDetail: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const SpotCreate: React.FC<Props> = ({ spot, getTrip, setFlag }) => {
+const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) => {
   const [data, setData] = useState<Spot>(spot)
+  const { user } = useContext(UserContext)
 
-  async function addSpot() {
+  async function updateSpot() {
+    if (!user.id) {
+      return
+    }
     try {
       const res = await axios.put(`${apiUrl}/spots/${spot.id}`, data, {
         withCredentials: true,
@@ -40,6 +46,28 @@ const SpotCreate: React.FC<Props> = ({ spot, getTrip, setFlag }) => {
       console.log(res)
       await getTrip()
       setFlag(false)
+      setShowDetail(false)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async function deleteSpot() {
+    if (!user.id) {
+      return
+    }
+    const result = confirm('削除しますか？')
+    if (!result) {
+      return
+    }
+    try {
+      const res = await axios.delete(`${apiUrl}/spots/${spot.id}`, {
+        withCredentials: true,
+      })
+      console.log(res)
+      await getTrip()
+      setFlag(false)
+      setShowDetail(false)
     } catch (error) {
       console.log(error)
     }
@@ -56,9 +84,11 @@ const SpotCreate: React.FC<Props> = ({ spot, getTrip, setFlag }) => {
       justify-content: center;
       align-items: center;
       background-color: rgba(0, 0, 0, 0.4);
-      z-index: 100;
+      z-index: 1000;
     `,
     form: css`
+      width: 90%;
+      max-width: 500px;
       padding: 30px;
       margin-bottom: 20px;
       border-radius: 5px;
@@ -69,29 +99,41 @@ const SpotCreate: React.FC<Props> = ({ spot, getTrip, setFlag }) => {
 
   return (
     <div css={styles.wrapper}>
-      <Form onFinish={addSpot} css={styles.form}>
-        <div style={{ display: 'flex' }}>
-          <TimePicker
-            placeholder='開始時間'
-            format='HH:mm'
-            size='small'
+      <Form onFinish={updateSpot} css={styles.form}>
+        <div style={{ marginBottom: '10px' }}>
+          <Input
             autoFocus
-            value={data.start_time ? moment(data.start_time, 'HH:mm') : null}
-            onChange={(time, timeString) => setData({ ...data, start_time: timeString })}
+            placeholder='スポット名'
+            value={data.name}
+            style={{ width: '100%' }}
+            onChange={(event) => setData({ ...data, name: event.target.value })}
           />
-          <TimePicker
+        </div>
+
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+          <Input
+            type='time'
+            placeholder='開始時間'
+            value={data.start_time ? data.start_time : undefined}
+            onChange={(event) => setData({ ...data, start_time: event.target.value })}
+          />
+          <span style={{ padding: '0 5px' }}>～</span>
+          <Input
+            type='time'
             placeholder='終了時間'
-            format='HH:mm'
-            size='small'
-            value={data.end_time ? moment(data.end_time, 'HH:mm') : null}
-            onChange={(time, timeString) => setData({ ...data, end_time: timeString })}
+            value={data.end_time ? data.end_time : undefined}
+            onChange={(event) => setData({ ...data, end_time: event.target.value })}
           />
+        </div>
+
+        <div style={{ marginBottom: '10px' }}>
           <Select
             placeholder='カテゴリーを選択'
-            size='small'
             value={data.category_id}
+            style={{ width: '100%', textAlign: 'left' }}
             onChange={(event) => setData({ ...data, category_id: event })}
           >
+            <Option value={0}>なし</Option>
             <Option value={1}>スポット</Option>
             <Option value={2}>ごはん</Option>
             <Option value={3}>宿泊</Option>
@@ -105,46 +147,46 @@ const SpotCreate: React.FC<Props> = ({ spot, getTrip, setFlag }) => {
           </Select>
         </div>
 
-        <div style={{ display: 'flex' }}>
-          <Input
-            placeholder='スポット名'
-            size='small'
-            value={data.name}
-            onChange={(event) => setData({ ...data, name: event.target.value })}
-          />
+        <div style={{ marginBottom: '10px' }}>
           <InputNumber
             placeholder='金額'
-            size='small'
-            value={spot.fee}
+            value={data.fee}
+            style={{ width: '100%' }}
+            addonAfter='円'
             onChange={(event) => setData({ ...data, fee: Number(event) })}
           />
         </div>
 
-        <div style={{ display: 'flex', marginBottom: '5px' }}>
+        <div style={{ marginBottom: '10px' }}>
           <Input
             placeholder='リンク'
-            size='small'
-            value={spot.link}
+            value={data.link}
             onChange={(event) => setData({ ...data, link: event.target.value })}
           />
+        </div>
+
+        <div style={{ marginBottom: '20px' }}>
           <Input
             placeholder='メモ'
-            size='small'
-            value={spot.memo}
+            value={data.memo}
             onChange={(event) => setData({ ...data, memo: event.target.value })}
           />
         </div>
+
         <Space>
-          <Button shape='round' size='small' htmlType='submit' type='primary'>
+          <Button shape='round' htmlType='submit' type='primary'>
             更新
           </Button>
-          <Button shape='round' size='small' onClick={() => setFlag(false)}>
+          <Button shape='round' onClick={() => setFlag(false)}>
             キャンセル
-          </Button>{' '}
+          </Button>
+          <Button shape='round' danger onClick={deleteSpot}>
+            削除
+          </Button>
         </Space>
       </Form>
     </div>
   )
 }
 
-export default SpotCreate
+export default SpotEdit
