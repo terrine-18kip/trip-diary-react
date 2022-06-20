@@ -1,32 +1,18 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { UserContext } from '../Context'
 import { Link } from 'react-router-dom'
-// import axios from 'axios'
 import { PageHeader, Button, Row, Col, Card } from 'antd'
-// import { BarsOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-// const apiUrl = process.env.REACT_APP_API_URL
-
-type Trip = {
-  id: number
-  uniqid: string
-  title: string
-  start_date: string | null
-  end_date: string | null
-  memo: string | null
-  thumb: string | null
-  created_at?: string
-  updated_at?: string
-}
+import { Trip } from '../types/Types'
 
 const Top: React.FC = () => {
   const { user } = useContext(UserContext)
   const [trips, setTrips] = useState<Array<Trip>>([])
 
   useEffect(() => {
-    setTrips(user.trips ? user.trips : [])
+    setTrips(user?.trips ? user.trips : [])
   }, [user])
 
   const styles = {
@@ -48,7 +34,7 @@ const Top: React.FC = () => {
     <div>
       <p>旅行の計画を立ててみんなと共有、思い出を残せるようなwebアプリを開発中です。</p>
 
-      {user.id ? (
+      {user ? (
         <>
           <PageHeader
             title='自分の旅'

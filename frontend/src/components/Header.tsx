@@ -64,7 +64,7 @@ const Header: React.FC = () => {
         <img css={styles.titleImg} src={titleLogo} />
         <h2 css={styles.titleText}>trip diary</h2>
       </Link>
-      {user.id ? (
+      {user ? (
         <Button type='text' shape='round' onClick={logout}>
           ログアウト
         </Button>

@@ -54,7 +54,7 @@ const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
   }, [plan.spots])
 
   const onDragEnd = (result: any) => {
-    if (!user.id) {
+    if (!user) {
       return
     }
     const items = Array.from(spots)
@@ -66,7 +66,7 @@ const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
   }
 
   async function updateOrder(items: Spot[]) {
-    if (!user.id) {
+    if (!user) {
       return
     }
     try {
@@ -105,7 +105,7 @@ const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                         >
-                          {user.id && (
+                          {user && (
                             <MenuOutlined css={styles.spotDrag} {...provided.dragHandleProps} />
                           )}
 
@@ -142,7 +142,7 @@ const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
         </DragDropContext>
       </div>
 
-      {user.id && (
+      {user && (
         <>
           {!showCreate && (
             <div style={{ textAlign: 'center', marginBottom: '20px' }}>
@@ -154,10 +154,6 @@ const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
               />
             </div>
           )}
-
-          {showDetail && (
-            <SpotDetail spot={spot} setShowDetail={setShowDetail} setShowEdit={setShowEdit} />
-          )}
           {showCreate && <SpotCreate plan={plan} getTrip={getTrip} setFlag={setShowCreate} />}
           {showEdit && (
             <SpotEdit
@@ -168,6 +164,10 @@ const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
             />
           )}
         </>
+      )}
+
+      {showDetail && (
+        <SpotDetail spot={spot} setShowDetail={setShowDetail} setShowEdit={setShowEdit} />
       )}
     </>
   )

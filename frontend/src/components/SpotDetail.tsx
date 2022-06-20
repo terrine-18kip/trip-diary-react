@@ -166,7 +166,7 @@ const SpotCreate: React.FC<Props> = ({ spot, setShowDetail, setShowEdit }) => {
 
         <div style={{ textAlign: 'center' }}>
           <Space>
-            {user.id && (
+            {user && (
               <Button
                 shape='round'
                 htmlType='submit'

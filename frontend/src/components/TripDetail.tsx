@@ -102,7 +102,7 @@ const TripDetail: React.FC = () => {
   }
 
   async function deleteTrip() {
-    if (!user.id) {
+    if (!user) {
       return
     }
     const result = confirm('削除しますか？')
@@ -120,7 +120,7 @@ const TripDetail: React.FC = () => {
   }
 
   async function addPlan() {
-    if (!user.id || !planNum) {
+    if (!user || !planNum) {
       return
     }
     try {
@@ -141,7 +141,7 @@ const TripDetail: React.FC = () => {
   }
 
   async function updatePlan(id: number, old: number, value: string) {
-    if (!user.id || !value || Number(value) === old) {
+    if (!user || !value || Number(value) === old) {
       setEditingPlan(null)
       return
     }
@@ -164,7 +164,7 @@ const TripDetail: React.FC = () => {
   }
 
   async function deletePlan(id: number) {
-    if (!user.id) {
+    if (!user) {
       return
     }
     const result = confirm('削除しますか？')
@@ -189,7 +189,7 @@ const TripDetail: React.FC = () => {
   }
 
   const dailyElement = (plan: Plan): JSX.Element => {
-    if (!user.id) {
+    if (!user) {
       return <p css={[styles.planNum, styles.disabled]}>{plan.daily}日目</p>
     } else if (plan.id === editingPlan) {
       return (
@@ -229,7 +229,7 @@ const TripDetail: React.FC = () => {
         title='旅の詳細'
         onBack={() => navigation('/')}
         extra={
-          user.id && (
+          user && (
             <Button type='primary' onClick={() => setShowMember(true)}>
               メンバーを編集
             </Button>
@@ -241,7 +241,7 @@ const TripDetail: React.FC = () => {
       <Card
         title={trip.title}
         extra={
-          user.id && (
+          user && (
             <Space>
               <Link key='edit' to={`/${trip.uniqid}/edit`}>
                 <Button shape='circle' icon={<FormOutlined />} />
@@ -276,7 +276,7 @@ const TripDetail: React.FC = () => {
             <div key={plan.id}>
               <div css={styles.plan}>
                 {dailyElement(plan)}
-                {user.id && (
+                {user && (
                   <Button
                     type='text'
                     shape='circle'
@@ -290,7 +290,7 @@ const TripDetail: React.FC = () => {
           )
         })}
 
-        {user.id && (
+        {user && (
           <Form onFinish={addPlan} css={[styles.plan, styles.planForm]}>
             <span>
               <InputNumber

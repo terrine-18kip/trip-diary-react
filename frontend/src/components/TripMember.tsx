@@ -134,7 +134,7 @@ const TripMember: React.FC<Props> = ({ trip, getTrip, setFlag }) => {
               <div css={styles.tripMember} key={el.id}>
                 <Avatar style={{ marginRight: '5px' }} icon={<UserOutlined />} />
                 <span style={{ marginRight: '5px' }}>{el.name}</span>
-                {el.id !== user.id && (
+                {el.id !== user!.id && (
                   <Button
                     shape='circle'
                     size='small'

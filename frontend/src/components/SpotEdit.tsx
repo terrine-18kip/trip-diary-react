@@ -36,7 +36,7 @@ const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) =>
   const { user } = useContext(UserContext)
 
   async function updateSpot() {
-    if (!user.id) {
+    if (!user) {
       return
     }
     try {
@@ -53,7 +53,7 @@ const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) =>
   }
 
   async function deleteSpot() {
-    if (!user.id) {
+    if (!user) {
       return
     }
     const result = confirm('削除しますか？')

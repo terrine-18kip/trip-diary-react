@@ -22,7 +22,7 @@ type Trip = {
 
 const TripCreate: React.FC = () => {
   const { user } = useContext(UserContext)
-  const [data, setData] = useState<Trip>({ user_id: user.id })
+  const [data, setData] = useState<Trip>({ user_id: user?.id })
   const navigation = useNavigate()
 
   async function handleSubmit() {
