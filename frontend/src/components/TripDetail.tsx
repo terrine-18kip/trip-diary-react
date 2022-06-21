@@ -14,6 +14,7 @@ import {
   UserOutlined,
   InfoCircleOutlined,
 } from '@ant-design/icons'
+import { User } from '../types/Types'
 /** @jsxImportSource @emotion/react */
 
 const apiUrl = process.env.REACT_APP_API_URL
@@ -55,12 +56,6 @@ type Spot = {
   order: number
   created_at?: string
   updated_at?: string
-}
-
-type User = {
-  id: number
-  name: string
-  email: string
 }
 
 const TripDetail: React.FC = () => {
