@@ -6,24 +6,12 @@ const { Option } = Select
 import moment from 'moment'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
+import { InputTrip, Trip } from '../types/Types'
 
 const apiUrl = process.env.REACT_APP_API_URL
 
-type Trip = {
-  id?: number
-  uniqid?: string
-  title?: string
-  start_date?: string | null
-  end_date?: string | null
-  memo?: string | null
-  thumb?: string | null
-  privacy_id?: number
-  created_at?: string
-  updated_at?: string
-}
-
 const TripEdit: React.FC = () => {
-  const [data, setData] = useState<Trip>({})
+  const [data, setData] = useState<InputTrip>({})
   const navigation = useNavigate()
   const params = useParams()
 
@@ -33,21 +21,20 @@ const TripEdit: React.FC = () => {
 
   async function getTrip() {
     try {
-      const res = await axios.get(`${apiUrl}/trips/find/${params.id}`, {
+      const res = await axios.get<Trip>(`${apiUrl}/trips/find/${params.id}`, {
         withCredentials: true,
       })
       setData(res.data)
-      console.log(res)
     } catch (error) {
       console.log(error)
     }
   }
+
   async function handleSubmit() {
     try {
-      const res = await axios.put(`${apiUrl}/trips/${data.id}`, data, {
+      const res = await axios.put<Trip>(`${apiUrl}/trips/${data.id}`, data, {
         withCredentials: true,
       })
-      console.log(res)
       navigation(`/${res.data.uniqid}`)
     } catch (error) {
       console.log(error)
@@ -64,29 +51,17 @@ const TripEdit: React.FC = () => {
         <Input onChange={(event) => setData({ ...data, title: event.target.value })} />
       </Form.Item>
       <Form.Item label='旅の期間'>
-        {data.start_date ? (
-          <DatePicker
-            defaultValue={moment(data.start_date, 'YYYY-MM-DD')}
-            onChange={(date, dateString) => setData({ ...data, start_date: dateString })}
-          />
-        ) : (
-          <DatePicker
-            placeholder=''
-            onChange={(date, dateString) => setData({ ...data, start_date: dateString })}
-          />
-        )}
+        <DatePicker
+          placeholder=''
+          defaultValue={data.start_date ? moment(data.start_date, 'YYYY-MM-DD') : undefined}
+          onChange={(date, dateString) => setData({ ...data, start_date: dateString })}
+        />
         ～
-        {data.end_date ? (
-          <DatePicker
-            defaultValue={moment(data.end_date, 'YYYY-MM-DD')}
-            onChange={(date, dateString) => setData({ ...data, end_date: dateString })}
-          />
-        ) : (
-          <DatePicker
-            placeholder=''
-            onChange={(date, dateString) => setData({ ...data, end_date: dateString })}
-          />
-        )}
+        <DatePicker
+          placeholder=''
+          defaultValue={data.end_date ? moment(data.end_date, 'YYYY-MM-DD') : undefined}
+          onChange={(date, dateString) => setData({ ...data, end_date: dateString })}
+        />
       </Form.Item>
       <Form.Item name='memo' label='メモ'>
         <Input.TextArea onChange={(event) => setData({ ...data, memo: event.target.value })} />

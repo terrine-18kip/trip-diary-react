@@ -6,31 +6,25 @@ import { PageHeader, Button, Form, Input, DatePicker, Select, Space } from 'antd
 const { Option } = Select
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
+import { InputTrip, Trip } from '../types/Types'
 
 const apiUrl = process.env.REACT_APP_API_URL
 
-type Trip = {
-  id?: number
-  title?: string
-  start_date?: string
-  end_date?: string
-  memo?: string
-  thumb?: string
-  user_id?: number
-  privacy_id?: number
-}
-
 const TripCreate: React.FC = () => {
   const { user } = useContext(UserContext)
-  const [data, setData] = useState<Trip>({ user_id: user?.id })
+  const [data, setData] = useState<InputTrip>({})
   const navigation = useNavigate()
 
   async function handleSubmit() {
+    if (!user) return
     try {
-      const res = await axios.post(`${apiUrl}/trips`, data, {
-        withCredentials: true,
-      })
-      console.log(res)
+      const res = await axios.post<Trip>(
+        `${apiUrl}/trips`,
+        { ...data, user_id: user.id },
+        {
+          withCredentials: true,
+        },
+      )
       navigation(`/${res.data.uniqid}`)
     } catch (error) {
       console.log(error)
