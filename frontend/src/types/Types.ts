@@ -67,4 +67,6 @@ export type InputSpot = {
   link?: string | null
   memo?: string | null
   order?: number
+  created_at?: string | null
+  updated_at?: string | null
 }

@@ -6,33 +6,19 @@ const { Option } = Select
 import moment from 'moment'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
+import { InputSpot } from '../types/Types'
 
 const apiUrl = process.env.REACT_APP_API_URL
 
-type Spot = {
-  id?: number
-  plan_id?: number
-  start_time?: string
-  end_time?: string
-  category_id?: number
-  name?: string
-  fee?: number
-  link?: string
-  memo?: string
-  order?: number
-  created_at?: string
-  updated_at?: string
-}
-
 type Props = {
-  spot: Spot
+  spot: InputSpot
   getTrip: any
   setFlag: React.Dispatch<React.SetStateAction<boolean>>
   setShowDetail: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) => {
-  const [data, setData] = useState<Spot>(spot)
+  const [data, setData] = useState<InputSpot>(spot)
   const { user } = useContext(UserContext)
 
   async function updateSpot() {
@@ -53,18 +39,13 @@ const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) =>
   }
 
   async function deleteSpot() {
-    if (!user) {
-      return
-    }
+    if (!user) return
     const result = confirm('削除しますか？')
-    if (!result) {
-      return
-    }
+    if (!result) return
     try {
-      const res = await axios.delete(`${apiUrl}/spots/${spot.id}`, {
+      await axios.delete(`${apiUrl}/spots/${spot.id}`, {
         withCredentials: true,
       })
-      console.log(res)
       await getTrip()
       setFlag(false)
       setShowDetail(false)
@@ -150,7 +131,7 @@ const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) =>
         <div style={{ marginBottom: '10px' }}>
           <InputNumber
             placeholder='金額'
-            value={data.fee}
+            value={data.fee ?? undefined}
             style={{ width: '100%' }}
             addonAfter='円'
             onChange={(event) => setData({ ...data, fee: Number(event) })}
@@ -160,7 +141,7 @@ const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) =>
         <div style={{ marginBottom: '10px' }}>
           <Input
             placeholder='リンク'
-            value={data.link}
+            value={data.link ?? undefined}
             onChange={(event) => setData({ ...data, link: event.target.value })}
           />
         </div>
@@ -168,7 +149,7 @@ const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) =>
         <div style={{ marginBottom: '20px' }}>
           <Input
             placeholder='メモ'
-            value={data.memo}
+            value={data.memo ?? undefined}
             onChange={(event) => setData({ ...data, memo: event.target.value })}
           />
         </div>

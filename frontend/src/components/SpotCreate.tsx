@@ -4,6 +4,7 @@ import { Button, Form, Input, Select, InputNumber, Space } from 'antd'
 const { Option } = Select
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
+import { InputSpot, Spot } from '../types/Types'
 
 const apiUrl = process.env.REACT_APP_API_URL
 
@@ -16,21 +17,6 @@ type Plan = {
   spots: Spot[]
 }
 
-type Spot = {
-  id?: number
-  plan_id?: number
-  start_time?: string
-  end_time?: string
-  category_id?: number
-  name?: string
-  fee?: number
-  link?: string
-  memo?: string
-  order: number
-  created_at?: string
-  updated_at?: string
-}
-
 type Props = {
   plan: Plan
   getTrip: any
@@ -39,7 +25,7 @@ type Props = {
 
 const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
   const spotOrder: number | undefined = plan.spots[plan.spots.length - 1]?.order + 1
-  const [data, setData] = useState<Spot>({
+  const [data, setData] = useState<InputSpot>({
     plan_id: plan.id,
     category_id: 0,
     order: spotOrder || 0,

@@ -3,24 +3,10 @@ import { UserContext } from '../Context'
 import { Button, Space } from 'antd'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-
-type Spot = {
-  id?: number
-  plan_id?: number
-  start_time?: string
-  end_time?: string
-  category_id?: number
-  name?: string
-  fee?: number
-  link?: string
-  memo?: string
-  order?: number
-  created_at?: string
-  updated_at?: string
-}
+import { InputSpot } from '../types/Types'
 
 type Props = {
-  spot: Spot
+  spot: InputSpot
   setShowDetail: React.Dispatch<React.SetStateAction<boolean>>
   setShowEdit: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -145,14 +131,13 @@ const SpotCreate: React.FC<Props> = ({ spot, setShowDetail, setShowEdit }) => {
             <tr>
               <th>金額</th>
               <td>
-                {spot.fee}
-                {spot.fee && '円'}
+                {spot.fee !== null && spot.fee !== 0 && `${spot.fee}円`}
               </td>
             </tr>
             <tr>
               <th>リンク</th>
               <td>
-                <a href={spot.link} target='_blank' rel='noopener noreferrer'>
+                <a href={spot.link ?? undefined} target='_blank' rel='noopener noreferrer'>
                   {spot.link}
                 </a>
               </td>

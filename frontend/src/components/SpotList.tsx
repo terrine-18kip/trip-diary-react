@@ -6,8 +6,10 @@ import SpotEdit from './SpotEdit'
 import axios from 'axios'
 import { styles } from '../styles/SpotList.styles'
 import { Button } from 'antd'
-import { PlusOutlined, MenuOutlined } from '@ant-design/icons'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { PlusOutlined } from '@ant-design/icons'
+import { DragDropContext, Droppable } from 'react-beautiful-dnd'
+import SpotTab from './parts/SpotTab'
+import { InputSpot, Spot } from '../types/Types'
 /** @jsxImportSource @emotion/react */
 
 const apiUrl = process.env.REACT_APP_API_URL
@@ -21,21 +23,6 @@ type Plan = {
   spots: Spot[]
 }
 
-type Spot = {
-  id?: number
-  plan_id?: number
-  start_time?: string
-  end_time?: string
-  category_id?: number
-  name?: string
-  fee?: number
-  link?: string
-  memo?: string
-  order: number
-  created_at?: string
-  updated_at?: string
-}
-
 type Props = {
   plan: Plan
   getTrip: any
@@ -44,7 +31,7 @@ type Props = {
 const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
   const { user } = useContext(UserContext)
   const [spots, setSpots] = useState<Spot[]>(plan.spots)
-  const [spot, setSpot] = useState<Spot>({ order: 0 })
+  const [spot, setSpot] = useState<InputSpot>({ order: 0 })
   const [showDetail, setShowDetail] = useState<boolean>(false)
   const [showCreate, setShowCreate] = useState<boolean>(false)
   const [showEdit, setShowEdit] = useState<boolean>(false)
@@ -63,6 +50,11 @@ const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
     console.log('items', items)
     setSpots(items)
     updateOrder(items)
+  }
+
+  const openSpotDetail = (spot: Spot) => {
+    setSpot(spot)
+    setShowDetail(true)
   }
 
   async function updateOrder(items: Spot[]) {
@@ -93,46 +85,7 @@ const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
               >
                 {spots.map((spot, index) => {
                   return (
-                    <Draggable key={spot.id} draggableId={String(spot.id)} index={index}>
-                      {(provided) => (
-                        <li
-                          key={spot.id}
-                          css={[styles.spot]}
-                          onClick={() => {
-                            setSpot(spot)
-                            setShowDetail(true)
-                          }}
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                        >
-                          {user && (
-                            <MenuOutlined css={styles.spotDrag} {...provided.dragHandleProps} />
-                          )}
-
-                          <div css={styles.spotTime}>
-                            <p>{spot.start_time?.slice(0, -3)}</p>
-                            {spot.start_time && spot.end_time && <p>↓</p>}
-                            <p>{spot.end_time?.slice(0, -3)}</p>
-                          </div>
-
-                          {spot.category_id ? (
-                            <div css={styles.spotCategory}>
-                              <img src={`/img/icon_${spot.category_id}.svg`} />
-                            </div>
-                          ) : (
-                            <div css={styles.noCategory}>
-                              <span></span>
-                            </div>
-                          )}
-
-                          <div css={styles.spotName}>{spot.name}</div>
-
-                          <div css={styles.spotFee}>
-                            {spot.fee !== null && spot.fee !== 0 && `${spot.fee}円`}
-                          </div>
-                        </li>
-                      )}
-                    </Draggable>
+                    <SpotTab key={spot.id} spot={spot} index={index} openDetail={openSpotDetail} />
                   )
                 })}
                 {provided.placeholder}
@@ -142,9 +95,15 @@ const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
         </DragDropContext>
       </div>
 
+      {showDetail && (
+        <SpotDetail spot={spot} setShowDetail={setShowDetail} setShowEdit={setShowEdit} />
+      )}
+
       {user && (
         <>
-          {!showCreate && (
+          {showCreate ? (
+            <SpotCreate plan={plan} getTrip={getTrip} setFlag={setShowCreate} />
+          ) : (
             <div style={{ textAlign: 'center', marginBottom: '20px' }}>
               <Button
                 shape='circle'
@@ -154,7 +113,6 @@ const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
               />
             </div>
           )}
-          {showCreate && <SpotCreate plan={plan} getTrip={getTrip} setFlag={setShowCreate} />}
           {showEdit && (
             <SpotEdit
               spot={spot}
@@ -164,10 +122,6 @@ const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
             />
           )}
         </>
-      )}
-
-      {showDetail && (
-        <SpotDetail spot={spot} setShowDetail={setShowDetail} setShowEdit={setShowEdit} />
       )}
     </>
   )
