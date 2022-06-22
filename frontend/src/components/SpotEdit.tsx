@@ -7,6 +7,7 @@ import moment from 'moment'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { InputSpot } from '../types/Types'
+import { categories } from '../data/SpotData'
 
 const apiUrl = process.env.REACT_APP_API_URL
 
@@ -114,17 +115,9 @@ const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) =>
             style={{ width: '100%', textAlign: 'left' }}
             onChange={(event) => setData({ ...data, category_id: event })}
           >
-            <Option value={0}>なし</Option>
-            <Option value={1}>スポット</Option>
-            <Option value={2}>ごはん</Option>
-            <Option value={3}>宿泊</Option>
-            <Option value={4}>鉄道</Option>
-            <Option value={5}>バス</Option>
-            <Option value={6}>飛行機</Option>
-            <Option value={7}>車</Option>
-            <Option value={8}>徒歩</Option>
-            <Option value={9}>自転車</Option>
-            <Option value={10}>船</Option>
+            {categories.map((category, i) => (
+              <Option key={i} value={i}>{category}</Option>
+            ))}
           </Select>
         </div>
 
