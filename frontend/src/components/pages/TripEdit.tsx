@@ -6,7 +6,7 @@ const { Option } = Select
 import moment from 'moment'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { InputTrip, Trip } from '../types/Types'
+import { InputTrip, Trip } from '../../types/Types'
 
 const apiUrl = process.env.REACT_APP_API_URL
 

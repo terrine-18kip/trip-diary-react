@@ -1,12 +1,12 @@
 import React, { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { UserContext } from '../Context'
+import { UserContext } from '../../Context'
 import axios from 'axios'
 import { PageHeader, Button, Form, Input, DatePicker, Select, Space } from 'antd'
 const { Option } = Select
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { InputTrip, Trip } from '../types/Types'
+import { InputTrip, Trip } from '../../types/Types'
 
 const apiUrl = process.env.REACT_APP_API_URL
 

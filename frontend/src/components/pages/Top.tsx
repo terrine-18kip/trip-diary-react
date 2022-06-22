@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { UserContext } from '../Context'
+import { UserContext } from '../../Context'
 import { Link } from 'react-router-dom'
 import { PageHeader, Button, Row, Col, Card } from 'antd'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-import { Trip } from '../types/Types'
+import { Trip } from '../../types/Types'
 
 const Top: React.FC = () => {
   const { user } = useContext(UserContext)

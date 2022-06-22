@@ -1,9 +1,9 @@
 import React, { useEffect, useLayoutEffect, useState, useContext } from 'react'
-import { UserContext } from '../Context'
+import { UserContext } from '../../Context'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import TripMember from './TripMember'
-import SpotList from './SpotList'
-import { styles } from '../styles/TripDetail.styles'
+import TripMember from '../TripMember'
+import SpotList from '../SpotList'
+import { styles } from '../../styles/TripDetail.styles'
 import { PageHeader, Card, Avatar, Space, Button, Form, InputNumber } from 'antd'
 import {
   FormOutlined,
@@ -13,12 +13,12 @@ import {
   UserOutlined,
   InfoCircleOutlined,
 } from '@ant-design/icons'
-import { Plan } from '../types/Types'
-import { useGetTrip } from '../hooks/trip/useGetTrip'
-import { useDeleteTrip } from '../hooks/trip/useDeleteTrip'
-import { useAddPlan } from '../hooks/plan/useAddPlan'
-import { useUpdatePlan } from '../hooks/plan/useUpdatePlan'
-import { useDeletePlan } from '../hooks/plan/useDeletePlan'
+import { Plan } from '../../types/Types'
+import { useGetTrip } from '../../hooks/trip/useGetTrip'
+import { useDeleteTrip } from '../../hooks/trip/useDeleteTrip'
+import { useAddPlan } from '../../hooks/plan/useAddPlan'
+import { useUpdatePlan } from '../../hooks/plan/useUpdatePlan'
+import { useDeletePlan } from '../../hooks/plan/useDeletePlan'
 /** @jsxImportSource @emotion/react */
 
 const TripDetail: React.FC = () => {
