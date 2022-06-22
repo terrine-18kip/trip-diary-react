@@ -14,7 +14,7 @@ import {
   UserOutlined,
   InfoCircleOutlined,
 } from '@ant-design/icons'
-import { Spot, User } from '../types/Types'
+import { Plan, User } from '../types/Types'
 /** @jsxImportSource @emotion/react */
 
 const apiUrl = process.env.REACT_APP_API_URL
@@ -32,15 +32,6 @@ type Trip = {
   updated_at?: string
   plans?: Plan[]
   users?: User[]
-}
-
-type Plan = {
-  id: number
-  daily: number
-  trip_id: number
-  created_at?: string
-  updated_at?: string
-  spots: Spot[]
 }
 
 const TripDetail: React.FC = () => {
@@ -104,7 +95,7 @@ const TripDetail: React.FC = () => {
       return
     }
     try {
-      const res = await axios.post(
+      await axios.post(
         `${apiUrl}/plans`,
         {
           trip_id: trip.id,

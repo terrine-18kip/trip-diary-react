@@ -4,19 +4,10 @@ import { Button, Form, Input, Select, InputNumber, Space } from 'antd'
 const { Option } = Select
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { InputSpot, Spot } from '../types/Types'
+import { InputSpot, Plan, Spot } from '../types/Types'
 import { categories } from '../data/SpotData'
 
 const apiUrl = process.env.REACT_APP_API_URL
-
-type Plan = {
-  id: number
-  daily: number
-  trip_id: number
-  created_at?: string
-  updated_at?: string
-  spots: Spot[]
-}
 
 type Props = {
   plan: Plan
@@ -101,7 +92,9 @@ const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
             onChange={(event) => setData({ ...data, category_id: event })}
           >
             {categories.map((category, i) => (
-              <Option key={i} value={i}>{category}</Option>
+              <Option key={i} value={i}>
+                {category}
+              </Option>
             ))}
           </Select>
         </div>

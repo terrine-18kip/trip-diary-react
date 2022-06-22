@@ -116,7 +116,9 @@ const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) =>
             onChange={(event) => setData({ ...data, category_id: event })}
           >
             {categories.map((category, i) => (
-              <Option key={i} value={i}>{category}</Option>
+              <Option key={i} value={i}>
+                {category}
+              </Option>
             ))}
           </Select>
         </div>

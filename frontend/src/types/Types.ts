@@ -28,7 +28,7 @@ export type Plan = {
   trip_id: number
   created_at: string | null
   updated_at: string | null
-  spots?: Spot[]
+  spots: Spot[]
 }
 
 export type Spot = {

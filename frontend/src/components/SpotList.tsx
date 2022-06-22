@@ -9,19 +9,10 @@ import { Button } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import SpotTab from './parts/SpotTab'
-import { InputSpot, Spot } from '../types/Types'
+import { InputSpot, Plan, Spot } from '../types/Types'
 /** @jsxImportSource @emotion/react */
 
 const apiUrl = process.env.REACT_APP_API_URL
-
-type Plan = {
-  id: number
-  daily: number
-  trip_id: number
-  created_at?: string
-  updated_at?: string
-  spots: Spot[]
-}
 
 type Props = {
   plan: Plan

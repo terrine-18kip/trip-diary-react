@@ -46,9 +46,7 @@ const SpotCreate: React.FC<Props> = ({ spot, setShowDetail, setShowEdit }) => {
             </tr>
             <tr>
               <th>金額</th>
-              <td>
-                {spot.fee !== null && spot.fee !== 0 && `${spot.fee}円`}
-              </td>
+              <td>{spot.fee !== null && spot.fee !== 0 && `${spot.fee}円`}</td>
             </tr>
             <tr>
               <th>リンク</th>
