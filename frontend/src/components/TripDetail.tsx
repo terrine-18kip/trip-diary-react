@@ -3,7 +3,6 @@ import { UserContext } from '../Context'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import TripMember from './TripMember'
 import SpotList from './SpotList'
-import axios from 'axios'
 import { styles } from '../styles/TripDetail.styles'
 import { PageHeader, Card, Avatar, Space, Button, Form, InputNumber } from 'antd'
 import {
@@ -14,39 +13,30 @@ import {
   UserOutlined,
   InfoCircleOutlined,
 } from '@ant-design/icons'
-import { Plan, User } from '../types/Types'
+import { Plan } from '../types/Types'
+import { useGetTrip } from '../hooks/trip/useGetTrip'
+import { useDeleteTrip } from '../hooks/trip/useDeleteTrip'
+import { useAddPlan } from '../hooks/plan/useAddPlan'
+import { useUpdatePlan } from '../hooks/plan/useUpdatePlan'
+import { useDeletePlan } from '../hooks/plan/useDeletePlan'
 /** @jsxImportSource @emotion/react */
-
-const apiUrl = process.env.REACT_APP_API_URL
-
-type Trip = {
-  id?: number
-  uniqid?: string
-  title?: string
-  start_date?: string | null
-  end_date?: string | null
-  memo?: string | null
-  thumb?: string | null
-  privacy_id?: number
-  created_at?: string
-  updated_at?: string
-  plans?: Plan[]
-  users?: User[]
-}
 
 const TripDetail: React.FC = () => {
   const { user } = useContext(UserContext)
-  const [trip, setTrip] = useState<Trip>({})
-  const [plans, setPlans] = useState<Plan[]>([])
+  const { trip, plans, unauthorized, getTrip } = useGetTrip()
+  const { deleteTrip } = useDeleteTrip()
+  const { addPlan } = useAddPlan()
+  const { updatePlan } = useUpdatePlan()
+  const { deletePlan } = useDeletePlan()
+
   const [planNum, setPlanNum] = useState<number | null>(1)
   const [showMember, setShowMember] = useState<boolean>(false)
   const [editingPlan, setEditingPlan] = useState<number | null>()
-  const [unauthorized, setUnauthorized] = useState<boolean>(false)
   const navigation = useNavigate()
   const params = useParams()
 
   useLayoutEffect(() => {
-    getTrip()
+    getTrip(params.id)
   }, [])
 
   useEffect(() => {
@@ -58,105 +48,20 @@ const TripDetail: React.FC = () => {
     setPlanNum(dailyNum + 1)
   }, [plans])
 
-  async function getTrip() {
-    try {
-      const res = await axios.get(`${apiUrl}/trips/find/${params.id}`, {
-        withCredentials: true,
-      })
-      setTrip(res.data)
-      setPlans(res.data.plans)
-      console.log(res.data)
-    } catch (error) {
-      console.log(error)
-      setUnauthorized(true)
-    }
+  const handleSubmitPlan = async () => {
+    const res = await addPlan(trip.id, planNum)
+    if (res) getTrip(params.id)
   }
 
-  async function deleteTrip() {
-    if (!user) {
-      return
-    }
-    const result = confirm('削除しますか？')
-    if (!result) {
-      return
-    }
-    try {
-      await axios.delete(`${apiUrl}/trips/${trip.id}`, {
-        withCredentials: true,
-      })
-      navigation('/')
-    } catch (error) {
-      console.log(error)
-    }
+  const handleUpdatePlan = async (id: number, old: number, value: string) => {
+    const res = await updatePlan(id, old, value, trip.id)
+    if (res) await getTrip(params.id)
+    setEditingPlan(null)
   }
 
-  async function addPlan() {
-    if (!user || !planNum) {
-      return
-    }
-    try {
-      await axios.post(
-        `${apiUrl}/plans`,
-        {
-          trip_id: trip.id,
-          daily: planNum,
-        },
-        {
-          withCredentials: true,
-        },
-      )
-      getTrip()
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  async function updatePlan(id: number, old: number, value: string) {
-    if (!user || !value || Number(value) === old) {
-      setEditingPlan(null)
-      return
-    }
-    try {
-      await axios.put(
-        `${apiUrl}/plans/${id}`,
-        {
-          trip_id: trip.id,
-          daily: Number(value),
-        },
-        {
-          withCredentials: true,
-        },
-      )
-      await getTrip()
-      setEditingPlan(null)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  async function deletePlan(id: number) {
-    if (!user) {
-      return
-    }
-    const result = confirm('削除しますか？')
-    if (!result) {
-      return
-    }
-    try {
-      const res = await axios.delete(`${apiUrl}/plans/${id}`, {
-        withCredentials: true,
-      })
-      console.log(res)
-      getTrip()
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  const onEnter = (id: number, old: number, event: React.KeyboardEvent<HTMLInputElement>): void => {
-    if (event.key === 'Enter') {
-      updatePlan(id, old, event.currentTarget.value)
-    }
+  const handleDeletePlan = async (id: number) => {
+    const res = await deletePlan(id)
+    if (res) getTrip(params.id)
   }
 
   const dailyElement = (plan: Plan): JSX.Element => {
@@ -170,8 +75,11 @@ const TripDetail: React.FC = () => {
             size='small'
             defaultValue={plan.daily}
             autoFocus
-            onBlur={(event) => updatePlan(plan.id, plan.daily, event.target.value)}
-            onKeyPress={(event) => onEnter(plan.id, plan.daily, event)}
+            onBlur={(event) => handleUpdatePlan(plan.id, plan.daily, event.target.value)}
+            onKeyPress={(event) =>
+              event.key === 'Enter' &&
+              handleUpdatePlan(plan.id, plan.daily, event.currentTarget.value)
+            }
           />
           日目
         </span>
@@ -217,7 +125,11 @@ const TripDetail: React.FC = () => {
               <Link key='edit' to={`/${trip.uniqid}/edit`}>
                 <Button shape='circle' icon={<FormOutlined />} />
               </Link>
-              <Button shape='circle' icon={<DeleteOutlined />} onClick={deleteTrip} />
+              <Button
+                shape='circle'
+                icon={<DeleteOutlined />}
+                onClick={() => deleteTrip(trip.id)}
+              />
             </Space>
           )
         }
@@ -252,7 +164,7 @@ const TripDetail: React.FC = () => {
                     type='text'
                     shape='circle'
                     icon={<DeleteFilled />}
-                    onClick={() => deletePlan(plan.id)}
+                    onClick={() => handleDeletePlan(plan.id)}
                   />
                 )}
               </div>
@@ -262,7 +174,7 @@ const TripDetail: React.FC = () => {
         })}
 
         {user && (
-          <Form onFinish={addPlan} css={[styles.plan, styles.planForm]}>
+          <Form onFinish={handleSubmitPlan} css={[styles.plan, styles.planForm]}>
             <span>
               <InputNumber
                 value={planNum ? planNum : ''}
