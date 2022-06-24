@@ -1,7 +1,6 @@
 import React, { useLayoutEffect, useState, useContext } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { PageHeader, Button } from 'antd'
-import { InfoCircleOutlined } from '@ant-design/icons'
 import { css } from '@emotion/react'
 /** @jsxImportSource @emotion/react */
 
@@ -12,6 +11,7 @@ import TripOutline from '../templates/TripOutline'
 import PlanOutline from '../templates/PlanOutline'
 import PlanCreate from '../templates/PlanCreate'
 import SpotList from '../SpotList'
+import NotFound from '../views/NotFound'
 
 const TripDetail: React.FC = () => {
   const { user } = useContext(UserContext)
@@ -32,28 +32,10 @@ const TripDetail: React.FC = () => {
         padding: 15px 1%;
       }
     `,
-    unauthorized: css`
-      height: calc(100vh - 100px);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      p {
-        margin-left: 10px;
-        margin-bottom: 0;
-        color: #555;
-        font-size: 16px;
-        font-weight: 500;
-      }
-    `,
   }
 
   if (unauthorized) {
-    return (
-      <div css={styles.unauthorized}>
-        <InfoCircleOutlined style={{ color: '#999', fontSize: '24px' }} />
-        <p>ページが見つかりませんでした</p>
-      </div>
-    )
+    return <NotFound />
   }
 
   return (
