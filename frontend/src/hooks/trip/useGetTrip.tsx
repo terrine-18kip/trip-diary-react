@@ -1,23 +1,8 @@
 import { useCallback, useState } from 'react'
 import axios from 'axios'
-import { Plan, User } from '../../types/Types'
+import { Trip, Plan } from '../../types/Types'
 
 const apiUrl = process.env.REACT_APP_API_URL
-
-type Trip = {
-  id?: number
-  uniqid?: string
-  title?: string
-  start_date?: string | null
-  end_date?: string | null
-  memo?: string | null
-  thumb?: string | null
-  privacy_id?: number
-  created_at?: string
-  updated_at?: string
-  plans?: Plan[]
-  users?: User[]
-}
 
 export const useGetTrip = () => {
   const [trip, setTrip] = useState<Trip>({})

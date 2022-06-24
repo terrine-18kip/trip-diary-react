@@ -8,18 +8,18 @@ export type User = {
 }
 
 export type Trip = {
-  id: number
-  uniqid: string
-  title: string
-  start_date: string | null
-  end_date: string | null
-  memo: string | null
-  thumb: string | null
-  privacy_id: number
-  created_at: string | null
-  updated_at: string | null
-  users?: User[]
+  id?: number
+  uniqid?: string
+  title?: string
+  start_date?: string | null
+  end_date?: string | null
+  memo?: string | null
+  thumb?: string | null
+  privacy_id?: number
+  created_at?: string
+  updated_at?: string
   plans?: Plan[]
+  users?: User[]
 }
 
 export type Plan = {

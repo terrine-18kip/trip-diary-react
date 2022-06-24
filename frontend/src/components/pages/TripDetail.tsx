@@ -1,30 +1,22 @@
 import React, { useEffect, useLayoutEffect, useState, useContext } from 'react'
 import { UserContext } from '../../Context'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import TripMember from '../TripMember'
 import SpotList from '../SpotList'
 import { styles } from '../../styles/TripDetail.styles'
-import { PageHeader, Card, Avatar, Space, Button, Form, InputNumber } from 'antd'
-import {
-  FormOutlined,
-  DeleteOutlined,
-  DeleteFilled,
-  PlusCircleFilled,
-  UserOutlined,
-  InfoCircleOutlined,
-} from '@ant-design/icons'
+import { PageHeader, Button, Form, InputNumber } from 'antd'
+import { DeleteFilled, PlusCircleFilled, InfoCircleOutlined } from '@ant-design/icons'
 import { Plan } from '../../types/Types'
 import { useGetTrip } from '../../hooks/trip/useGetTrip'
-import { useDeleteTrip } from '../../hooks/trip/useDeleteTrip'
 import { useAddPlan } from '../../hooks/plan/useAddPlan'
 import { useUpdatePlan } from '../../hooks/plan/useUpdatePlan'
 import { useDeletePlan } from '../../hooks/plan/useDeletePlan'
+import TripOutline from '../templates/TripOutline'
 /** @jsxImportSource @emotion/react */
 
 const TripDetail: React.FC = () => {
   const { user } = useContext(UserContext)
   const { trip, plans, unauthorized, getTrip } = useGetTrip()
-  const { deleteTrip } = useDeleteTrip()
   const { addPlan } = useAddPlan()
   const { updatePlan } = useUpdatePlan()
   const { deletePlan } = useDeletePlan()
@@ -117,41 +109,7 @@ const TripDetail: React.FC = () => {
       />
       {showMember && <TripMember trip={trip} getTrip={getTrip} setFlag={setShowMember} />}
 
-      <Card
-        title={trip.title}
-        extra={
-          user && (
-            <Space>
-              <Link key='edit' to={`/${trip.uniqid}/edit`}>
-                <Button shape='circle' icon={<FormOutlined />} />
-              </Link>
-              <Button
-                shape='circle'
-                icon={<DeleteOutlined />}
-                onClick={() => deleteTrip(trip.id)}
-              />
-            </Space>
-          )
-        }
-        bordered={false}
-      >
-        <p>
-          期間：{trip.start_date} ～ {trip.end_date}
-        </p>
-        <p>メモ：{trip.memo}</p>
-        <p>公開設定：{trip.privacy_id === 2 ? '公開' : '非公開'}</p>
-        <div css={styles.tripMembers}>
-          メンバー：
-          {trip.users?.map((user) => {
-            return (
-              <span css={styles.tripMember} key={user.id}>
-                <Avatar size='small' icon={<UserOutlined />} />
-                {user.name}
-              </span>
-            )
-          })}
-        </div>
-      </Card>
+      {trip && <TripOutline trip={trip} />}
 
       <div css={styles.plans}>
         {plans?.map((plan: Plan) => {
