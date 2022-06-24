@@ -1,24 +1,22 @@
-import React, { useEffect, useLayoutEffect, useState, useContext } from 'react'
-import { UserContext } from '../../Context'
+import React, { useLayoutEffect, useState, useContext } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import TripMember from '../TripMember'
-import { styles } from '../../styles/TripDetail.styles'
-import { PageHeader, Button, Form, InputNumber } from 'antd'
-import { PlusCircleFilled, InfoCircleOutlined } from '@ant-design/icons'
-import { Plan } from '../../types/Types'
+import { PageHeader, Button } from 'antd'
+import { InfoCircleOutlined } from '@ant-design/icons'
+import { css } from '@emotion/react'
+/** @jsxImportSource @emotion/react */
+
+import { UserContext } from '../../Context'
 import { useGetTrip } from '../../hooks/trip/useGetTrip'
-import { useAddPlan } from '../../hooks/plan/useAddPlan'
+import TripMember from '../TripMember'
 import TripOutline from '../templates/TripOutline'
 import PlanOutline from '../templates/PlanOutline'
+import PlanCreate from '../templates/PlanCreate'
 import SpotList from '../SpotList'
-/** @jsxImportSource @emotion/react */
 
 const TripDetail: React.FC = () => {
   const { user } = useContext(UserContext)
   const { trip, plans, unauthorized, getTrip } = useGetTrip()
-  const { addPlan } = useAddPlan()
 
-  const [planNum, setPlanNum] = useState<number | null>(1)
   const [showMember, setShowMember] = useState<boolean>(false)
   const navigation = useNavigate()
   const params = useParams()
@@ -27,18 +25,26 @@ const TripDetail: React.FC = () => {
     getTrip(params.id)
   }, [])
 
-  useEffect(() => {
-    if (plans.length === 0) {
-      setPlanNum(1)
-      return
-    }
-    const dailyNum: number = plans[plans.length - 1].daily
-    setPlanNum(dailyNum + 1)
-  }, [plans])
-
-  const handleSubmitPlan = async () => {
-    const res = await addPlan(trip.id, planNum)
-    if (res) getTrip(params.id)
+  const styles = {
+    plans: css`
+      padding: 20px 10px;
+      @media screen and (max-width: 768px) {
+        padding: 15px 1%;
+      }
+    `,
+    unauthorized: css`
+      height: calc(100vh - 100px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      p {
+        margin-left: 10px;
+        margin-bottom: 0;
+        color: #555;
+        font-size: 16px;
+        font-weight: 500;
+      }
+    `,
   }
 
   if (unauthorized) {
@@ -68,7 +74,7 @@ const TripDetail: React.FC = () => {
       <TripOutline trip={trip} />
 
       <div css={styles.plans}>
-        {plans?.map((plan: Plan) => {
+        {plans?.map((plan) => {
           return (
             <>
               <PlanOutline tripId={trip.id} plan={plan} getTrip={getTrip} />
@@ -77,20 +83,7 @@ const TripDetail: React.FC = () => {
           )
         })}
 
-        {user && (
-          <Form onFinish={handleSubmitPlan} css={[styles.plan, styles.planForm]}>
-            <span>
-              <InputNumber
-                value={planNum ? planNum : ''}
-                css={styles.planInput}
-                size='small'
-                onChange={(event) => setPlanNum(event ? Number(event) : null)}
-              />
-              日目
-            </span>
-            <Button shape='circle' type='text' htmlType='submit' icon={<PlusCircleFilled />} />
-          </Form>
-        )}
+        {user && <PlanCreate trip={trip} plans={plans} getTrip={getTrip} />}
       </div>
     </div>
   )
