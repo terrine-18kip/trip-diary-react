@@ -9,7 +9,8 @@ import { Plan } from '../../types/Types'
 import { useGetTrip } from '../../hooks/trip/useGetTrip'
 import { useAddPlan } from '../../hooks/plan/useAddPlan'
 import TripOutline from '../templates/TripOutline'
-import DailyPlan from '../templates/DailyPlan'
+import PlanOutline from '../templates/PlanOutline'
+import SpotList from '../SpotList'
 /** @jsxImportSource @emotion/react */
 
 const TripDetail: React.FC = () => {
@@ -68,7 +69,12 @@ const TripDetail: React.FC = () => {
 
       <div css={styles.plans}>
         {plans?.map((plan: Plan) => {
-          return <DailyPlan key={plan.id} tripId={trip.id} plan={plan} getTrip={getTrip} />
+          return (
+            <>
+              <PlanOutline tripId={trip.id} plan={plan} getTrip={getTrip} />
+              <SpotList plan={plan} getTrip={getTrip} />
+            </>
+          )
         })}
 
         {user && (

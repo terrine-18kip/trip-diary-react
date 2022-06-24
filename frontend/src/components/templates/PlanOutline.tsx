@@ -6,7 +6,6 @@ import { css } from '@emotion/react'
 /** @jsxImportSource @emotion/react */
 
 import { UserContext } from '../../Context'
-import SpotList from '../SpotList'
 import { Plan } from '../../types/Types'
 import { useUpdatePlan } from '../../hooks/plan/useUpdatePlan'
 import { useDeletePlan } from '../../hooks/plan/useDeletePlan'
@@ -17,7 +16,7 @@ type Props = {
   getTrip: (id: string | undefined) => Promise<void>
 }
 
-const DailyPlan: React.FC<Props> = ({ tripId, plan, getTrip }) => {
+const PlanOutline: React.FC<Props> = ({ tripId, plan, getTrip }) => {
   const { user } = useContext(UserContext)
   const { updatePlan } = useUpdatePlan()
   const { deletePlan } = useDeletePlan()
@@ -58,51 +57,44 @@ const DailyPlan: React.FC<Props> = ({ tripId, plan, getTrip }) => {
     if (res) getTrip(params.id)
   }
 
-  const dailyElement = (plan: Plan): JSX.Element => {
-    if (!user) {
-      return <p css={[styles.planNum, styles.disabled]}>{plan.daily}日目</p>
-    } else if (editing) {
-      return (
-        <span>
-          <InputNumber
-            css={styles.planInput}
-            size='small'
-            defaultValue={plan.daily}
-            autoFocus
-            onBlur={(event) => handleUpdatePlan(plan.id, plan.daily, event.target.value)}
-            onKeyPress={(event) =>
-              event.key === 'Enter' &&
-              handleUpdatePlan(plan.id, plan.daily, event.currentTarget.value)
-            }
-          />
-          日目
-        </span>
-      )
-    } else {
-      return (
-        <p css={styles.planNum} onClick={() => setEditing(true)}>
-          {plan.daily}日目
-        </p>
-      )
-    }
-  }
-
   return (
-    <div key={plan.id}>
-      <div css={styles.plan}>
-        {dailyElement(plan)}
-        {user && (
+    <div css={styles.plan}>
+      {user ? (
+        <>
+          {editing ? (
+            <span>
+              <InputNumber
+                css={styles.planInput}
+                size='small'
+                defaultValue={plan.daily}
+                autoFocus
+                onBlur={(event) => handleUpdatePlan(plan.id, plan.daily, event.target.value)}
+                onKeyPress={(event) =>
+                  event.key === 'Enter' &&
+                  handleUpdatePlan(plan.id, plan.daily, event.currentTarget.value)
+                }
+              />
+              日目
+            </span>
+          ) : (
+            <p css={styles.planNum} onClick={() => setEditing(true)}>
+              {plan.daily}日目
+            </p>
+          )}
           <Button
             type='text'
             shape='circle'
             icon={<DeleteFilled />}
             onClick={() => handleDeletePlan(plan.id)}
           />
-        )}
-      </div>
-      <SpotList plan={plan} getTrip={getTrip} />
+        </>
+      ) : (
+        <p css={[styles.planNum, styles.disabled]} onClick={() => setEditing(true)}>
+          {plan.daily}日目
+        </p>
+      )}
     </div>
   )
 }
 
-export default DailyPlan
+export default PlanOutline
