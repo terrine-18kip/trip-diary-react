@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
-import { UserContext } from '../../Context'
 import { Link } from 'react-router-dom'
 import { Card, Avatar, Space, Button } from 'antd'
 import { FormOutlined, DeleteOutlined, UserOutlined } from '@ant-design/icons'
 
+import { UserContext } from '../../Context'
 import { useDeleteTrip } from '../../hooks/trip/useDeleteTrip'
 import { styles } from '../../styles/TripDetail.styles'
 import { Trip } from '../../types/Types'
@@ -25,11 +25,7 @@ const TripOutline: React.FC<Props> = ({ trip }) => {
             <Link key='edit' to={`/${trip.uniqid}/edit`}>
               <Button shape='circle' icon={<FormOutlined />} />
             </Link>
-            <Button
-              shape='circle'
-              icon={<DeleteOutlined />}
-              onClick={() => deleteTrip(trip.id)}
-            />
+            <Button shape='circle' icon={<DeleteOutlined />} onClick={() => deleteTrip(trip.id)} />
           </Space>
         )
       }
