@@ -5,7 +5,7 @@ import { Trip, Plan } from '../../types/Types'
 const apiUrl = process.env.REACT_APP_API_URL
 
 export const useGetTrip = () => {
-  const [trip, setTrip] = useState<Trip>({})
+  const [trip, setTrip] = useState<Trip | undefined>(undefined)
   const [plans, setPlans] = useState<Plan[]>([])
   const [unauthorized, setUnauthorized] = useState<boolean>(false)
 

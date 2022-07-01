@@ -5,27 +5,9 @@ import { PageHeader, Alert, Avatar, Button, Form, Input } from 'antd'
 import { UserOutlined, CloseOutlined } from '@ant-design/icons'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
+import { Trip } from '../types/Types'
 
 const apiUrl = process.env.REACT_APP_API_URL
-
-type Trip = {
-  id?: number
-  title?: string
-  start_date?: string | null
-  end_date?: string | null
-  memo?: string | null
-  thumb?: string | null
-  created_at?: string
-  updated_at?: string
-  plans?: any[]
-  users?: User[]
-}
-
-type User = {
-  id: number
-  name: string
-  email: string
-}
 
 type Props = {
   trip: Trip
@@ -40,7 +22,7 @@ type Data = {
 
 const TripMember: React.FC<Props> = ({ trip, getTrip, setFlag }) => {
   const { user } = useContext(UserContext)
-  const [data, setData] = useState<Data>({ trip_id: trip.id })
+  const [data, setData] = useState<Data>({ trip_id: trip?.id })
   const [errorMessage, setErrorMessage] = useState<string>('')
 
   async function addMember() {

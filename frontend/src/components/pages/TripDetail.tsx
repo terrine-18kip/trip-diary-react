@@ -38,7 +38,7 @@ const TripDetail: React.FC = () => {
     return <NotFound />
   }
 
-  return (
+  return trip ? (
     <div>
       <PageHeader
         title='旅の詳細'
@@ -68,6 +68,8 @@ const TripDetail: React.FC = () => {
         {user && <PlanCreate trip={trip} plans={plans} getTrip={getTrip} />}
       </div>
     </div>
+  ) : (
+    <></>
   )
 }
 
