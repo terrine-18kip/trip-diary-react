@@ -1,39 +1,33 @@
 import React, { useState } from 'react'
-import axios from 'axios'
 import { Button, Form, Input, Select, InputNumber, Space } from 'antd'
 const { Option } = Select
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { InputSpot, Plan, Spot } from '../types/Types'
+import { InputSpot, Plan } from '../types/Types'
 import { categories } from '../data/SpotData'
-
-const apiUrl = process.env.REACT_APP_API_URL
+import { useAddSpot } from '../hooks/spot/useAddSpot'
+import { useParams } from 'react-router-dom'
 
 type Props = {
   plan: Plan
-  getTrip: any
+  getTrip: (id: string | undefined) => Promise<void>
   setFlag: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
+  const {addSpot} = useAddSpot()
   const spotOrder: number | undefined = plan.spots[plan.spots.length - 1]?.order + 1
+  const params = useParams()
+
   const [data, setData] = useState<InputSpot>({
     plan_id: plan.id,
     category_id: 0,
     order: spotOrder || 0,
   })
 
-  async function addSpot() {
-    try {
-      const res = await axios.post(`${apiUrl}/spots`, data, {
-        withCredentials: true,
-      })
-      console.log(res)
-      await getTrip()
-      setFlag(false)
-    } catch (error) {
-      console.log(error)
-    }
+  const handleSubmit = async () => {
+    const res = await addSpot(data)
+    if (res) getTrip(params.id)
   }
 
   const styles = {
@@ -62,7 +56,7 @@ const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
 
   return (
     <div css={styles.wrapper}>
-      <Form onFinish={addSpot} css={styles.form}>
+      <Form onFinish={handleSubmit} css={styles.form}>
         <div style={{ marginBottom: '10px' }}>
           <Input
             autoFocus
