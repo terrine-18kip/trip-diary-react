@@ -1,41 +1,37 @@
 import React, { useContext, useState } from 'react'
-import { UserContext } from '../../Context'
+import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import { Button, Form, Input, Select, InputNumber, Space } from 'antd'
 const { Option } = Select
-import moment from 'moment'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
+
+import { UserContext } from '../../Context'
 import { InputSpot } from '../../types/Types'
 import { categories } from '../../data/SpotData'
+import { useUpdateSpot } from '../../hooks/spot/useUpdateSpot'
 
 const apiUrl = process.env.REACT_APP_API_URL
 
 type Props = {
   spot: InputSpot
-  getTrip: any
+  getTrip: (id: string | undefined) => Promise<void>
   setFlag: React.Dispatch<React.SetStateAction<boolean>>
   setShowDetail: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) => {
+  const {updateSpot} = useUpdateSpot()
   const [data, setData] = useState<InputSpot>(spot)
   const { user } = useContext(UserContext)
+  const params = useParams()
 
-  async function updateSpot() {
-    if (!user) {
-      return
-    }
-    try {
-      const res = await axios.put(`${apiUrl}/spots/${spot.id}`, data, {
-        withCredentials: true,
-      })
-      console.log(res)
-      await getTrip()
+  const handleSubmitUpdate = async () => {
+    const res = await updateSpot(spot.id, data)
+    if (res) {
+      await getTrip(params.id)
       setFlag(false)
       setShowDetail(false)
-    } catch (error) {
-      console.log(error)
     }
   }
 
@@ -47,7 +43,7 @@ const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) =>
       await axios.delete(`${apiUrl}/spots/${spot.id}`, {
         withCredentials: true,
       })
-      await getTrip()
+      await getTrip(params.id)
       setFlag(false)
       setShowDetail(false)
     } catch (error) {
@@ -81,7 +77,7 @@ const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) =>
 
   return (
     <div css={styles.wrapper}>
-      <Form onFinish={updateSpot} css={styles.form}>
+      <Form onFinish={handleSubmitUpdate} css={styles.form}>
         <div style={{ marginBottom: '10px' }}>
           <Input
             autoFocus
