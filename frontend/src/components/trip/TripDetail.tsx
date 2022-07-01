@@ -6,12 +6,12 @@ import { css } from '@emotion/react'
 
 import { UserContext } from '../../Context'
 import { useGetTrip } from '../../hooks/trip/useGetTrip'
-import TripMember from '../TripMember'
-import TripOutline from '../templates/TripOutline'
-import PlanOutline from '../templates/PlanOutline'
-import PlanCreate from '../templates/PlanCreate'
-import SpotList from '../SpotList'
-import NotFound from '../views/NotFound'
+import TripMember from '../trip/TripMember'
+import TripOutline from '../trip/TripOutline'
+import PlanOutline from '../plan/PlanOutline'
+import PlanCreate from '../plan/PlanCreate'
+import SpotList from '../spot/SpotList'
+import NotFound from '../common/NotFound'
 
 const TripDetail: React.FC = () => {
   const { user } = useContext(UserContext)

@@ -1,57 +1,35 @@
-import React, { useContext, useState } from 'react'
-import { UserContext } from '../Context'
-import axios from 'axios'
+import React, { useState } from 'react'
 import { Button, Form, Input, Select, InputNumber, Space } from 'antd'
 const { Option } = Select
-import moment from 'moment'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { InputSpot } from '../types/Types'
-import { categories } from '../data/SpotData'
-
-const apiUrl = process.env.REACT_APP_API_URL
+import { InputSpot, Plan } from '../../types/Types'
+import { categories } from '../../data/SpotData'
+import { useAddSpot } from '../../hooks/spot/useAddSpot'
+import { useParams } from 'react-router-dom'
 
 type Props = {
-  spot: InputSpot
-  getTrip: any
+  plan: Plan
+  getTrip: (id: string | undefined) => Promise<void>
   setFlag: React.Dispatch<React.SetStateAction<boolean>>
-  setShowDetail: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) => {
-  const [data, setData] = useState<InputSpot>(spot)
-  const { user } = useContext(UserContext)
+const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
+  const {addSpot} = useAddSpot()
+  const spotOrder: number | undefined = plan.spots[plan.spots.length - 1]?.order + 1
+  const params = useParams()
 
-  async function updateSpot() {
-    if (!user) {
-      return
-    }
-    try {
-      const res = await axios.put(`${apiUrl}/spots/${spot.id}`, data, {
-        withCredentials: true,
-      })
-      console.log(res)
-      await getTrip()
-      setFlag(false)
-      setShowDetail(false)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  const [data, setData] = useState<InputSpot>({
+    plan_id: plan.id,
+    category_id: 0,
+    order: spotOrder || 0,
+  })
 
-  async function deleteSpot() {
-    if (!user) return
-    const result = confirm('削除しますか？')
-    if (!result) return
-    try {
-      await axios.delete(`${apiUrl}/spots/${spot.id}`, {
-        withCredentials: true,
-      })
-      await getTrip()
+  const handleSubmit = async () => {
+    const res = await addSpot(data)
+    if (res) {
+      await getTrip(params.id)
       setFlag(false)
-      setShowDetail(false)
-    } catch (error) {
-      console.log(error)
     }
   }
 
@@ -81,13 +59,11 @@ const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) =>
 
   return (
     <div css={styles.wrapper}>
-      <Form onFinish={updateSpot} css={styles.form}>
+      <Form onFinish={handleSubmit} css={styles.form}>
         <div style={{ marginBottom: '10px' }}>
           <Input
             autoFocus
             placeholder='スポット名'
-            value={data.name}
-            style={{ width: '100%' }}
             onChange={(event) => setData({ ...data, name: event.target.value })}
           />
         </div>
@@ -96,14 +72,12 @@ const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) =>
           <Input
             type='time'
             placeholder='開始時間'
-            value={data.start_time ? data.start_time : undefined}
             onChange={(event) => setData({ ...data, start_time: event.target.value })}
           />
           <span style={{ padding: '0 5px' }}>～</span>
           <Input
             type='time'
             placeholder='終了時間'
-            value={data.end_time ? data.end_time : undefined}
             onChange={(event) => setData({ ...data, end_time: event.target.value })}
           />
         </div>
@@ -111,7 +85,6 @@ const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) =>
         <div style={{ marginBottom: '10px' }}>
           <Select
             placeholder='カテゴリーを選択'
-            value={data.category_id}
             style={{ width: '100%', textAlign: 'left' }}
             onChange={(event) => setData({ ...data, category_id: event })}
           >
@@ -126,9 +99,8 @@ const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) =>
         <div style={{ marginBottom: '10px' }}>
           <InputNumber
             placeholder='金額'
-            value={data.fee ?? undefined}
-            style={{ width: '100%' }}
             addonAfter='円'
+            style={{ width: '100%' }}
             onChange={(event) => setData({ ...data, fee: Number(event) })}
           />
         </div>
@@ -136,7 +108,6 @@ const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) =>
         <div style={{ marginBottom: '10px' }}>
           <Input
             placeholder='リンク'
-            value={data.link ?? undefined}
             onChange={(event) => setData({ ...data, link: event.target.value })}
           />
         </div>
@@ -144,25 +115,21 @@ const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) =>
         <div style={{ marginBottom: '20px' }}>
           <Input
             placeholder='メモ'
-            value={data.memo ?? undefined}
             onChange={(event) => setData({ ...data, memo: event.target.value })}
           />
         </div>
 
         <Space>
           <Button shape='round' htmlType='submit' type='primary'>
-            更新
+            登録
           </Button>
           <Button shape='round' onClick={() => setFlag(false)}>
             キャンセル
-          </Button>
-          <Button shape='round' danger onClick={deleteSpot}>
-            削除
-          </Button>
+          </Button>{' '}
         </Space>
       </Form>
     </div>
   )
 }
 
-export default SpotEdit
+export default SpotCreate

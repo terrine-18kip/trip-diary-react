@@ -1,11 +1,11 @@
 import React, { useState, useContext } from 'react'
-import { UserContext } from '../Context'
+import { UserContext } from '../../Context'
 import axios from 'axios'
 import { PageHeader, Alert, Avatar, Button, Form, Input } from 'antd'
 import { UserOutlined, CloseOutlined } from '@ant-design/icons'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { Trip } from '../types/Types'
+import { Trip } from '../../types/Types'
 
 const apiUrl = process.env.REACT_APP_API_URL
 

@@ -1,15 +1,15 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { UserContext } from '../Context'
+import { UserContext } from '../../Context'
 import SpotDetail from './SpotDetail'
-import SpotCreate from './SpotCreate'
+import SpotCreate from '../spot/SpotCreate'
 import SpotEdit from './SpotEdit'
 import axios from 'axios'
-import { styles } from '../styles/SpotList.styles'
+import { styles } from '../../styles/SpotList.styles'
 import { Button } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
-import SpotTab from './parts/SpotTab'
-import { InputSpot, Plan, Spot } from '../types/Types'
+import SpotTab from './SpotTab'
+import { InputSpot, Plan, Spot } from '../../types/Types'
 /** @jsxImportSource @emotion/react */
 
 const apiUrl = process.env.REACT_APP_API_URL

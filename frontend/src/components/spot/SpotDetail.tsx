@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
-import { UserContext } from '../Context'
+import { UserContext } from '../../Context'
 import { Button, Space } from 'antd'
-import { InputSpot } from '../types/Types'
-import { styles } from '../styles/SpotDetail.styles'
-import { categories } from '../data/SpotData'
+import { InputSpot } from '../../types/Types'
+import { styles } from '../../styles/SpotDetail.styles'
+import { categories } from '../../data/SpotData'
 /** @jsxImportSource @emotion/react */
 
 type Props = {

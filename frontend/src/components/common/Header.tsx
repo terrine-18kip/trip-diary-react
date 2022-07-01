@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { UserContext } from '../Context'
+import { UserContext } from '../../Context'
 import axios from 'axios'
 import { Button } from 'antd'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import titleLogo from '../img/title_logo.png'
+import titleLogo from '../../img/title_logo.png'
 
 const apiUrl = process.env.REACT_APP_API_URL
 

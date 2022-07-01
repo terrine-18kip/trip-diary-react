@@ -1,11 +1,11 @@
 import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { UserProvider } from './Context'
-import Top from './components/pages/Top'
-import Header from './components/Header'
-import TripCreate from './components/pages/TripCreate'
-import TripDetail from './components/pages/TripDetail'
-import TripEdit from './components/pages/TripEdit'
+import Top from './components/trip/Top'
+import Header from './components/common/Header'
+import TripCreate from './components/trip/TripCreate'
+import TripDetail from './components/trip/TripDetail'
+import TripEdit from './components/trip/TripEdit'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
