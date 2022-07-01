@@ -3,16 +3,14 @@ import { UserContext } from '../../Context'
 import SpotDetail from './SpotDetail'
 import SpotCreate from '../spot/SpotCreate'
 import SpotEdit from './SpotEdit'
-import axios from 'axios'
 import { styles } from '../../styles/SpotList.styles'
 import { Button } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import SpotTab from './SpotTab'
 import { InputSpot, Plan, Spot } from '../../types/Types'
+import { useUpdateSpotOrder } from '../../hooks/spot/useUpdateSpotOrder'
 /** @jsxImportSource @emotion/react */
-
-const apiUrl = process.env.REACT_APP_API_URL
 
 type Props = {
   plan: Plan
@@ -20,6 +18,7 @@ type Props = {
 }
 
 const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
+  const { updateOrder } = useUpdateSpotOrder()
   const { user } = useContext(UserContext)
   const [spots, setSpots] = useState<Spot[]>(plan.spots)
   const [spot, setSpot] = useState<InputSpot>({ order: 0 })
@@ -32,13 +31,10 @@ const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
   }, [plan.spots])
 
   const onDragEnd = (result: any) => {
-    if (!user) {
-      return
-    }
+    if (!user) return
     const items = Array.from(spots)
     const [reorderedItem] = items.splice(result.source.index, 1)
     items.splice(result.destination.index, 0, reorderedItem)
-    console.log('items', items)
     setSpots(items)
     updateOrder(items)
   }
@@ -46,20 +42,6 @@ const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
   const openSpotDetail = (spot: Spot) => {
     setSpot(spot)
     setShowDetail(true)
-  }
-
-  async function updateOrder(items: Spot[]) {
-    if (!user) {
-      return
-    }
-    try {
-      const res = await axios.post(`${apiUrl}/spots/order`, items, {
-        withCredentials: true,
-      })
-      console.log(res.data)
-    } catch (error) {
-      console.log(error)
-    }
   }
 
   return (
