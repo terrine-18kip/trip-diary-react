@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useContext } from 'react'
 import { UserContext } from '../../Context'
 import { Link } from 'react-router-dom'
 import { PageHeader, Button, Row, Col, Card } from 'antd'
@@ -9,11 +9,6 @@ import { Trip } from '../../types/Types'
 
 const Top: React.FC = () => {
   const { user } = useContext(UserContext)
-  const [trips, setTrips] = useState<Array<Trip>>([])
-
-  useEffect(() => {
-    setTrips(user?.trips ? user.trips : [])
-  }, [user])
 
   const styles = {
     login: css`
@@ -46,7 +41,7 @@ const Top: React.FC = () => {
           />
 
           <Row gutter={16}>
-            {trips?.map((trip: Trip) => {
+            {user.trips?.map((trip: Trip) => {
               return (
                 <Col key={trip.id} xs={24} sm={12} lg={6} style={{ marginBottom: '10px' }}>
                   <Link to={`/${trip.uniqid}`}>
