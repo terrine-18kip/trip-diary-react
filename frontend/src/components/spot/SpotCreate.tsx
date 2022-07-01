@@ -15,7 +15,7 @@ type Props = {
 }
 
 const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
-  const {addSpot} = useAddSpot()
+  const { addSpot } = useAddSpot()
   const spotOrder: number | undefined = plan.spots[plan.spots.length - 1]?.order + 1
   const params = useParams()
 

@@ -1,17 +1,14 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
-import axios from 'axios'
 import { Button, Form, Input, Select, InputNumber, Space } from 'antd'
 const { Option } = Select
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-import { UserContext } from '../../Context'
 import { InputSpot } from '../../types/Types'
 import { categories } from '../../data/SpotData'
 import { useUpdateSpot } from '../../hooks/spot/useUpdateSpot'
-
-const apiUrl = process.env.REACT_APP_API_URL
+import { useDeleteSpot } from '../../hooks/spot/useDeleteSpot'
 
 type Props = {
   spot: InputSpot
@@ -21,9 +18,9 @@ type Props = {
 }
 
 const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) => {
-  const {updateSpot} = useUpdateSpot()
+  const { updateSpot } = useUpdateSpot()
+  const { deleteSpot } = useDeleteSpot()
   const [data, setData] = useState<InputSpot>(spot)
-  const { user } = useContext(UserContext)
   const params = useParams()
 
   const handleSubmitUpdate = async () => {
@@ -35,19 +32,12 @@ const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) =>
     }
   }
 
-  async function deleteSpot() {
-    if (!user) return
-    const result = confirm('削除しますか？')
-    if (!result) return
-    try {
-      await axios.delete(`${apiUrl}/spots/${spot.id}`, {
-        withCredentials: true,
-      })
+  const handleSubmitDelete = async () => {
+    const res = await deleteSpot(spot.id)
+    if (res) {
       await getTrip(params.id)
       setFlag(false)
       setShowDetail(false)
-    } catch (error) {
-      console.log(error)
     }
   }
 
@@ -152,7 +142,7 @@ const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) =>
           <Button shape='round' onClick={() => setFlag(false)}>
             キャンセル
           </Button>
-          <Button shape='round' danger onClick={deleteSpot}>
+          <Button shape='round' danger onClick={handleSubmitDelete}>
             削除
           </Button>
         </Space>

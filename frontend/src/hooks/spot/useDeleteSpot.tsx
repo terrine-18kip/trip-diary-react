@@ -6,13 +6,15 @@ import { InputSpot } from '../../types/Types'
 
 const apiUrl = process.env.REACT_APP_API_URL
 
-export const useUpdateSpot = () => {
+export const useDeleteSpot = () => {
   const { user } = useContext(UserContext)
 
-  const updateSpot = useCallback(async (id: number | undefined, data: InputSpot) => {
+  const deleteSpot = useCallback(async (id: number | undefined) => {
     if (!user || !id) return false
+    const result = confirm('削除しますか？')
+    if (!result) return false
     try {
-      await axios.put(`${apiUrl}/spots/${id}`, data, {
+      await axios.delete(`${apiUrl}/spots/${id}`, {
         withCredentials: true,
       })
       return true
@@ -21,5 +23,5 @@ export const useUpdateSpot = () => {
     }
   }, [])
 
-  return { updateSpot }
+  return { deleteSpot }
 }

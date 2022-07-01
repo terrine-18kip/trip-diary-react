@@ -1,6 +1,6 @@
-import axios from "axios"
-import { useCallback } from "react"
-import { InputSpot } from "../../types/Types"
+import axios from 'axios'
+import { useCallback } from 'react'
+import { InputSpot } from '../../types/Types'
 
 const apiUrl = process.env.REACT_APP_API_URL
 
@@ -16,5 +16,5 @@ export const useAddSpot = () => {
     }
   }, [])
 
-  return {addSpot}
+  return { addSpot }
 }
