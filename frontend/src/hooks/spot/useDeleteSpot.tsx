@@ -2,7 +2,6 @@ import { useCallback, useContext } from 'react'
 import axios from 'axios'
 
 import { UserContext } from '../../Context'
-import { InputSpot } from '../../types/Types'
 
 const apiUrl = process.env.REACT_APP_API_URL
 

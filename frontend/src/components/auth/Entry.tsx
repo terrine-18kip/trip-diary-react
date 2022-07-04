@@ -1,13 +1,11 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import axios from 'axios'
 import { PageHeader, Button, Form, Input, Space } from 'antd'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
+import { useAdminAuth } from '../../hooks/auth/useAdminAuth'
 
-const apiUrl = process.env.REACT_APP_API_URL
-
-type Login = {
+type Entry = {
   name?: string
   email?: string
   password?: string
@@ -15,35 +13,15 @@ type Login = {
 }
 
 const Entry: React.FC = () => {
-  const [data, setData] = useState<Login>({})
+  const { initializeCsrf, entry, login } = useAdminAuth()
+  const [data, setData] = useState<Entry>({})
   const navigation = useNavigate()
-
-  const initializeCsrf = async () => {
-    const res = await axios.get(`${apiUrl}/sanctum/csrf-cookie`, {
-      withCredentials: true,
-    })
-    console.log(res)
-  }
-
-  async function entry() {
-    const res = await axios.post(`${apiUrl}/entry`, data, {
-      withCredentials: true,
-    })
-    console.log(res)
-  }
-
-  async function login() {
-    const res = await axios.post(`${apiUrl}/login`, data, {
-      withCredentials: true,
-    })
-    console.log(res)
-  }
 
   async function handleSubmit() {
     try {
       await initializeCsrf()
-      await entry()
-      await login()
+      await entry(data)
+      await login(data)
       navigation(`/`)
     } catch (error) {
       console.log(error)
