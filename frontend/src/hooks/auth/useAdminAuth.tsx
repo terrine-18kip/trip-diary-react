@@ -10,7 +10,6 @@ type Entry = {
 }
 
 export const useAdminAuth = () => {
-
   const initializeCsrf = async () => {
     await axios.get(`${apiUrl}/sanctum/csrf-cookie`, {
       withCredentials: true,

@@ -7,7 +7,6 @@ import { css } from '@emotion/react'
 import titleLogo from '../../img/title_logo.png'
 import { useAdminAuth } from '../../hooks/auth/useAdminAuth'
 
-
 const Header: React.FC = () => {
   const { logout } = useAdminAuth()
   const { user } = useContext(UserContext)
