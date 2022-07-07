@@ -7,25 +7,21 @@ import { InputTrip, Trip } from '../../types/Types'
 
 const apiUrl = process.env.REACT_APP_API_URL
 
-export const useCreateTrip = () => {
+export const useUpdateTrip = () => {
   const { user } = useContext(UserContext)
   const navigation = useNavigate()
 
-  const createTrip = async (data: InputTrip) => {
-    if (!user) return
+  const updateTrip = async (id: number | undefined, data: InputTrip) => {
+    if (!user || !id) return
     try {
-      const res = await axios.post<Trip>(
-        `${apiUrl}/trips`,
-        { ...data, user_id: user.id },
-        {
-          withCredentials: true,
-        },
-      )
+      const res = await axios.put<Trip>(`${apiUrl}/trips/${id}`, data, {
+        withCredentials: true,
+      })
       navigation(`/${res.data.uniqid}`)
     } catch (error) {
       console.log(error)
     }
   }
 
-  return { createTrip }
+  return { updateTrip }
 }
