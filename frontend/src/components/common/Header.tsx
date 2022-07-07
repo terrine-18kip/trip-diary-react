@@ -1,33 +1,16 @@
 import React, { useContext } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { UserContext } from '../../Context'
-import axios from 'axios'
 import { Button } from 'antd'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import titleLogo from '../../img/title_logo.png'
+import { useAdminAuth } from '../../hooks/auth/useAdminAuth'
 
-const apiUrl = process.env.REACT_APP_API_URL
 
 const Header: React.FC = () => {
+  const { logout } = useAdminAuth()
   const { user } = useContext(UserContext)
-  const navigation = useNavigate()
-
-  async function logout() {
-    try {
-      const result = confirm('ログアウトしますか？')
-      if (!result) {
-        return
-      }
-      const res = await axios.get(`${apiUrl}/logout`, {
-        withCredentials: true,
-      })
-      console.log(res)
-      navigation(`/login`)
-    } catch (error) {
-      console.log(error)
-    }
-  }
 
   const styles = {
     container: css`

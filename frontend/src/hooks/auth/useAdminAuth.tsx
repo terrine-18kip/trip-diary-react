@@ -10,6 +10,7 @@ type Entry = {
 }
 
 export const useAdminAuth = () => {
+
   const initializeCsrf = async () => {
     await axios.get(`${apiUrl}/sanctum/csrf-cookie`, {
       withCredentials: true,
@@ -28,5 +29,17 @@ export const useAdminAuth = () => {
     })
   }
 
-  return { initializeCsrf, entry, login }
+  const logout = async () => {
+    try {
+      const result = confirm('ログアウトしますか？')
+      if (!result) return
+      await axios.get(`${apiUrl}/logout`, {
+        withCredentials: true,
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  return { initializeCsrf, entry, login, logout }
 }
