@@ -6,6 +6,7 @@ import { UserOutlined, CloseOutlined } from '@ant-design/icons'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { Trip } from '../../types/Types'
+import { useAddMember } from '../../hooks/member/useAddMember'
 
 const apiUrl = process.env.REACT_APP_API_URL
 
@@ -21,22 +22,13 @@ type Data = {
 }
 
 const TripMember: React.FC<Props> = ({ trip, getTrip, setFlag }) => {
+  const { addMember, errorMessage } = useAddMember()
   const { user } = useContext(UserContext)
-  const [data, setData] = useState<Data>({ trip_id: trip?.id })
-  const [errorMessage, setErrorMessage] = useState<string>('')
+  const [data, setData] = useState<Data>({ trip_id: trip.id })
 
-  async function addMember() {
-    try {
-      await axios.post(`${apiUrl}/trips/add_member`, data, {
-        withCredentials: true,
-      })
-      setErrorMessage('')
-      await getTrip()
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        return setErrorMessage(error.response?.data.message)
-      }
-    }
+  const handleSubmit = async () => {
+    const res = await addMember(data)
+    if (res) getTrip()
   }
 
   async function removeMember(userId: number, userName: string) {
@@ -129,7 +121,7 @@ const TripMember: React.FC<Props> = ({ trip, getTrip, setFlag }) => {
             )
           })}
         </div>
-        <Form css={styles.form} onFinish={addMember}>
+        <Form css={styles.form} onFinish={handleSubmit}>
           <Input
             placeholder='メールアドレスを入力'
             onChange={(event) => setData({ ...data, email: event.target.value })}
