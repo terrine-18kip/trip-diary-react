@@ -9,7 +9,12 @@ import { useAdminAuth } from '../../hooks/auth/useAdminAuth'
 
 const Header: React.FC = () => {
   const { logout } = useAdminAuth()
-  const { user } = useContext(UserContext)
+  const { user, getAuthUser } = useContext(UserContext)
+
+  const handleLogout = async () => {
+    await logout()
+    getAuthUser()
+  }
 
   const styles = {
     container: css`
@@ -47,7 +52,7 @@ const Header: React.FC = () => {
         <h2 css={styles.titleText}>trip diary</h2>
       </Link>
       {user ? (
-        <Button type='text' shape='round' onClick={logout}>
+        <Button type='text' shape='round' onClick={handleLogout}>
           ログアウト
         </Button>
       ) : (

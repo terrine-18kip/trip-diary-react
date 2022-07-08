@@ -6,6 +6,7 @@ import { useAuthUser } from './hooks/user/useAuthUser'
 const UserContext = createContext(
   {} as {
     user: User | undefined
+    getAuthUser: () => Promise<void>
   },
 )
 
@@ -17,7 +18,7 @@ const UserProvider = (props: any) => {
     getAuthUser()
   }, [locationHook.pathname])
 
-  return <UserContext.Provider value={{ user }}>{props.children}</UserContext.Provider>
+  return <UserContext.Provider value={{ user, getAuthUser }}>{props.children}</UserContext.Provider>
 }
 
 export { UserContext, UserProvider }

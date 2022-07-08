@@ -23,7 +23,7 @@ const TripDetail: React.FC = () => {
 
   useLayoutEffect(() => {
     getTrip(params.id)
-  }, [])
+  }, [user])
 
   const styles = {
     plans: css`
