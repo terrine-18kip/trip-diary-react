@@ -1,14 +1,12 @@
 import React, { useState, useContext } from 'react'
 import { UserContext } from '../../Context'
-import axios from 'axios'
 import { PageHeader, Alert, Avatar, Button, Form, Input } from 'antd'
 import { UserOutlined, CloseOutlined } from '@ant-design/icons'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { Trip } from '../../types/Types'
+import { Trip, User } from '../../types/Types'
 import { useAddMember } from '../../hooks/member/useAddMember'
-
-const apiUrl = process.env.REACT_APP_API_URL
+import { useRemoveMember } from '../../hooks/member/useRemoveMember'
 
 type Props = {
   trip: Trip
@@ -16,42 +14,20 @@ type Props = {
   setFlag: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-type Data = {
-  trip_id?: number
-  email?: string
-}
-
 const TripMember: React.FC<Props> = ({ trip, getTrip, setFlag }) => {
   const { addMember, errorMessage } = useAddMember()
+  const { removeMember } = useRemoveMember()
   const { user } = useContext(UserContext)
-  const [data, setData] = useState<Data>({ trip_id: trip.id })
+  const [email, setEmail] = useState<string>('')
 
   const handleSubmit = async () => {
-    const res = await addMember(data)
-    if (res) getTrip()
+    const res = await addMember(trip.id, email)
+    res && getTrip()
   }
 
-  async function removeMember(userId: number, userName: string) {
-    const result = confirm(`${userName}さんを削除しますか？`)
-    if (!result) {
-      return
-    }
-    try {
-      const res = await axios.post(
-        `${apiUrl}/trips/remove_member`,
-        {
-          trip_id: trip.id,
-          user_id: userId,
-        },
-        {
-          withCredentials: true,
-        },
-      )
-      console.log(res)
-      await getTrip()
-    } catch (error) {
-      console.log(error)
-    }
+  const handleRemove = async (member: User) => {
+    const res = await removeMember(trip, member)
+    res && getTrip()
   }
 
   const styles = {
@@ -103,18 +79,18 @@ const TripMember: React.FC<Props> = ({ trip, getTrip, setFlag }) => {
           />
         )}
         <div>
-          {trip.users?.map((el) => {
+          {trip.users?.map((member) => {
             return (
-              <div css={styles.tripMember} key={el.id}>
+              <div css={styles.tripMember} key={member.id}>
                 <Avatar style={{ marginRight: '5px' }} icon={<UserOutlined />} />
-                <span style={{ marginRight: '5px' }}>{el.name}</span>
-                {el.id !== user!.id && (
+                <span style={{ marginRight: '5px' }}>{member.name}</span>
+                {member.id !== user!.id && (
                   <Button
                     shape='circle'
                     size='small'
                     type='text'
                     icon={<CloseOutlined />}
-                    onClick={() => removeMember(el.id, el.name)}
+                    onClick={() => handleRemove(member)}
                   />
                 )}
               </div>
@@ -124,7 +100,7 @@ const TripMember: React.FC<Props> = ({ trip, getTrip, setFlag }) => {
         <Form css={styles.form} onFinish={handleSubmit}>
           <Input
             placeholder='メールアドレスを入力'
-            onChange={(event) => setData({ ...data, email: event.target.value })}
+            onChange={(event) => setEmail(event.target.value)}
           />
           <Button type='primary' htmlType='submit'>
             招待

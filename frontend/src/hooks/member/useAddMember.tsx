@@ -1,19 +1,19 @@
-import axios from 'axios'
 import { useState } from 'react'
+import axios from 'axios'
 
 const apiUrl = process.env.REACT_APP_API_URL
-
-type Data = {
-  trip_id?: number
-  email?: string
-}
 
 export const useAddMember = () => {
   const [errorMessage, setErrorMessage] = useState<string>('')
 
-  const addMember = async (data: Data) => {
+  const addMember = async (trip_id: number, email: string) => {
+    const param = {
+      trip_id: trip_id,
+      email: email,
+    }
+
     try {
-      await axios.post(`${apiUrl}/trips/add_member`, data, {
+      await axios.post(`${apiUrl}/trips/add_member`, param, {
         withCredentials: true,
       })
       setErrorMessage('')
