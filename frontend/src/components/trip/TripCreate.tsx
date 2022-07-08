@@ -1,40 +1,19 @@
-import React, { useState, useContext } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { UserContext } from '../Context'
-import axios from 'axios'
+import React, { useState } from 'react'
 import { PageHeader, Button, Form, Input, DatePicker, Select, Space } from 'antd'
 const { Option } = Select
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { InputTrip, Trip } from '../types/Types'
-
-const apiUrl = process.env.REACT_APP_API_URL
+import { useCreateTrip } from '../../hooks/trip/useCreateTrip'
+import { InputTrip } from '../../types/Types'
 
 const TripCreate: React.FC = () => {
-  const { user } = useContext(UserContext)
+  const { createTrip } = useCreateTrip()
   const [data, setData] = useState<InputTrip>({})
-  const navigation = useNavigate()
-
-  async function handleSubmit() {
-    if (!user) return
-    try {
-      const res = await axios.post<Trip>(
-        `${apiUrl}/trips`,
-        { ...data, user_id: user.id },
-        {
-          withCredentials: true,
-        },
-      )
-      navigation(`/${res.data.uniqid}`)
-    } catch (error) {
-      console.log(error)
-    }
-  }
 
   return (
     <div>
       <PageHeader title='旅の作成' onBack={() => window.history.back()} />
-      <Form labelCol={{ span: 3 }} onFinish={handleSubmit}>
+      <Form labelCol={{ span: 3 }} onFinish={() => createTrip(data)}>
         <Form.Item
           name='title'
           label='タイトル'

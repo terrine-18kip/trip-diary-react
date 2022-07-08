@@ -1,31 +1,12 @@
 import React, { useState, useContext } from 'react'
-import { UserContext } from '../Context'
-import axios from 'axios'
+import { UserContext } from '../../Context'
 import { PageHeader, Alert, Avatar, Button, Form, Input } from 'antd'
 import { UserOutlined, CloseOutlined } from '@ant-design/icons'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-
-const apiUrl = process.env.REACT_APP_API_URL
-
-type Trip = {
-  id?: number
-  title?: string
-  start_date?: string | null
-  end_date?: string | null
-  memo?: string | null
-  thumb?: string | null
-  created_at?: string
-  updated_at?: string
-  plans?: any[]
-  users?: User[]
-}
-
-type User = {
-  id: number
-  name: string
-  email: string
-}
+import { Trip, User } from '../../types/Types'
+import { useAddMember } from '../../hooks/member/useAddMember'
+import { useRemoveMember } from '../../hooks/member/useRemoveMember'
 
 type Props = {
   trip: Trip
@@ -33,51 +14,20 @@ type Props = {
   setFlag: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-type Data = {
-  trip_id?: number
-  email?: string
-}
-
 const TripMember: React.FC<Props> = ({ trip, getTrip, setFlag }) => {
+  const { addMember, errorMessage } = useAddMember()
+  const { removeMember } = useRemoveMember()
   const { user } = useContext(UserContext)
-  const [data, setData] = useState<Data>({ trip_id: trip.id })
-  const [errorMessage, setErrorMessage] = useState<string>('')
+  const [email, setEmail] = useState<string>('')
 
-  async function addMember() {
-    try {
-      await axios.post(`${apiUrl}/trips/add_member`, data, {
-        withCredentials: true,
-      })
-      setErrorMessage('')
-      await getTrip()
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        return setErrorMessage(error.response?.data.message)
-      }
-    }
+  const handleSubmit = async () => {
+    const res = await addMember(trip.id, email)
+    res && getTrip()
   }
 
-  async function removeMember(userId: number, userName: string) {
-    const result = confirm(`${userName}さんを削除しますか？`)
-    if (!result) {
-      return
-    }
-    try {
-      const res = await axios.post(
-        `${apiUrl}/trips/remove_member`,
-        {
-          trip_id: trip.id,
-          user_id: userId,
-        },
-        {
-          withCredentials: true,
-        },
-      )
-      console.log(res)
-      await getTrip()
-    } catch (error) {
-      console.log(error)
-    }
+  const handleRemove = async (member: User) => {
+    const res = await removeMember(trip, member)
+    res && getTrip()
   }
 
   const styles = {
@@ -129,28 +79,28 @@ const TripMember: React.FC<Props> = ({ trip, getTrip, setFlag }) => {
           />
         )}
         <div>
-          {trip.users?.map((el) => {
+          {trip.users?.map((member) => {
             return (
-              <div css={styles.tripMember} key={el.id}>
+              <div css={styles.tripMember} key={member.id}>
                 <Avatar style={{ marginRight: '5px' }} icon={<UserOutlined />} />
-                <span style={{ marginRight: '5px' }}>{el.name}</span>
-                {el.id !== user!.id && (
+                <span style={{ marginRight: '5px' }}>{member.name}</span>
+                {member.id !== user!.id && (
                   <Button
                     shape='circle'
                     size='small'
                     type='text'
                     icon={<CloseOutlined />}
-                    onClick={() => removeMember(el.id, el.name)}
+                    onClick={() => handleRemove(member)}
                   />
                 )}
               </div>
             )
           })}
         </div>
-        <Form css={styles.form} onFinish={addMember}>
+        <Form css={styles.form} onFinish={handleSubmit}>
           <Input
             placeholder='メールアドレスを入力'
-            onChange={(event) => setData({ ...data, email: event.target.value })}
+            onChange={(event) => setEmail(event.target.value)}
           />
           <Button type='primary' htmlType='submit'>
             招待

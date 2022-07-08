@@ -1,32 +1,19 @@
 import React, { useContext } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { UserContext } from '../Context'
-import axios from 'axios'
+import { Link } from 'react-router-dom'
+import { UserContext } from '../../Context'
 import { Button } from 'antd'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import titleLogo from '../img/title_logo.png'
-
-const apiUrl = process.env.REACT_APP_API_URL
+import titleLogo from '../../img/title_logo.png'
+import { useAdminAuth } from '../../hooks/auth/useAdminAuth'
 
 const Header: React.FC = () => {
-  const { user } = useContext(UserContext)
-  const navigation = useNavigate()
+  const { logout } = useAdminAuth()
+  const { user, getAuthUser } = useContext(UserContext)
 
-  async function logout() {
-    try {
-      const result = confirm('ログアウトしますか？')
-      if (!result) {
-        return
-      }
-      const res = await axios.get(`${apiUrl}/logout`, {
-        withCredentials: true,
-      })
-      console.log(res)
-      navigation(`/login`)
-    } catch (error) {
-      console.log(error)
-    }
+  const handleLogout = async () => {
+    await logout()
+    getAuthUser()
   }
 
   const styles = {
@@ -65,7 +52,7 @@ const Header: React.FC = () => {
         <h2 css={styles.titleText}>trip diary</h2>
       </Link>
       {user ? (
-        <Button type='text' shape='round' onClick={logout}>
+        <Button type='text' shape='round' onClick={handleLogout}>
           ログアウト
         </Button>
       ) : (

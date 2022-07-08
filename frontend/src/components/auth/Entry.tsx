@@ -1,39 +1,27 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import axios from 'axios'
 import { PageHeader, Button, Form, Input, Space } from 'antd'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
+import { useAdminAuth } from '../../hooks/auth/useAdminAuth'
 
-const apiUrl = process.env.REACT_APP_API_URL
-
-type Login = {
+type Entry = {
+  name?: string
   email?: string
   password?: string
+  password_confirmation?: string
 }
 
-const Login: React.FC = () => {
-  const [data, setData] = useState<Login>({})
+const Entry: React.FC = () => {
+  const { initializeCsrf, entry, login } = useAdminAuth()
+  const [data, setData] = useState<Entry>({})
   const navigation = useNavigate()
-
-  const initializeCsrf = async () => {
-    try {
-      const res = await axios.get(`${apiUrl}/sanctum/csrf-cookie`, {
-        withCredentials: true,
-      })
-      console.log(res)
-    } catch (error) {
-      console.log(error)
-    }
-  }
 
   async function handleSubmit() {
     try {
       await initializeCsrf()
-      const res = await axios.post(`${apiUrl}/login`, data, {
-        withCredentials: true,
-      })
-      console.log(res)
+      await entry(data)
+      await login(data)
       navigation(`/`)
     } catch (error) {
       console.log(error)
@@ -51,8 +39,16 @@ const Login: React.FC = () => {
 
   return (
     <div css={styles.container}>
-      <PageHeader title='ログイン' />
+      <PageHeader title='新規登録' />
       <Form labelCol={{ span: 6 }} onFinish={handleSubmit}>
+        <Form.Item
+          name='name'
+          label='名前'
+          rules={[{ required: true, message: '名前を入力してください' }]}
+        >
+          <Input onChange={(event) => setData({ ...data, name: event.target.value })} />
+        </Form.Item>
+
         <Form.Item
           name='email'
           label='メールアドレス'
@@ -70,12 +66,23 @@ const Login: React.FC = () => {
             onChange={(event) => setData({ ...data, password: event.target.value })}
           />
         </Form.Item>
+
+        <Form.Item
+          name='password_confirmation'
+          label='パスワード（確認）'
+          rules={[{ required: true, message: 'パスワードを入力してください' }]}
+        >
+          <Input.Password
+            onChange={(event) => setData({ ...data, password_confirmation: event.target.value })}
+          />
+        </Form.Item>
+
         <Form.Item style={{ textAlign: 'center' }}>
           <Space direction='vertical'>
             <Button type='primary' htmlType='submit'>
-              ログイン
+              新規登録
             </Button>
-            <Link to='/entry'>新規登録はこちら</Link>
+            <Link to='/login'>ログインはこちら</Link>
           </Space>
         </Form.Item>
       </Form>
@@ -83,4 +90,4 @@ const Login: React.FC = () => {
   )
 }
 
-export default Login
+export default Entry

@@ -1,60 +1,43 @@
 import React, { useState } from 'react'
-import axios from 'axios'
+import { useParams } from 'react-router-dom'
 import { Button, Form, Input, Select, InputNumber, Space } from 'antd'
 const { Option } = Select
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-const apiUrl = process.env.REACT_APP_API_URL
-
-type Plan = {
-  id: number
-  daily: number
-  trip_id: number
-  created_at?: string
-  updated_at?: string
-  spots: Spot[]
-}
-
-type Spot = {
-  id?: number
-  plan_id?: number
-  start_time?: string
-  end_time?: string
-  category_id?: number
-  name?: string
-  fee?: number
-  link?: string
-  memo?: string
-  order: number
-  created_at?: string
-  updated_at?: string
-}
+import { InputSpot } from '../../types/Types'
+import { categories } from '../../data/SpotData'
+import { useUpdateSpot } from '../../hooks/spot/useUpdateSpot'
+import { useDeleteSpot } from '../../hooks/spot/useDeleteSpot'
 
 type Props = {
-  plan: Plan
-  getTrip: any
+  spot: InputSpot
+  getTrip: (id: string | undefined) => Promise<void>
   setFlag: React.Dispatch<React.SetStateAction<boolean>>
+  setShowDetail: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
-  const spotOrder: number | undefined = plan.spots[plan.spots.length - 1]?.order + 1
-  const [data, setData] = useState<Spot>({
-    plan_id: plan.id,
-    category_id: 0,
-    order: spotOrder || 0,
-  })
+const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) => {
+  const { updateSpot } = useUpdateSpot()
+  const { deleteSpot } = useDeleteSpot()
+  const [data, setData] = useState<InputSpot>(spot)
+  const params = useParams()
 
-  async function addSpot() {
-    try {
-      const res = await axios.post(`${apiUrl}/spots`, data, {
-        withCredentials: true,
-      })
-      console.log(res)
-      await getTrip()
+  const handleSubmitUpdate = async () => {
+    const res = await updateSpot(spot.id, data)
+    if (res) {
+      await getTrip(params.id)
       setFlag(false)
-    } catch (error) {
-      console.log(error)
+      setShowDetail(false)
+    }
+  }
+
+  const handleSubmitDelete = async () => {
+    const res = await deleteSpot(spot.id)
+    if (res) {
+      await getTrip(params.id)
+      setFlag(false)
+      setShowDetail(false)
     }
   }
 
@@ -84,11 +67,13 @@ const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
 
   return (
     <div css={styles.wrapper}>
-      <Form onFinish={addSpot} css={styles.form}>
+      <Form onFinish={handleSubmitUpdate} css={styles.form}>
         <div style={{ marginBottom: '10px' }}>
           <Input
             autoFocus
             placeholder='スポット名'
+            value={data.name}
+            style={{ width: '100%' }}
             onChange={(event) => setData({ ...data, name: event.target.value })}
           />
         </div>
@@ -97,12 +82,14 @@ const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
           <Input
             type='time'
             placeholder='開始時間'
+            value={data.start_time ? data.start_time : undefined}
             onChange={(event) => setData({ ...data, start_time: event.target.value })}
           />
           <span style={{ padding: '0 5px' }}>～</span>
           <Input
             type='time'
             placeholder='終了時間'
+            value={data.end_time ? data.end_time : undefined}
             onChange={(event) => setData({ ...data, end_time: event.target.value })}
           />
         </div>
@@ -110,28 +97,24 @@ const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
         <div style={{ marginBottom: '10px' }}>
           <Select
             placeholder='カテゴリーを選択'
+            value={data.category_id}
             style={{ width: '100%', textAlign: 'left' }}
             onChange={(event) => setData({ ...data, category_id: event })}
           >
-            <Option value={0}>なし</Option>
-            <Option value={1}>スポット</Option>
-            <Option value={2}>ごはん</Option>
-            <Option value={3}>宿泊</Option>
-            <Option value={4}>鉄道</Option>
-            <Option value={5}>バス</Option>
-            <Option value={6}>飛行機</Option>
-            <Option value={7}>車</Option>
-            <Option value={8}>徒歩</Option>
-            <Option value={9}>自転車</Option>
-            <Option value={10}>船</Option>
+            {categories.map((category, i) => (
+              <Option key={i} value={i}>
+                {category}
+              </Option>
+            ))}
           </Select>
         </div>
 
         <div style={{ marginBottom: '10px' }}>
           <InputNumber
             placeholder='金額'
-            addonAfter='円'
+            value={data.fee ?? undefined}
             style={{ width: '100%' }}
+            addonAfter='円'
             onChange={(event) => setData({ ...data, fee: Number(event) })}
           />
         </div>
@@ -139,6 +122,7 @@ const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
         <div style={{ marginBottom: '10px' }}>
           <Input
             placeholder='リンク'
+            value={data.link ?? undefined}
             onChange={(event) => setData({ ...data, link: event.target.value })}
           />
         </div>
@@ -146,21 +130,25 @@ const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
         <div style={{ marginBottom: '20px' }}>
           <Input
             placeholder='メモ'
+            value={data.memo ?? undefined}
             onChange={(event) => setData({ ...data, memo: event.target.value })}
           />
         </div>
 
         <Space>
           <Button shape='round' htmlType='submit' type='primary'>
-            登録
+            更新
           </Button>
           <Button shape='round' onClick={() => setFlag(false)}>
             キャンセル
-          </Button>{' '}
+          </Button>
+          <Button shape='round' danger onClick={handleSubmitDelete}>
+            削除
+          </Button>
         </Space>
       </Form>
     </div>
   )
 }
 
-export default SpotCreate
+export default SpotEdit

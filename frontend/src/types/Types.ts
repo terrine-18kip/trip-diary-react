@@ -16,10 +16,10 @@ export type Trip = {
   memo: string | null
   thumb: string | null
   privacy_id: number
-  created_at: string | null
-  updated_at: string | null
-  users?: User[]
+  created_at: string
+  updated_at: string
   plans?: Plan[]
+  users?: User[]
 }
 
 export type Plan = {
@@ -28,7 +28,7 @@ export type Plan = {
   trip_id: number
   created_at: string | null
   updated_at: string | null
-  spots?: Spot[]
+  spots: Spot[]
 }
 
 export type Spot = {
@@ -67,4 +67,6 @@ export type InputSpot = {
   link?: string | null
   memo?: string | null
   order?: number
+  created_at?: string | null
+  updated_at?: string | null
 }
