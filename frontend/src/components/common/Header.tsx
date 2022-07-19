@@ -1,20 +1,18 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { UserContext } from '../../Context'
 import { Button } from 'antd'
+import { MenuOutlined } from '@ant-design/icons'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
+
+import { UserContext } from '../../Context'
+import Menu from './Menu'
 import titleLogo from '../../img/title_logo.png'
-import { useAdminAuth } from '../../hooks/auth/useAdminAuth'
 
 const Header: React.FC = () => {
-  const { logout } = useAdminAuth()
-  const { user, getAuthUser } = useContext(UserContext)
+  const { user } = useContext(UserContext)
 
-  const handleLogout = async () => {
-    await logout()
-    getAuthUser()
-  }
+  const [showMenu, setShowMenu] = useState<boolean>(false)
 
   const styles = {
     container: css`
@@ -46,21 +44,24 @@ const Header: React.FC = () => {
     `,
   }
   return (
-    <div css={styles.container}>
-      <Link to='/' css={styles.title}>
-        <img css={styles.titleImg} src={titleLogo} />
-        <h2 css={styles.titleText}>trip diary</h2>
-      </Link>
-      {user ? (
-        <Button type='text' shape='round' onClick={handleLogout}>
-          ログアウト
-        </Button>
-      ) : (
-        <Button type='text' shape='round'>
-          <Link to='/login'>ログイン</Link>
-        </Button>
-      )}
-    </div>
+    <>
+      <div css={styles.container}>
+        <Link to='/' css={styles.title}>
+          <img css={styles.titleImg} src={titleLogo} />
+          <h2 css={styles.titleText}>trip diary</h2>
+        </Link>
+        {user ? (
+          <Button type='text' shape='circle' onClick={() => setShowMenu(!showMenu)}>
+            <MenuOutlined />
+          </Button>
+        ) : (
+          <Button type='text' shape='round'>
+            <Link to='/login'>ログイン</Link>
+          </Button>
+        )}
+      </div>
+      {user && showMenu && <Menu setShowMenu={setShowMenu} />}
+    </>
   )
 }
 
