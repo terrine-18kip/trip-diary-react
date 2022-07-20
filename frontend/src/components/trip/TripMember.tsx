@@ -1,12 +1,13 @@
 import React, { useState, useContext } from 'react'
 import { UserContext } from '../../Context'
-import { PageHeader, Alert, Avatar, Button, Form, Input } from 'antd'
-import { UserOutlined, CloseOutlined } from '@ant-design/icons'
+import { PageHeader, Alert, Button, Form, Input } from 'antd'
+import { CloseOutlined } from '@ant-design/icons'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { Trip, User } from '../../types/Types'
 import { useAddMember } from '../../hooks/member/useAddMember'
 import { useRemoveMember } from '../../hooks/member/useRemoveMember'
+import MemberIcon from '../common/MemberIcon'
 
 type Props = {
   trip: Trip
@@ -82,8 +83,7 @@ const TripMember: React.FC<Props> = ({ trip, getTrip, setFlag }) => {
           {trip.users?.map((member) => {
             return (
               <div css={styles.tripMember} key={member.id}>
-                <Avatar style={{ marginRight: '5px' }} icon={<UserOutlined />} />
-                <span style={{ marginRight: '5px' }}>{member.name}</span>
+                <MemberIcon member={member} />
                 {member.id !== user!.id && (
                   <Button
                     shape='circle'

@@ -5,6 +5,7 @@ import { css } from '@emotion/react'
 
 import { UserContext } from '../../Context'
 import { useAdminAuth } from '../../hooks/auth/useAdminAuth'
+import MemberIcon from './MemberIcon'
 
 type Props = {
   setShowMenu: React.Dispatch<React.SetStateAction<boolean>>
@@ -36,7 +37,7 @@ const Menu: React.FC<Props> = ({ setShowMenu }) => {
       cursor: auto;
       background-color: #fafafa;
       li {
-        height: 42px;
+        height: 48px;
         list-style: none;
         transition: background 0.3s;
         &:hover {
@@ -47,10 +48,14 @@ const Menu: React.FC<Props> = ({ setShowMenu }) => {
           width: 100%;
           height: 100%;
           padding: 0 20px;
-          line-height: 42px;
+          line-height: 48px;
           color: #171717;
         }
       }
+    `,
+    iconWrap: css`
+      display: flex;
+      align-items: center;
     `,
   }
 
@@ -60,13 +65,15 @@ const Menu: React.FC<Props> = ({ setShowMenu }) => {
     <div css={styles.wrap} onClick={() => setShowMenu(false)}>
       <ul css={styles.content} onClick={(e) => e.stopPropagation()}>
         <li>
-          <Link to='/'>{user.name}</Link>
+          <Link to='/mypage' style={{ display: 'flex', alignItems: 'center' }}>
+            <MemberIcon member={user} />
+          </Link>
         </li>
         <li>
           <Link to='/'>旅の一覧</Link>
         </li>
         <li>
-        <a onClick={handleLogout}>ログアウト</a>
+          <a onClick={handleLogout}>ログアウト</a>
         </li>
       </ul>
     </div>
