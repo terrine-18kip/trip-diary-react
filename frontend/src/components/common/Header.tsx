@@ -1,7 +1,8 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { Button } from 'antd'
-import { MenuOutlined } from '@ant-design/icons'
+import { MenuOutlined, CloseOutlined } from '@ant-design/icons'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
@@ -11,8 +12,13 @@ import titleLogo from '../../img/title_logo.png'
 
 const Header: React.FC = () => {
   const { user } = useContext(UserContext)
+  const locationHook = useLocation()
 
   const [showMenu, setShowMenu] = useState<boolean>(false)
+
+  useEffect(() => {
+    setShowMenu(false)
+  }, [locationHook.pathname])
 
   const styles = {
     container: css`
@@ -52,7 +58,7 @@ const Header: React.FC = () => {
         </Link>
         {user ? (
           <Button type='text' shape='circle' onClick={() => setShowMenu(!showMenu)}>
-            <MenuOutlined />
+            {showMenu ? <CloseOutlined /> : <MenuOutlined />}
           </Button>
         ) : (
           <Button type='text' shape='round'>

@@ -40,22 +40,24 @@ const Top: React.FC = () => {
             }
           />
 
-          <Row gutter={16}>
-            {user.trips?.map((trip: Trip) => {
-              return (
-                <Col key={trip.id} xs={24} sm={12} lg={6} style={{ marginBottom: '10px' }}>
-                  <Link to={`/${trip.uniqid}`}>
-                    <Card title={trip.title} hoverable bordered={false}>
-                      <p>
-                        {trip.start_date} ～ {trip.end_date}
-                      </p>
-                      <p>メモ：{trip.memo}</p>
-                    </Card>
-                  </Link>
-                </Col>
-              )
-            })}
-          </Row>
+          <div style={{ padding: '0 8px' }}>
+            <Row gutter={16}>
+              {user.trips?.map((trip: Trip) => {
+                return (
+                  <Col key={trip.id} xs={24} sm={12} lg={6} style={{ marginBottom: '10px' }}>
+                    <Link to={`/${trip.uniqid}`}>
+                      <Card title={trip.title} hoverable bordered={false}>
+                        <p>
+                          {trip.start_date} ～ {trip.end_date}
+                        </p>
+                        <p>メモ：{trip.memo}</p>
+                      </Card>
+                    </Link>
+                  </Col>
+                )
+              })}
+            </Row>
+          </div>
         </>
       ) : (
         <div css={styles.login}>
