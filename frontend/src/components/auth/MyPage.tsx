@@ -1,14 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { PageHeader, Avatar, Drawer } from 'antd'
+import React, { useContext, useState } from 'react'
+import { PageHeader, Avatar } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 import { css } from '@emotion/react'
 /** @jsxImportSource @emotion/react */
 
 import { UserContext } from '../../Context'
+import EditName from './EditName'
 
 const MyPage: React.FC = () => {
-  const { user } = useContext(UserContext)
-  const [showEdit, setShowEdit] = useState(false)
+  const { user, getAuthUser } = useContext(UserContext)
+  const [showEditName, setShowEditName] = useState(false)
 
   const styles = {
     box: css`
@@ -21,6 +22,10 @@ const MyPage: React.FC = () => {
     boxLeft: css`
       width: 100%;
     `,
+    title: css`
+      display: flex;
+      justify-content: space-between;
+    `
   }
 
   if (!user) return <></>
@@ -35,15 +40,15 @@ const MyPage: React.FC = () => {
         </div>
         <div css={styles.boxLeft}>
           <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <div css={styles.title}>
               <b>名前</b>
-              <a onClick={() => setShowEdit(true)}>変更</a>
+              <a onClick={() => setShowEditName(true)}>変更</a>
             </div>
             <p>{user.name}</p>
           </div>
 
           <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <div css={styles.title}>
               <b>メールアドレス</b>
               <a>変更</a>
             </div>
@@ -51,7 +56,7 @@ const MyPage: React.FC = () => {
           </div>
 
           <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <div css={styles.title}>
               <b>パスワード</b>
               <a>変更</a>
             </div>
@@ -60,12 +65,7 @@ const MyPage: React.FC = () => {
         </div>
       </div>
 
-      <Drawer
-        title='名前を編集'
-        placement='bottom'
-        visible={showEdit}
-        onClose={() => setShowEdit(false)}
-      ></Drawer>
+      <EditName show={showEditName} setShow={setShowEditName} fetchUser={getAuthUser} />
     </>
   )
 }

@@ -43,4 +43,12 @@ class AuthController extends Controller
         $user->trips;
         return $user;
     }
+
+    public function update_name(Request $request)
+    {
+        $user = $request->user();
+        $inputs['name'] = $request->name;
+        $user->fill($inputs)->save();
+        return $user;
+    }
 }

@@ -40,5 +40,20 @@ export const useAdminAuth = () => {
     }
   }
 
-  return { initializeCsrf, entry, login, logout }
+  const updateName = async (name: string) => {
+    try {
+      await axios.post(
+        `${apiUrl}/user/update_name`,
+        { name },
+        {
+          withCredentials: true,
+        },
+      )
+      return true
+    } catch (error) {
+      return false
+    }
+  }
+
+  return { initializeCsrf, entry, login, logout, updateName }
 }
