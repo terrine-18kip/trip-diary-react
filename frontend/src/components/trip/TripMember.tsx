@@ -1,9 +1,11 @@
 import React, { useState, useContext } from 'react'
-import { UserContext } from '../../Context'
+import { useParams } from 'react-router-dom'
 import { PageHeader, Alert, Button, Form, Input } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
+
+import { UserContext } from '../../Context'
 import { Trip, User } from '../../types/Types'
 import { useAddMember } from '../../hooks/member/useAddMember'
 import { useRemoveMember } from '../../hooks/member/useRemoveMember'
@@ -20,15 +22,16 @@ const TripMember: React.FC<Props> = ({ trip, getTrip, setFlag }) => {
   const { removeMember } = useRemoveMember()
   const { user } = useContext(UserContext)
   const [email, setEmail] = useState<string>('')
+  const params = useParams()
 
   const handleSubmit = async () => {
     const res = await addMember(trip.id, email)
-    res && getTrip()
+    res && getTrip(params.id)
   }
 
   const handleRemove = async (member: User) => {
     const res = await removeMember(trip, member)
-    res && getTrip()
+    res && getTrip(params.id)
   }
 
   const styles = {
