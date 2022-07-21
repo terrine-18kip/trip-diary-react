@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { message } from 'antd'
 
 const apiUrl = process.env.REACT_APP_API_URL
 
@@ -35,15 +36,12 @@ export const useAdminAuth = () => {
   }
 
   const logout = async () => {
-    try {
-      const result = confirm('ログアウトしますか？')
-      if (!result) return
-      await axios.get(`${apiUrl}/logout`, {
-        withCredentials: true,
-      })
-    } catch (error) {
-      console.log(error)
-    }
+    const result = confirm('ログアウトしますか？')
+    if (!result) return
+    await axios.get(`${apiUrl}/logout`, {
+      withCredentials: true,
+    })
+    message.success('ログアウトしました')
   }
 
   const updateName = async (name: string) => {

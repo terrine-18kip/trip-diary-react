@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { PageHeader, Button, Form, Input, Space } from 'antd'
+import { PageHeader, Button, Form, Input, Space, message } from 'antd'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { useAdminAuth } from '../../hooks/auth/useAdminAuth'
@@ -19,9 +19,10 @@ const Login: React.FC = () => {
     try {
       await initializeCsrf()
       await login(data)
+      message.success('ログインしました')
       navigation(`/`)
     } catch (error) {
-      console.log(error)
+      message.error('ログインに失敗しました')
     }
   }
 

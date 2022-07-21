@@ -8,6 +8,7 @@ use App\Rules\Current;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use Exception;
 
 class AuthController extends Controller
 {
@@ -32,6 +33,8 @@ class AuthController extends Controller
             $request->session()->regenerate();
             return Auth::user();
         }
+
+        throw new Exception('ログインに失敗しました');
     }
 
     public function logout(Request $request)

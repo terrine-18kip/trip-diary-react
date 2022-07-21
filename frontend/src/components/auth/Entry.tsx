@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { PageHeader, Button, Form, Input, Space } from 'antd'
+import { PageHeader, Button, Form, Input, Space, message } from 'antd'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { useAdminAuth } from '../../hooks/auth/useAdminAuth'
@@ -22,9 +22,10 @@ const Entry: React.FC = () => {
       await initializeCsrf()
       await entry(data)
       await login(data)
+      message.success('新規登録しました')
       navigation(`/`)
     } catch (error) {
-      console.log(error)
+      message.error('入力情報を確認してください')
     }
   }
 
