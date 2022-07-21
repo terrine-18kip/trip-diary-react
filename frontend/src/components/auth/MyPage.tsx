@@ -6,10 +6,12 @@ import { css } from '@emotion/react'
 
 import { UserContext } from '../../Context'
 import EditName from './EditName'
+import EditEmail from './EditEmail'
 
 const MyPage: React.FC = () => {
   const { user, getAuthUser } = useContext(UserContext)
   const [showEditName, setShowEditName] = useState(false)
+  const [showEditEmail, setShowEditEmail] = useState(false)
 
   const styles = {
     box: css`
@@ -25,7 +27,7 @@ const MyPage: React.FC = () => {
     title: css`
       display: flex;
       justify-content: space-between;
-    `
+    `,
   }
 
   if (!user) return <></>
@@ -38,6 +40,7 @@ const MyPage: React.FC = () => {
         <div css={styles.boxRight}>
           <Avatar size={80} icon={<UserOutlined />} />
         </div>
+
         <div css={styles.boxLeft}>
           <div>
             <div css={styles.title}>
@@ -50,7 +53,7 @@ const MyPage: React.FC = () => {
           <div>
             <div css={styles.title}>
               <b>メールアドレス</b>
-              <a>変更</a>
+              <a onClick={() => setShowEditEmail(true)}>変更</a>
             </div>
             <p>{user.email}</p>
           </div>
@@ -65,7 +68,8 @@ const MyPage: React.FC = () => {
         </div>
       </div>
 
-      <EditName show={showEditName} setShow={setShowEditName} fetchUser={getAuthUser} />
+      <EditName show={showEditName} setShow={setShowEditName} />
+      <EditEmail show={showEditEmail} setShow={setShowEditEmail} />
     </>
   )
 }

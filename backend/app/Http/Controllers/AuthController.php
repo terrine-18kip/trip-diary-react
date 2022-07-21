@@ -51,4 +51,12 @@ class AuthController extends Controller
         $user->fill($inputs)->save();
         return $user;
     }
+
+    public function update_email(Request $request)
+    {
+        $user = $request->user();
+        $inputs['email'] = $request->email;
+        $user->fill($inputs)->save();
+        return $user;
+    }
 }
