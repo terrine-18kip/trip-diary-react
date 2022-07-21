@@ -56,10 +56,20 @@ class TripController extends Controller
     {
         $trip = Trip::where('uniqid', $uniqid)->first();
         $user = Auth::user();
-        if (!$user && $trip->privacy_id === 1) {
-            abort(401);
+        $members = $trip->users->toArray();
+
+        if ($trip->privacy_id === 1) {
+            if (!$user) {
+                return abort(401);
+            }
+
+            $member_ids = array_column($members, 'id');
+            $is_member = in_array($user->id, $member_ids);
+            if (!$is_member) {
+                return abort(401);
+            }
         }
-        $trip->users;
+        
         $trip->plans;
         foreach ($trip->plans as $plan) {
             $plan->spots;

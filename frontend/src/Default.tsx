@@ -1,13 +1,15 @@
 import React from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react'
+
 import { UserProvider } from './Context'
-import Top from './components/trip/Top'
 import Header from './components/common/Header'
+import Top from './components/trip/Top'
+import MyPage from './components/auth/MyPage'
 import TripCreate from './components/trip/TripCreate'
 import TripDetail from './components/trip/TripDetail'
 import TripEdit from './components/trip/TripEdit'
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react'
 
 const Default: React.FC = () => {
   const styles = {
@@ -30,6 +32,7 @@ const Default: React.FC = () => {
       <main css={styles.container}>
         <Routes>
           <Route path='/' element={<Top />} />
+          <Route path='/mypage' element={<MyPage />} />
           <Route path='/new' element={<TripCreate />} />
           <Route path='/:id' element={<TripDetail />} />
           <Route path='/:id/edit' element={<TripEdit />} />

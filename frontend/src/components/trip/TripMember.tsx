@@ -1,12 +1,15 @@
 import React, { useState, useContext } from 'react'
-import { UserContext } from '../../Context'
-import { PageHeader, Alert, Avatar, Button, Form, Input } from 'antd'
-import { UserOutlined, CloseOutlined } from '@ant-design/icons'
+import { useParams } from 'react-router-dom'
+import { PageHeader, Alert, Button, Form, Input } from 'antd'
+import { CloseOutlined } from '@ant-design/icons'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
+
+import { UserContext } from '../../Context'
 import { Trip, User } from '../../types/Types'
 import { useAddMember } from '../../hooks/member/useAddMember'
 import { useRemoveMember } from '../../hooks/member/useRemoveMember'
+import MemberIcon from '../common/MemberIcon'
 
 type Props = {
   trip: Trip
@@ -19,15 +22,16 @@ const TripMember: React.FC<Props> = ({ trip, getTrip, setFlag }) => {
   const { removeMember } = useRemoveMember()
   const { user } = useContext(UserContext)
   const [email, setEmail] = useState<string>('')
+  const params = useParams()
 
   const handleSubmit = async () => {
     const res = await addMember(trip.id, email)
-    res && getTrip()
+    res && getTrip(params.id)
   }
 
   const handleRemove = async (member: User) => {
     const res = await removeMember(trip, member)
-    res && getTrip()
+    res && getTrip(params.id)
   }
 
   const styles = {
@@ -82,8 +86,7 @@ const TripMember: React.FC<Props> = ({ trip, getTrip, setFlag }) => {
           {trip.users?.map((member) => {
             return (
               <div css={styles.tripMember} key={member.id}>
-                <Avatar style={{ marginRight: '5px' }} icon={<UserOutlined />} />
-                <span style={{ marginRight: '5px' }}>{member.name}</span>
+                <MemberIcon member={member} />
                 {member.id !== user!.id && (
                   <Button
                     shape='circle'

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { message } from 'antd'
 
 const apiUrl = process.env.REACT_APP_API_URL
 
@@ -7,6 +8,12 @@ type Entry = {
   email?: string
   password?: string
   password_confirmation?: string
+}
+
+type Data = {
+  password: string
+  current_password: string
+  password_confirmation: string
 }
 
 export const useAdminAuth = () => {
@@ -29,16 +36,54 @@ export const useAdminAuth = () => {
   }
 
   const logout = async () => {
+    const result = confirm('ログアウトしますか？')
+    if (!result) return
+    await axios.get(`${apiUrl}/logout`, {
+      withCredentials: true,
+    })
+    message.success('ログアウトしました')
+  }
+
+  const updateName = async (name: string) => {
     try {
-      const result = confirm('ログアウトしますか？')
-      if (!result) return
-      await axios.get(`${apiUrl}/logout`, {
-        withCredentials: true,
-      })
+      await axios.post(
+        `${apiUrl}/user/update_name`,
+        { name },
+        {
+          withCredentials: true,
+        },
+      )
+      return true
     } catch (error) {
-      console.log(error)
+      return false
     }
   }
 
-  return { initializeCsrf, entry, login, logout }
+  const updateEmail = async (email: string) => {
+    try {
+      await axios.post(
+        `${apiUrl}/user/update_email`,
+        { email },
+        {
+          withCredentials: true,
+        },
+      )
+      return true
+    } catch (error) {
+      return false
+    }
+  }
+
+  const updatePassword = async (data: Data) => {
+    try {
+      await axios.post(`${apiUrl}/user/update_password`, data, {
+        withCredentials: true,
+      })
+      return true
+    } catch (error) {
+      return false
+    }
+  }
+
+  return { initializeCsrf, entry, login, logout, updateName, updateEmail, updatePassword }
 }
