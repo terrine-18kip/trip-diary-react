@@ -46,7 +46,12 @@ const SpotTab: React.FC<Props> = ({ spot, index, openDetail }) => {
 
           <div css={styles.spotName}>{spot.name}</div>
 
-          <div css={styles.spotFee}>{spot.fee !== null && spot.fee !== 0 && `${spot.fee}円`}</div>
+          <div css={styles.spotFee}>
+            {spot.fee !== null &&
+              spot.fee !== undefined &&
+              spot.fee !== 0 &&
+              `${spot.fee.toLocaleString()} 円`}
+          </div>
         </li>
       )}
     </Draggable>

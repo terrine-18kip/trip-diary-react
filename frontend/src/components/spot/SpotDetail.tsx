@@ -1,10 +1,16 @@
 import React, { useContext } from 'react'
-import { UserContext } from '../../Context'
 import { Button, Space } from 'antd'
+import {
+  ClockCircleOutlined,
+  PayCircleOutlined,
+  LinkOutlined,
+  FileTextOutlined,
+} from '@ant-design/icons'
+/** @jsxImportSource @emotion/react */
+
+import { UserContext } from '../../Context'
 import { InputSpot } from '../../types/Types'
 import { styles } from '../../styles/SpotDetail.styles'
-import { categories } from '../../data/SpotData'
-/** @jsxImportSource @emotion/react */
 
 type Props = {
   spot: InputSpot
@@ -18,50 +24,69 @@ const SpotCreate: React.FC<Props> = ({ spot, setShowDetail, setShowEdit }) => {
   return (
     <div css={styles.wrapper}>
       <div css={styles.box}>
-        <h2>{spot.name}</h2>
-        <table>
-          <tbody>
-            <tr>
-              <th>時間</th>
-              <td>
+        <h2 css={styles.title}>
+          {spot.category_id ? (
+            <div css={styles.spotCategory}>
+              <img src={`/img/icon_${spot.category_id}.svg`} />
+            </div>
+          ) : (
+            <div css={styles.noCategory}>
+              <span></span>
+            </div>
+          )}
+          <span>{spot.name}</span>
+        </h2>
+
+        <div css={styles.timeFee}>
+          {(spot.start_time || spot.end_time) && (
+            <div css={styles.timeFeeContent}>
+              <div css={styles.key}>
+                <ClockCircleOutlined /> 時間
+              </div>
+              <div>
                 {spot.start_time?.slice(0, -3)}
                 {spot.start_time && spot.end_time && <span style={{ padding: '0 5px' }}>～</span>}
                 {spot.end_time?.slice(0, -3)}
-              </td>
-            </tr>
-            <tr>
-              <th>カテゴリー</th>
-              <td>
-                {spot.category_id ? (
-                  <div css={styles.spotCategory}>
-                    <img src={`/img/icon_${spot.category_id}.svg`} />
-                  </div>
-                ) : (
-                  <div css={styles.noCategory}>
-                    <span></span>
-                  </div>
-                )}
-                <span>{categories[spot.category_id ?? 0]}</span>
-              </td>
-            </tr>
-            <tr>
-              <th>金額</th>
-              <td>{spot.fee !== null && spot.fee !== 0 && `${spot.fee}円`}</td>
-            </tr>
-            <tr>
-              <th>リンク</th>
-              <td>
-                <a href={spot.link ?? undefined} target='_blank' rel='noopener noreferrer'>
-                  {spot.link}
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <th>メモ</th>
-              <td>{spot.memo}</td>
-            </tr>
-          </tbody>
-        </table>
+              </div>
+            </div>
+          )}
+
+          {spot.fee && (
+            <div css={styles.timeFeeContent}>
+              <div css={styles.key}>
+                <PayCircleOutlined /> 金額
+              </div>
+              <div>
+                {spot.fee !== null &&
+                  spot.fee !== undefined &&
+                  spot.fee !== 0 &&
+                  `${spot.fee.toLocaleString()} 円`}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {spot.link && (
+          <div css={styles.column}>
+            <div css={styles.key}>
+              <LinkOutlined /> リンク
+            </div>
+            <div>
+              <a href={spot.link ?? undefined} target='_blank' rel='noopener noreferrer'>
+                {spot.link}
+              </a>
+            </div>
+          </div>
+        )}
+
+        {spot.memo && (
+          <div css={styles.column}>
+            <div css={styles.key}>
+              <FileTextOutlined /> メモ
+            </div>
+            <div>{spot.memo}</div>
+          </div>
+        )}
 
         <div style={{ textAlign: 'center' }}>
           <Space>

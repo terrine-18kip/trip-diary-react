@@ -36,18 +36,19 @@ export const styles = {
       align-items: center;
     }
   `,
+  title: css`
+    display: flex;
+    align-items: center;
+  `,
   spotCategory: css`
     width: 30px;
     height: 30px;
-    margin: 0 10px;
+    margin-right: 10px;
     border-radius: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: #f3f3f3;
-    @media screen and (max-width: 768px) {
-      margin: 0 1.5%;
-    }
     img {
       width: 22px;
     }
@@ -68,5 +69,20 @@ export const styles = {
       border: 3px solid #888;
       border-radius: 100vh;
     }
+  `,
+  timeFee: css`
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  `,
+  timeFeeContent: css`
+    width: 50%;
+  `,
+  key: css`
+    padding-left: 2px;
+    font-weight: 500;
+  `,
+  column: css`
+    margin-bottom: 10px;
   `,
 }

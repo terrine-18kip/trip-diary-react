@@ -115,6 +115,7 @@ const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) =>
             value={data.fee ?? undefined}
             style={{ width: '100%' }}
             addonAfter='円'
+            formatter={(value) => String(value).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
             onChange={(event) => setData({ ...data, fee: Number(event) })}
           />
         </div>

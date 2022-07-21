@@ -100,6 +100,7 @@ const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
           <InputNumber
             placeholder='金額'
             addonAfter='円'
+            formatter={(value) => String(value).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
             style={{ width: '100%' }}
             onChange={(event) => setData({ ...data, fee: Number(event) })}
           />
