@@ -9,6 +9,12 @@ type Entry = {
   password_confirmation?: string
 }
 
+type Data = {
+  password: string
+  current_password: string
+  password_confirmation: string
+}
+
 export const useAdminAuth = () => {
   const initializeCsrf = async () => {
     await axios.get(`${apiUrl}/sanctum/csrf-cookie`, {
@@ -70,5 +76,16 @@ export const useAdminAuth = () => {
     }
   }
 
-  return { initializeCsrf, entry, login, logout, updateName, updateEmail }
+  const updatePassword = async (data: Data) => {
+    try {
+      await axios.post(`${apiUrl}/user/update_password`, data, {
+        withCredentials: true,
+      })
+      return true
+    } catch (error) {
+      return false
+    }
+  }
+
+  return { initializeCsrf, entry, login, logout, updateName, updateEmail, updatePassword }
 }

@@ -7,11 +7,13 @@ import { css } from '@emotion/react'
 import { UserContext } from '../../Context'
 import EditName from './EditName'
 import EditEmail from './EditEmail'
+import EditPassword from './EditPassword'
 
 const MyPage: React.FC = () => {
-  const { user, getAuthUser } = useContext(UserContext)
+  const { user } = useContext(UserContext)
   const [showEditName, setShowEditName] = useState(false)
   const [showEditEmail, setShowEditEmail] = useState(false)
+  const [showEditPassword, setShowEditPassword] = useState(false)
 
   const styles = {
     box: css`
@@ -61,7 +63,7 @@ const MyPage: React.FC = () => {
           <div>
             <div css={styles.title}>
               <b>パスワード</b>
-              <a>変更</a>
+              <a onClick={() => setShowEditPassword(true)}>変更</a>
             </div>
             <p>******</p>
           </div>
@@ -70,6 +72,7 @@ const MyPage: React.FC = () => {
 
       <EditName show={showEditName} setShow={setShowEditName} />
       <EditEmail show={showEditEmail} setShow={setShowEditEmail} />
+      <EditPassword show={showEditPassword} setShow={setShowEditPassword} />
     </>
   )
 }

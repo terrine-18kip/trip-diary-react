@@ -32,4 +32,5 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::post('spots/order', [SpotController::class, 'order']);
     Route::post('user/update_name', [AuthController::class, 'update_name']);
     Route::post('user/update_email', [AuthController::class, 'update_email']);
+    Route::post('user/update_password', [AuthController::class, 'update_password']);
 });

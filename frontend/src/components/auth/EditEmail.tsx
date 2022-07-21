@@ -12,8 +12,8 @@ type Props = {
 const EditEmail: React.FC<Props> = ({ show, setShow }) => {
   const { user, getAuthUser } = useContext(UserContext)
   const { updateEmail } = useAdminAuth()
-  const [email, setEmail] = useState<string>('')
-  const [emailConfirm, setEmailConfirm] = useState<string>('')
+  const [email, setEmail] = useState<string>(user?.email ?? '')
+  const [emailConfirm, setEmailConfirm] = useState<string>(user?.email ?? '')
   const [showConfirm, setShowConfirm] = useState<boolean>(false)
 
   if (!user) {
@@ -56,7 +56,7 @@ const EditEmail: React.FC<Props> = ({ show, setShow }) => {
 
         <Form.Item
           name='email_confirm'
-          label='新しいメールアドレス（確認用）'
+          label='新しいメールアドレス（確認）'
           initialValue={user.email}
           rules={[
             { type: 'email', message: '正しいメールアドレスを入力してください' },
