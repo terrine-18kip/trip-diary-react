@@ -6,24 +6,61 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Schema;
 use Tests\TestCase;
-use App\Models\User;
 
 class AuthTest extends TestCase
 {
-    // use RefreshDatabase;
-
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    public function test_example()
+    public function test_loginSuccess()
     {
-        $user = new User();
-        $user->name = 'test';
-        $user->email = 'test@sample.com';
-        $user->password = 'password';
-        $saveUser = $user->save();
-        $this->assertTrue($saveUser);
+        $loginData = [
+            'email' => 'test@sample.com',
+            'password' => 'password',
+        ];
+
+        $this->json('POST', 'login', $loginData)
+            ->assertStatus(200);
+    }
+
+    public function test_loginFail_emailInvalid()
+    {
+        $loginData = [
+            'email' => 'sample@sample.com',
+            'password' => 'password',
+        ];
+
+        $this->json('POST', 'login', $loginData)
+            ->assertStatus(500);
+    }
+
+    public function test_loginFail_passwordInvalid()
+    {
+        $loginData = [
+            'email' => 'test@sample.com',
+            'password' => 'passwordd',
+        ];
+
+        $this->json('POST', 'login', $loginData)
+            ->assertStatus(500);
+    }
+
+    public function test_loginFail_emailBlank()
+    {
+        $loginData = [
+            'email' => '',
+            'password' => 'password',
+        ];
+
+        $this->json('POST', 'login', $loginData)
+            ->assertStatus(422);
+    }
+
+    public function test_loginFail_passwordBlank()
+    {
+        $loginData = [
+            'email' => 'test@sample.com',
+            'password' => '',
+        ];
+
+        $this->json('POST', 'login', $loginData)
+            ->assertStatus(422);
     }
 }
