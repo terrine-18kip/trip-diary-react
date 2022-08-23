@@ -72,7 +72,7 @@ const SpotCreate: React.FC<Props> = ({ spot, setShowDetail, setShowEdit }) => {
               <LinkOutlined /> リンク
             </div>
             <div>
-              <a href={spot.link ?? undefined} target='_blank' rel='noopener noreferrer'>
+              <a css={styles.link} href={spot.link ?? undefined} target='_blank' rel='noopener noreferrer'>
                 {spot.link}
               </a>
             </div>

@@ -20,6 +20,10 @@ export const styles = {
     margin-bottom: 20px;
     border-radius: 5px;
     background-color: #fafafa;
+    @media screen and (max-width: 480px) {
+      width: 95%;
+      padding: 20px 3%;
+    }
     table {
       width: 100%;
       margin-bottom: 20px;
@@ -85,4 +89,7 @@ export const styles = {
   column: css`
     margin-bottom: 10px;
   `,
+  link: css`
+    overflow-wrap: break-word;
+  `
 }

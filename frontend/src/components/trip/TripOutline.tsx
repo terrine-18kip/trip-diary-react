@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { Card, Space, Button } from 'antd'
-import { FormOutlined, DeleteOutlined } from '@ant-design/icons'
+import { Card, Button } from 'antd'
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import { css } from '@emotion/react'
 /** @jsxImportSource @emotion/react */
 
@@ -31,12 +31,12 @@ const TripOutline: React.FC<Props> = ({ trip }) => {
       title={trip.title}
       extra={
         user && (
-          <Space>
+          <>
             <Link key='edit' to={`/${trip.uniqid}/edit`}>
-              <Button shape='circle' icon={<FormOutlined />} />
+              <Button type='text' shape='circle' icon={<EditOutlined />} />
             </Link>
-            <Button shape='circle' icon={<DeleteOutlined />} onClick={() => deleteTrip(trip.id)} />
-          </Space>
+            <Button type='text' shape='circle' icon={<DeleteOutlined />} onClick={() => deleteTrip(trip.id)} />
+          </>
         )
       }
       bordered={false}
