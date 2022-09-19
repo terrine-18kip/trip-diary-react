@@ -57,7 +57,7 @@ const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
       background-color: #fafafa;
     `,
     radioGroup: css`
-      max-width: 240px;
+      max-width: 360px;
       margin: 0 auto;
       display: flex;
       justify-content: space-around;
@@ -69,12 +69,16 @@ const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
         display: none;
       }
       &.ant-radio-wrapper {
-        width: 32px;
-        height: 32px;
+        width: 16%;
+        margin: 0 0 10px;
         display: flex;
         justify-content: center;
         align-items: center;
       }
+    `,
+    icon: css`
+      width: 36px;
+      height: 36px;
     `,
   }
 
@@ -89,7 +93,7 @@ const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
           />
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '15px' }}>
           <Input
             type='time'
             placeholder='開始時間'
@@ -103,18 +107,20 @@ const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
           />
         </div>
 
-        <div style={{ marginBottom: '10px' }}>
+        <div style={{ marginBottom: '5px' }}>
           <Radio.Group
             css={styles.radioGroup}
             onChange={(event) => setData({ ...data, category_id: event.target.value })}
           >
             {categories.map((category) => (
               <Radio css={styles.radio} type='circle' key={category.id} value={category.id}>
-                <SpotCategory
-                  id={category.id}
-                  active={data.category_id === category.id}
-                  hoverable
-                />
+                <div css={styles.icon}>
+                  <SpotCategory
+                    id={category.id}
+                    active={data.category_id === category.id}
+                    hoverable
+                  />
+                </div>
               </Radio>
             ))}
           </Radio.Group>

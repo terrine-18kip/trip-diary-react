@@ -38,6 +38,8 @@ export const styles = {
     }
   `,
   spotCategory: css`
+    width: 30px;
+    height: 30px;
     margin: 0 10px;
     @media screen and (max-width: 768px) {
       margin: 0 1.5%;

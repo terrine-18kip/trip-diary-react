@@ -45,9 +45,11 @@ export const styles = {
     align-items: center;
   `,
   category: css`
+    width: 36px;
+    height: 36px;
     margin: 0 10px;
     @media screen and (max-width: 768px) {
-      margin: 0 1.5%;
+      margin: 0 2%;
     }
   `,
   timeFee: css`

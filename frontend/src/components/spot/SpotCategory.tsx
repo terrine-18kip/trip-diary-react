@@ -18,8 +18,8 @@ const spotCategory: React.FC<Props> = ({ id, active, hoverable }) => {
 
   const styles = {
     circle: css`
-      width: 30px;
-      height: 30px;
+      width: 100%;
+      height: 100%;
       border: 1px solid transparent;
       border-radius: 100vh;
       display: flex;
@@ -33,7 +33,7 @@ const spotCategory: React.FC<Props> = ({ id, active, hoverable }) => {
       span {
         width: 36%;
         height: 36%;
-        background-color: #888;
+        border: 3px solid #888;
         border-radius: 100vh;
       }
     `,
