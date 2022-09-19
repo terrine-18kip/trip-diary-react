@@ -44,34 +44,10 @@ export const styles = {
     display: flex;
     align-items: center;
   `,
-  spotCategory: css`
-    width: 30px;
-    height: 30px;
-    margin-right: 10px;
-    border-radius: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f3f3f3;
-    img {
-      width: 22px;
-    }
-  `,
-  noCategory: css`
-    width: 30px;
-    height: 15px;
+  category: css`
     margin: 0 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     @media screen and (max-width: 768px) {
       margin: 0 1.5%;
-    }
-    span {
-      width: 11px;
-      height: 11px;
-      border: 3px solid #888;
-      border-radius: 100vh;
     }
   `,
   timeFee: css`

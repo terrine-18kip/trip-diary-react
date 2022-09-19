@@ -35,7 +35,9 @@ const SpotTab: React.FC<Props> = ({ spot, index, openDetail }) => {
             <p>{spot.end_time?.slice(0, -3)}</p>
           </div>
 
-          <SpotCategory category_id={spot.category_id} />
+          <div css={styles.spotCategory}>
+            <SpotCategory id={spot.category_id} />
+          </div>
 
           <div css={styles.spotName}>{spot.name}</div>
 

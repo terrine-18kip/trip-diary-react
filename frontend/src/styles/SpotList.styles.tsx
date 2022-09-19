@@ -37,6 +37,12 @@ export const styles = {
       line-height: 1;
     }
   `,
+  spotCategory: css`
+    margin: 0 10px;
+    @media screen and (max-width: 768px) {
+      margin: 0 1.5%;
+    }
+  `,
   spotName: css`
     width: 100%;
     margin-bottom: 0;

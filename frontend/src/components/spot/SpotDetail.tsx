@@ -8,6 +8,7 @@ import {
 } from '@ant-design/icons'
 /** @jsxImportSource @emotion/react */
 
+import SpotCategory from './SpotCategory'
 import { UserContext } from '../../Context'
 import { InputSpot } from '../../types/Types'
 import { styles } from '../../styles/SpotDetail.styles'
@@ -25,15 +26,9 @@ const SpotCreate: React.FC<Props> = ({ spot, setShowDetail, setShowEdit }) => {
     <div css={styles.wrapper}>
       <div css={styles.box}>
         <h2 css={styles.title}>
-          {spot.category_id ? (
-            <div css={styles.spotCategory}>
-              <img src={`/img/icon_${spot.category_id}.svg`} />
-            </div>
-          ) : (
-            <div css={styles.noCategory}>
-              <span></span>
-            </div>
-          )}
+          <div css={styles.category}>
+            <SpotCategory id={spot.category_id ?? 0} />
+          </div>
           <span>{spot.name}</span>
         </h2>
 

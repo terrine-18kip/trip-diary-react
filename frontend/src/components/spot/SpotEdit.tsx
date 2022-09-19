@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { Button, Form, Input, Select, InputNumber, Space } from 'antd'
+import { Button, Form, Input, Select, InputNumber, Radio, Space } from 'antd'
 const { Option } = Select
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
+import SpotCategory from './SpotCategory'
 import { InputSpot } from '../../types/Types'
 import { categories } from '../../data/SpotData'
 import { useUpdateSpot } from '../../hooks/spot/useUpdateSpot'
@@ -63,6 +64,26 @@ const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) =>
       text-align: center;
       background-color: #fafafa;
     `,
+    radioGroup: css`
+      max-width: 240px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      flex-wrap: wrap;
+    `,
+    radio: css`
+      .ant-radio {
+        display: none;
+      }
+      &.ant-radio-wrapper {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    `,
   }
 
   return (
@@ -95,18 +116,16 @@ const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) =>
         </div>
 
         <div style={{ marginBottom: '10px' }}>
-          <Select
-            placeholder='カテゴリーを選択'
-            value={data.category_id}
-            style={{ width: '100%', textAlign: 'left' }}
-            onChange={(event) => setData({ ...data, category_id: event })}
+          <Radio.Group
+            css={styles.radioGroup}
+            onChange={(event) => setData({ ...data, category_id: event.target.value })}
           >
             {categories.map((category, i) => (
-              <Option key={i} value={i}>
-                {category}
-              </Option>
+              <Radio css={styles.radio} type='circle' key={i} value={i}>
+                <SpotCategory id={i} active={data.category_id === i} hoverable />
+              </Radio>
             ))}
-          </Select>
+          </Radio.Group>
         </div>
 
         <div style={{ marginBottom: '10px' }}>

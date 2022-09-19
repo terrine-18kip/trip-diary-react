@@ -3,53 +3,47 @@ import { css } from '@emotion/react'
 /** @jsxImportSource @emotion/react */
 
 type Props = {
-  category_id: number
+  id: number
+  active?: boolean
+  hoverable?: boolean
 }
 
-const spotCategory: React.FC<Props> = ({ category_id }) => {
+const spotCategory: React.FC<Props> = ({ id, active, hoverable }) => {
   const styles = {
-    spotCategory: css`
+    circle: css`
       width: 30px;
       height: 30px;
-      margin: 0 10px;
+      border: 1px solid transparent;
       border-radius: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
       background-color: #f3f3f3;
-      @media screen and (max-width: 768px) {
-        margin: 0 1.5%;
-      }
+      transition: border 0.3s, box-shadow 0.2s;
       img {
-        width: 22px;
-      }
-    `,
-    noCategory: css`
-      width: 30px;
-      height: 15px;
-      margin: 0 10px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      @media screen and (max-width: 768px) {
-        margin: 0 1.5%;
+        width: 76%;
       }
       span {
-        width: 11px;
-        height: 11px;
-        border: 3px solid #888;
+        width: 36%;
+        height: 36%;
+        background-color: #888;
         border-radius: 100vh;
+      }
+    `,
+    active: css`
+      border: 1px solid #1890ff;
+      box-shadow: 0 0 2px #1890ff;
+    `,
+    hover: css`
+      &:hover {
+        border: 1px solid #1890ff;
       }
     `,
   }
 
-  return category_id === 0 ? (
-    <div css={styles.noCategory}>
-      <span></span>
-    </div>
-  ) : (
-    <div css={styles.spotCategory}>
-      <img src={`/img/icon_${category_id}.svg`} />
+  return (
+    <div css={[styles.circle, active && styles.active, hoverable && styles.hover]}>
+      {id === 0 ? <span></span> : <img src={`/img/icon_${id}.svg`} />}
     </div>
   )
 }
