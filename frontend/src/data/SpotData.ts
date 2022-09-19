@@ -25,6 +25,12 @@ export const categories: Category[] = [
     bgColor: '#f3f3f3',
   },
   {
+    id: 11,
+    name: 'カフェ',
+    color: '#c28771',
+    bgColor: '#f3f3f3',
+  },
+  {
     id: 3,
     name: '宿泊',
     color: '#c28771',
