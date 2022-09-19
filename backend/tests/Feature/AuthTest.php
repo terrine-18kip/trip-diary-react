@@ -2,13 +2,15 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Schema;
 use Tests\TestCase;
 
 class AuthTest extends TestCase
 {
+    use DatabaseTransactions;
+
     public function test_loginSuccess()
     {
         $loginData = [
@@ -62,5 +64,29 @@ class AuthTest extends TestCase
 
         $this->json('POST', 'login', $loginData)
             ->assertStatus(422);
+    }
+
+    public function test_entrySuccess()
+    {
+        $loginData = [
+            'name' => 'test',
+            'email' => 'test01@sample.com',
+            'password' => 'password',
+        ];
+
+        $this->json('POST', 'entry', $loginData)
+            ->assertStatus(201);
+    }
+
+    public function test_entryFail_nameBlank()
+    {
+        $loginData = [
+            'name' => '',
+            'email' => 'test01@sample.com',
+            'password' => 'password',
+        ];
+
+        $this->json('POST', 'entry', $loginData)
+            ->assertStatus(500);
     }
 }
