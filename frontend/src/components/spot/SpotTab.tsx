@@ -1,8 +1,9 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { UserContext } from '../../Context'
 import { MenuOutlined } from '@ant-design/icons'
 import { Draggable } from 'react-beautiful-dnd'
 
+import SpotCategory from './SpotCategory'
 import { styles } from '../../styles/SpotList.styles'
 import { Spot } from '../../types/Types'
 /** @jsxImportSource @emotion/react */
@@ -34,15 +35,7 @@ const SpotTab: React.FC<Props> = ({ spot, index, openDetail }) => {
             <p>{spot.end_time?.slice(0, -3)}</p>
           </div>
 
-          {spot.category_id ? (
-            <div css={styles.spotCategory}>
-              <img src={`/img/icon_${spot.category_id}.svg`} />
-            </div>
-          ) : (
-            <div css={styles.noCategory}>
-              <span></span>
-            </div>
-          )}
+          <SpotCategory category_id={spot.category_id} />
 
           <div css={styles.spotName}>{spot.name}</div>
 

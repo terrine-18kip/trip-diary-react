@@ -35,7 +35,12 @@ const TripOutline: React.FC<Props> = ({ trip }) => {
             <Link key='edit' to={`/${trip.uniqid}/edit`}>
               <Button type='text' shape='circle' icon={<EditOutlined />} />
             </Link>
-            <Button type='text' shape='circle' icon={<DeleteOutlined />} onClick={() => deleteTrip(trip.id)} />
+            <Button
+              type='text'
+              shape='circle'
+              icon={<DeleteOutlined />}
+              onClick={() => deleteTrip(trip.id)}
+            />
           </>
         )
       }

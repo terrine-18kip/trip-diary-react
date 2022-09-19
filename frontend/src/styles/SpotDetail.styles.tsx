@@ -91,5 +91,5 @@ export const styles = {
   `,
   link: css`
     overflow-wrap: break-word;
-  `
+  `,
 }
