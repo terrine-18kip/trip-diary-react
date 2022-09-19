@@ -120,9 +120,13 @@ const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) =>
             css={styles.radioGroup}
             onChange={(event) => setData({ ...data, category_id: event.target.value })}
           >
-            {categories.map((category, i) => (
-              <Radio css={styles.radio} type='circle' key={i} value={i}>
-                <SpotCategory id={i} active={data.category_id === i} hoverable />
+            {categories.map((category) => (
+              <Radio css={styles.radio} type='circle' key={category.id} value={category.id}>
+                <SpotCategory
+                  id={category.id}
+                  active={data.category_id === category.id}
+                  hoverable
+                />
               </Radio>
             ))}
           </Radio.Group>

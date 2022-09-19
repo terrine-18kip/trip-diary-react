@@ -2,6 +2,8 @@ import React from 'react'
 import { css } from '@emotion/react'
 /** @jsxImportSource @emotion/react */
 
+import { categories } from '../../data/SpotData'
+
 type Props = {
   id: number
   active?: boolean
@@ -9,6 +11,11 @@ type Props = {
 }
 
 const spotCategory: React.FC<Props> = ({ id, active, hoverable }) => {
+  const category =
+    categories.find((data) => {
+      return data.id === id
+    }) ?? categories[0]
+
   const styles = {
     circle: css`
       width: 30px;
@@ -18,7 +25,7 @@ const spotCategory: React.FC<Props> = ({ id, active, hoverable }) => {
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: #f3f3f3;
+      background-color: ${category.bgColor};
       transition: border 0.3s, box-shadow 0.2s;
       img {
         width: 76%;
@@ -31,12 +38,12 @@ const spotCategory: React.FC<Props> = ({ id, active, hoverable }) => {
       }
     `,
     active: css`
-      border: 1px solid #1890ff;
-      box-shadow: 0 0 2px #1890ff;
+      border: 1px solid ${category.color};
+      box-shadow: 0 0 2px ${category.color};
     `,
     hover: css`
       &:hover {
-        border: 1px solid #1890ff;
+        border: 1px solid ${category.color};
       }
     `,
   }
