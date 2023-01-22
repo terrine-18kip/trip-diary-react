@@ -11,7 +11,7 @@ import PlanCreate from '../plan/PlanCreate'
 import SpotList from '../spot/SpotList'
 import NotFound from '../common/NotFound'
 
-const TripDetail: React.FC = () => {
+const PlanList: React.FC = () => {
   const { user } = useContext(UserContext)
   const { trip, plans, unauthorized, getTrip } = useGetTrip()
 
@@ -57,4 +57,4 @@ const TripDetail: React.FC = () => {
   )
 }
 
-export default TripDetail
+export default PlanList
