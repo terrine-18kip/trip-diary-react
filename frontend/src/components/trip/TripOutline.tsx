@@ -1,7 +1,13 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { Card, Button } from 'antd'
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
+import {
+  EditOutlined,
+  DeleteOutlined,
+  ScheduleOutlined,
+  FileTextOutlined,
+  UserOutlined,
+} from '@ant-design/icons'
 import { css } from '@emotion/react'
 /** @jsxImportSource @emotion/react */
 
@@ -19,6 +25,17 @@ const TripOutline: React.FC<Props> = ({ trip }) => {
   const { deleteTrip } = useDeleteTrip()
 
   const styles = {
+    column: css`
+      margin-bottom: 10px;
+    `,
+    key: css`
+      font-weight: 500;
+    `,
+    privacyText: css`
+      margin-left: 8px;
+      color: #666;
+      font-size: 12px;
+    `,
     members: css`
       display: flex;
       align-items: center;
@@ -46,20 +63,53 @@ const TripOutline: React.FC<Props> = ({ trip }) => {
       }
       bordered={false}
     >
-      <p>
-        期間：{trip.start_date} ～ {trip.end_date}
-      </p>
-      <p>メモ：{trip.memo}</p>
-      <p>公開設定：{trip.privacy_id === 2 ? '公開' : '非公開'}</p>
-      <div css={styles.members}>
-        メンバー：
-        {trip.users?.map((member) => {
-          return (
-            <span key={member.id}>
-              <MemberIcon member={member} size='small' />
-            </span>
-          )
-        })}
+      <div css={styles.column}>
+        <div css={styles.key}>
+          <ScheduleOutlined /> 期間
+        </div>
+        <div>
+          {trip.start_date} {trip.start_date && trip.end_date && '～'} {trip.end_date}
+        </div>
+      </div>
+
+      <div css={styles.column}>
+        <div css={styles.key}>
+          <FileTextOutlined /> メモ
+        </div>
+        <div>{trip.memo}</div>
+      </div>
+
+      {trip.privacy_id === 1 && (
+        <div css={styles.column}>
+          <span css={styles.key}>
+            <FileTextOutlined /> 非公開
+          </span>
+          <span css={styles.privacyText}>参加メンバーのみが閲覧可能</span>
+        </div>
+      )}
+
+      {trip.privacy_id === 2 && (
+        <div css={styles.column}>
+          <span css={styles.key}>
+            <FileTextOutlined /> 公開
+          </span>
+          <span css={styles.privacyText}>リンクを知っている全員が閲覧可能</span>
+        </div>
+      )}
+
+      <div css={styles.column}>
+        <div css={styles.key}>
+          <UserOutlined /> メンバー
+        </div>
+        <div css={styles.members}>
+          {trip.users?.map((member) => {
+            return (
+              <span key={member.id}>
+                <MemberIcon member={member} size='small' />
+              </span>
+            )
+          })}
+        </div>
       </div>
     </Card>
   )

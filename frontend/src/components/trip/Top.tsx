@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { UserContext } from '../../Context'
 import { Link } from 'react-router-dom'
 import { PageHeader, Button, Row, Col, Card } from 'antd'
+import { ScheduleOutlined, FileTextOutlined } from '@ant-design/icons'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
@@ -11,6 +12,14 @@ const Top: React.FC = () => {
   const { user } = useContext(UserContext)
 
   const styles = {
+    column: css`
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    `,
+    key: css`
+      margin-right: 10px;
+    `,
     login: css`
       height: 50vh;
       padding: 20px;
@@ -47,10 +56,24 @@ const Top: React.FC = () => {
                   <Col key={trip.id} xs={24} sm={12} lg={6} style={{ marginBottom: '10px' }}>
                     <Link to={`/${trip.uniqid}`}>
                       <Card title={trip.title} hoverable bordered={false}>
-                        <p>
-                          {trip.start_date} ～ {trip.end_date}
-                        </p>
-                        <p>メモ：{trip.memo}</p>
+                        <div css={styles.column}>
+                          <div css={styles.key}>
+                            <ScheduleOutlined />
+                          </div>
+                          <div>
+                            {trip.start_date} {trip.start_date && trip.end_date && '～'}{' '}
+                            {trip.end_date}
+                          </div>
+                        </div>
+
+                        {trip.memo && (
+                          <div css={styles.column}>
+                            <div css={styles.key}>
+                              <FileTextOutlined />
+                            </div>
+                            <div>{trip.memo}</div>
+                          </div>
+                        )}
                       </Card>
                     </Link>
                   </Col>
