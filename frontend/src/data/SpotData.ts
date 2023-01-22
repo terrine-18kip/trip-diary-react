@@ -1,9 +1,4 @@
-type Category = {
-  id: number
-  name: string
-  color: string
-  bgColor: string
-}
+import { Category } from '../types/Types'
 
 export const categories: Category[] = [
   {

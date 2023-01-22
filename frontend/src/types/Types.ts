@@ -46,6 +46,19 @@ export type Spot = {
   updated_at: string | null
 }
 
+export type Place = {
+  id: number
+  trip_id: number
+  category_id: number
+  name: string
+  fee: number | null
+  link: string | null
+  memo: string | null
+  order: number
+  created_at: string | null
+  updated_at: string | null
+}
+
 export type InputTrip = {
   id?: number
   title?: string
@@ -69,4 +82,24 @@ export type InputSpot = {
   order?: number
   created_at?: string | null
   updated_at?: string | null
+}
+
+export type InputPlace = {
+  id?: number
+  trip_id?: number
+  category_id?: number
+  name?: string
+  fee?: number | null
+  link?: string | null
+  memo?: string | null
+  order?: number
+  created_at?: string | null
+  updated_at?: string | null
+}
+
+export type Category = {
+  id: number
+  name: string
+  color: string
+  bgColor: string
 }
