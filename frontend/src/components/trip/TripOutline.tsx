@@ -6,6 +6,8 @@ import {
   DeleteOutlined,
   ScheduleOutlined,
   FileTextOutlined,
+  LockOutlined,
+  GlobalOutlined,
   UserOutlined,
 } from '@ant-design/icons'
 import { css } from '@emotion/react'
@@ -82,7 +84,7 @@ const TripOutline: React.FC<Props> = ({ trip }) => {
       {trip.privacy_id === 1 && (
         <div css={styles.column}>
           <span css={styles.key}>
-            <FileTextOutlined /> 非公開
+            <LockOutlined /> 非公開
           </span>
           <span css={styles.privacyText}>参加メンバーのみが閲覧可能</span>
         </div>
@@ -91,7 +93,7 @@ const TripOutline: React.FC<Props> = ({ trip }) => {
       {trip.privacy_id === 2 && (
         <div css={styles.column}>
           <span css={styles.key}>
-            <FileTextOutlined /> 公開
+            <GlobalOutlined /> 公開
           </span>
           <span css={styles.privacyText}>リンクを知っている全員が閲覧可能</span>
         </div>
