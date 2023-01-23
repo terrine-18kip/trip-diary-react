@@ -1,5 +1,5 @@
 import React, { useState, useLayoutEffect, useContext } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { PageHeader, Button } from 'antd'
 /** @jsxImportSource @emotion/react */
 
@@ -21,10 +21,9 @@ const PlaceList: React.FC = () => {
   const [place, setPlace] = useState<Place>()
 
   const navigation = useNavigate()
-  const params = useParams()
 
   useLayoutEffect(() => {
-    getTrip(params.id)
+    getTrip()
   }, [user])
 
   if (unauthorized) return <NotFound />

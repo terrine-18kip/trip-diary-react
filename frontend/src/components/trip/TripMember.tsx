@@ -26,12 +26,12 @@ const TripMember: React.FC<Props> = ({ trip, getTrip, setFlag }) => {
 
   const handleSubmit = async () => {
     const res = await addMember(trip.id, email)
-    res && getTrip(params.id)
+    res && getTrip()
   }
 
   const handleRemove = async (member: User) => {
     const res = await removeMember(trip, member)
-    res && getTrip(params.id)
+    res && getTrip()
   }
 
   const styles = {

@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
-import { useParams } from 'react-router-dom'
-import { Button, Space } from 'antd'
+import { Button } from 'antd'
 import {
   EditOutlined,
   DeleteOutlined,
@@ -20,7 +19,7 @@ import { useDeleteSpot } from '../../hooks/spot/useDeleteSpot'
 
 type Props = {
   spot: InputSpot
-  getTrip: (id: string | undefined) => Promise<void>
+  getTrip: () => Promise<void>
   setShowDetail: React.Dispatch<React.SetStateAction<boolean>>
   setShowEdit: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -28,12 +27,11 @@ type Props = {
 const SpotCreate: React.FC<Props> = ({ spot, getTrip, setShowDetail, setShowEdit }) => {
   const { user } = useContext(UserContext)
   const { deleteSpot } = useDeleteSpot()
-  const params = useParams()
 
   const handleSubmitDelete = async () => {
     const res = await deleteSpot(spot.id)
     if (res) {
-      await getTrip(params.id)
+      await getTrip()
       setShowDetail(false)
     }
   }

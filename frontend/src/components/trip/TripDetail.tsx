@@ -26,7 +26,7 @@ const TripDetail: React.FC = () => {
   const params = useParams()
 
   useLayoutEffect(() => {
-    getTrip(params.id)
+    getTrip()
   }, [user])
 
   const styles = {

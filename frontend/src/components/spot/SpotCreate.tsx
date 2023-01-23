@@ -8,18 +8,16 @@ import SpotCategory from './SpotCategory'
 import { InputSpot, Plan } from '../../types/Types'
 import { categories } from '../../data/SpotData'
 import { useAddSpot } from '../../hooks/spot/useAddSpot'
-import { useParams } from 'react-router-dom'
 
 type Props = {
   plan: Plan
-  getTrip: (id: string | undefined) => Promise<void>
+  getTrip: () => Promise<void>
   setFlag: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
   const { addSpot } = useAddSpot()
   const spotOrder: number | undefined = plan.spots[plan.spots.length - 1]?.order + 1
-  const params = useParams()
 
   const [data, setData] = useState<InputSpot>({
     plan_id: plan.id,
@@ -30,7 +28,7 @@ const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
   const handleSubmit = async () => {
     const res = await addSpot(data)
     if (res) {
-      await getTrip(params.id)
+      await getTrip()
       setFlag(false)
     }
   }

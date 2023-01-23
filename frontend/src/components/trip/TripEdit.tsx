@@ -16,7 +16,7 @@ const TripEdit: React.FC = () => {
   const params = useParams()
 
   useLayoutEffect(() => {
-    getTrip(params.id)
+    getTrip()
   }, [])
 
   return (

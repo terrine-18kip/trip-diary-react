@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import { useParams } from 'react-router-dom'
 import { Button } from 'antd'
 import {
   EditOutlined,
@@ -19,7 +18,7 @@ import { useDeletePlace } from './hooks'
 
 type Props = {
   place: Place
-  getTrip: (id: string | undefined) => Promise<void>
+  getTrip: () => Promise<void>
   setShowDetail: React.Dispatch<React.SetStateAction<boolean>>
   // setShowEdit: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -27,12 +26,11 @@ type Props = {
 const PlaceDetail: React.FC<Props> = ({ place, getTrip, setShowDetail }) => {
   const { user } = useContext(UserContext)
   const { deletePlace } = useDeletePlace()
-  const params = useParams()
 
   const handleSubmitDelete = async () => {
     const res = await deletePlace(place.id)
     if (res) {
-      await getTrip(params.id)
+      await getTrip()
       setShowDetail(false)
     }
   }

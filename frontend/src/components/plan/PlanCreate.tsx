@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
 import { Form, Button, InputNumber } from 'antd'
 import { PlusCircleFilled } from '@ant-design/icons'
 import { css } from '@emotion/react'
@@ -11,14 +10,13 @@ import { useAddPlan } from '../../hooks/plan/useAddPlan'
 type Props = {
   trip: Trip
   plans: Plan[]
-  getTrip: (id: string | undefined) => Promise<void>
+  getTrip: () => Promise<void>
 }
 
 const PlanCreate: React.FC<Props> = ({ trip, plans, getTrip }) => {
   const { addPlan } = useAddPlan()
 
   const [planNum, setPlanNum] = useState<number | null>(1)
-  const params = useParams()
 
   useEffect(() => {
     if (plans.length === 0) {
@@ -31,7 +29,7 @@ const PlanCreate: React.FC<Props> = ({ trip, plans, getTrip }) => {
 
   const handleSubmitPlan = async () => {
     const res = await addPlan(trip.id, planNum)
-    if (res) getTrip(params.id)
+    if (res) getTrip()
   }
 
   const styles = {

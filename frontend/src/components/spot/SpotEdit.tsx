@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { Button, Form, Input, InputNumber, Radio, Space } from 'antd'
+import { Button, Form, Input, InputNumber, Radio } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
@@ -12,7 +11,7 @@ import { useUpdateSpot } from '../../hooks/spot/useUpdateSpot'
 
 type Props = {
   spot: InputSpot
-  getTrip: (id: string | undefined) => Promise<void>
+  getTrip: () => Promise<void>
   setFlag: React.Dispatch<React.SetStateAction<boolean>>
   setShowDetail: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -20,12 +19,11 @@ type Props = {
 const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) => {
   const { updateSpot } = useUpdateSpot()
   const [data, setData] = useState<InputSpot>(spot)
-  const params = useParams()
 
   const handleSubmitUpdate = async () => {
     const res = await updateSpot(spot.id, data)
     if (res) {
-      await getTrip(params.id)
+      await getTrip()
       setFlag(false)
       setShowDetail(false)
     }

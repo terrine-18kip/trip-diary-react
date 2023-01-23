@@ -8,17 +8,15 @@ import CategoryIcon from '../../elements/CategoryIcon/index'
 import { InputPlace } from '../../../types/Types'
 import { categories } from '../../../data/SpotData'
 import { useAddPlace } from './hooks'
-import { useParams } from 'react-router-dom'
 
 type Props = {
   tripId: number
-  getTrip: (id: string | undefined) => Promise<void>
+  getTrip: () => Promise<void>
   setFlag: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const PlaceCreate: React.FC<Props> = ({ tripId, getTrip, setFlag }) => {
   const { addPlace } = useAddPlace()
-  const params = useParams()
 
   const [data, setData] = useState<InputPlace>({
     trip_id: tripId,
@@ -28,7 +26,7 @@ const PlaceCreate: React.FC<Props> = ({ tripId, getTrip, setFlag }) => {
   const handleSubmit = async () => {
     const res = await addPlace(data)
     if (res) {
-      await getTrip(params.id)
+      await getTrip()
       setFlag(false)
     }
   }

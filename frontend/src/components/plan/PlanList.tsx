@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useContext } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { PageHeader } from 'antd'
 import { css } from '@emotion/react'
 /** @jsxImportSource @emotion/react */
@@ -16,10 +16,9 @@ const PlanList: React.FC = () => {
   const { trip, plans, unauthorized, getTrip } = useGetTrip()
 
   const navigation = useNavigate()
-  const params = useParams()
 
   useLayoutEffect(() => {
-    getTrip(params.id)
+    getTrip()
   }, [user])
 
   const styles = {
