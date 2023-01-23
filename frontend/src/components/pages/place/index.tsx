@@ -1,8 +1,9 @@
 import React, { useState, useLayoutEffect, useContext } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { PageHeader, Modal, Button } from 'antd'
+import { PageHeader, Button } from 'antd'
 /** @jsxImportSource @emotion/react */
 
+import Modal from '../../elements/Modal'
 import NotFound from '../../common/NotFound'
 import PlaceCard from '../../elements/PlaceCard'
 import PlaceCreate from '../../layouts/placeCreate'
@@ -57,13 +58,11 @@ const PlaceList: React.FC = () => {
         })}
       </div>
 
-      {showCreate && <PlaceCreate tripId={trip.id} getTrip={getTrip} setFlag={setShowCreate} />}
-      <Modal
-        visible={showDetail}
-        closable={false}
-        footer={false}
-        onCancel={() => setShowDetail(false)}
-      >
+      <Modal showModal={showCreate} setShowModal={setShowCreate}>
+        <PlaceCreate tripId={trip.id} getTrip={getTrip} setFlag={setShowCreate} />
+      </Modal>
+
+      <Modal showModal={showDetail} setShowModal={setShowDetail}>
         {place && <PlaceDetail place={place} setShowDetail={setShowDetail} />}
       </Modal>
     </div>

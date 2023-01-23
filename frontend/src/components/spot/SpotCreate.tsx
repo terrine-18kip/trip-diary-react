@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Button, Form, Input, InputNumber, Radio, Space } from 'antd'
+import { Button, Form, Input, InputNumber, Radio } from 'antd'
+import { PlusOutlined } from '@ant-design/icons'
 import { css } from '@emotion/react'
 /** @jsxImportSource @emotion/react */
 
@@ -35,26 +36,11 @@ const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
   }
 
   const styles = {
-    wrapper: css`
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+    button: css`
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
-      background-color: rgba(0, 0, 0, 0.4);
-      z-index: 1000;
-    `,
-    form: css`
-      width: 90%;
-      max-width: 500px;
-      padding: 30px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      text-align: center;
-      background-color: #fafafa;
+      margin-bottom: 10px;
     `,
     radioGroup: css`
       max-width: 360px;
@@ -83,8 +69,19 @@ const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
   }
 
   return (
-    <div css={styles.wrapper}>
-      <Form onFinish={handleSubmit} css={styles.form}>
+    <>
+      <Form onFinish={handleSubmit}>
+        <div css={styles.button}>
+          <Button
+            type='text'
+            shape='circle'
+            icon={<PlusOutlined rotate={45} />}
+            onClick={() => setFlag(false)}
+          />
+          <Button shape='round' htmlType='submit' type='primary'>
+            登録
+          </Button>
+        </div>
         <div style={{ marginBottom: '10px' }}>
           <Input
             autoFocus
@@ -149,17 +146,8 @@ const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
             onChange={(event) => setData({ ...data, memo: event.target.value })}
           />
         </div>
-
-        <Space>
-          <Button shape='round' htmlType='submit' type='primary'>
-            登録
-          </Button>
-          <Button shape='round' onClick={() => setFlag(false)}>
-            キャンセル
-          </Button>{' '}
-        </Space>
       </Form>
-    </div>
+    </>
   )
 }
 

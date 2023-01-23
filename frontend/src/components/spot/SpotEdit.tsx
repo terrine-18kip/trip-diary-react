@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { Button, Form, Input, Select, InputNumber, Radio, Space } from 'antd'
-const { Option } = Select
+import { Button, Form, Input, InputNumber, Radio, Space } from 'antd'
+import { PlusOutlined } from '@ant-design/icons'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
@@ -43,26 +43,11 @@ const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) =>
   }
 
   const styles = {
-    wrapper: css`
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+    button: css`
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
-      background-color: rgba(0, 0, 0, 0.4);
-      z-index: 1000;
-    `,
-    form: css`
-      width: 90%;
-      max-width: 500px;
-      padding: 30px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      text-align: center;
-      background-color: #fafafa;
+      margin-bottom: 10px;
     `,
     radioGroup: css`
       max-width: 360px;
@@ -91,8 +76,20 @@ const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) =>
   }
 
   return (
-    <div css={styles.wrapper}>
-      <Form onFinish={handleSubmitUpdate} css={styles.form}>
+    <>
+      <Form onFinish={handleSubmitUpdate}>
+        <div css={styles.button}>
+          <Button
+            type='text'
+            shape='circle'
+            icon={<PlusOutlined rotate={45} />}
+            onClick={() => setFlag(false)}
+          />
+          <Button shape='round' htmlType='submit' type='primary'>
+            更新
+          </Button>
+        </div>
+
         <div style={{ marginBottom: '10px' }}>
           <Input
             autoFocus
@@ -164,20 +161,8 @@ const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) =>
             onChange={(event) => setData({ ...data, memo: event.target.value })}
           />
         </div>
-
-        <Space>
-          <Button shape='round' htmlType='submit' type='primary'>
-            更新
-          </Button>
-          <Button shape='round' onClick={() => setFlag(false)}>
-            キャンセル
-          </Button>
-          <Button shape='round' danger onClick={handleSubmitDelete}>
-            削除
-          </Button>
-        </Space>
       </Form>
-    </div>
+    </>
   )
 }
 

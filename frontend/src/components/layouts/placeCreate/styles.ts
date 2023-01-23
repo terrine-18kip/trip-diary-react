@@ -1,26 +1,11 @@
 import { css } from '@emotion/react'
 
 export const styles = {
-  wrapper: css`
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+  button: css`
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.4);
-    z-index: 1000;
-  `,
-  form: css`
-    width: 90%;
-    max-width: 500px;
-    padding: 30px;
-    margin-bottom: 20px;
-    border-radius: 5px;
-    text-align: center;
-    background-color: #fafafa;
+    margin-bottom: 10px;
   `,
   radioGroup: css`
     max-width: 360px;

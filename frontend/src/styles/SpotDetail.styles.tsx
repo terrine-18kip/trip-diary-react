@@ -1,44 +1,8 @@
 import { css } from '@emotion/react'
 
 export const styles = {
-  wrapper: css`
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.4);
-    z-index: 1000;
-  `,
-  box: css`
-    width: 90%;
-    max-width: 500px;
-    padding: 30px;
-    margin-bottom: 20px;
-    border-radius: 5px;
-    background-color: #fafafa;
-    @media screen and (max-width: 480px) {
-      width: 95%;
-      padding: 20px 3%;
-    }
-    table {
-      width: 100%;
-      margin-bottom: 20px;
-    }
-    th {
-      padding: 10px 0;
-      width: 80px;
-      font-weight: 400;
-      text-align: left;
-    }
-    td {
-      padding: 10px 0;
-      display: flex;
-      align-items: center;
-    }
+  button: css`
+    text-align: right;
   `,
   title: css`
     display: flex;

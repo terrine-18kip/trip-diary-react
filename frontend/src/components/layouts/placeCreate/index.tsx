@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Button, Form, Input, InputNumber, Radio, Space } from 'antd'
+import { Button, Form, Input, InputNumber, Radio } from 'antd'
+import { PlusOutlined } from '@ant-design/icons'
 import { styles } from './styles'
 /** @jsxImportSource @emotion/react */
 
@@ -33,8 +34,20 @@ const PlaceCreate: React.FC<Props> = ({ tripId, getTrip, setFlag }) => {
   }
 
   return (
-    <div css={styles.wrapper}>
-      <Form onFinish={handleSubmit} css={styles.form}>
+    <>
+      <Form onFinish={handleSubmit}>
+        <div css={styles.button}>
+          <Button
+            type='text'
+            shape='circle'
+            icon={<PlusOutlined rotate={45} />}
+            onClick={() => setFlag(false)}
+          />
+          <Button shape='round' htmlType='submit' type='primary'>
+            登録
+          </Button>
+        </div>
+
         <div style={{ marginBottom: '10px' }}>
           <Input
             autoFocus
@@ -85,17 +98,8 @@ const PlaceCreate: React.FC<Props> = ({ tripId, getTrip, setFlag }) => {
             onChange={(event) => setData({ ...data, memo: event.target.value })}
           />
         </div>
-
-        <Space>
-          <Button shape='round' htmlType='submit' type='primary'>
-            登録
-          </Button>
-          <Button shape='round' onClick={() => setFlag(false)}>
-            キャンセル
-          </Button>{' '}
-        </Space>
       </Form>
-    </div>
+    </>
   )
 }
 

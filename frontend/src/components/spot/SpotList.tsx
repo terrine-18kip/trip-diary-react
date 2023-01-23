@@ -11,6 +11,7 @@ import { UserContext } from '../../Context'
 import { styles } from '../../styles/SpotList.styles'
 import { InputSpot, Plan, Spot } from '../../types/Types'
 import { useUpdateSpotOrder } from '../../hooks/spot/useUpdateSpotOrder'
+import Modal from '../elements/Modal'
 /** @jsxImportSource @emotion/react */
 
 type Props = {
@@ -69,32 +70,38 @@ const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
         </DragDropContext>
       </div>
 
-      {showDetail && (
-        <SpotDetail spot={spot} setShowDetail={setShowDetail} setShowEdit={setShowEdit} />
-      )}
+      <Modal showModal={showDetail} setShowModal={setShowDetail}>
+        <SpotDetail
+          spot={spot}
+          getTrip={getTrip}
+          setShowDetail={setShowDetail}
+          setShowEdit={setShowEdit}
+        />
+      </Modal>
 
       {user && (
         <>
-          {showCreate ? (
+          <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+            <Button
+              shape='circle'
+              icon={<PlusOutlined />}
+              size='small'
+              onClick={() => setShowCreate(true)}
+            />
+          </div>
+
+          <Modal showModal={showCreate} setShowModal={setShowCreate}>
             <SpotCreate plan={plan} getTrip={getTrip} setFlag={setShowCreate} />
-          ) : (
-            <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-              <Button
-                shape='circle'
-                icon={<PlusOutlined />}
-                size='small'
-                onClick={() => setShowCreate(true)}
-              />
-            </div>
-          )}
-          {showEdit && (
+          </Modal>
+
+          <Modal showModal={showEdit} setShowModal={setShowEdit}>
             <SpotEdit
               spot={spot}
               getTrip={getTrip}
               setFlag={setShowEdit}
               setShowDetail={setShowDetail}
             />
-          )}
+          </Modal>
         </>
       )}
     </>
