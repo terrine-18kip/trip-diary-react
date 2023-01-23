@@ -3,7 +3,7 @@ import { Button, Form, Input, InputNumber, Radio, Space } from 'antd'
 import { styles } from './styles'
 /** @jsxImportSource @emotion/react */
 
-import CategoryIcon from '../../elements/categoryIcon/index'
+import CategoryIcon from '../../elements/CategoryIcon/index'
 import { InputPlace } from '../../../types/Types'
 import { categories } from '../../../data/SpotData'
 import { useAddPlace } from './hooks'

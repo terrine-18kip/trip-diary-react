@@ -3,7 +3,7 @@ import { Card } from 'antd'
 import { PayCircleOutlined, LinkOutlined, FileTextOutlined } from '@ant-design/icons'
 /** @jsxImportSource @emotion/react */
 
-import CategoryIcon from '../../elements/categoryIcon'
+import CategoryIcon from '../CategoryIcon'
 import { styles } from './styles'
 import { Place } from '../../../types/Types'
 
