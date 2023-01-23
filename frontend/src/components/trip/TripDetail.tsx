@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useState, useContext } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { PageHeader, Button } from 'antd'
 import {
   CarryOutOutlined,
@@ -23,7 +23,6 @@ const TripDetail: React.FC = () => {
 
   const [showMember, setShowMember] = useState<boolean>(false)
   const navigation = useNavigate()
-  const params = useParams()
 
   useLayoutEffect(() => {
     getTrip()

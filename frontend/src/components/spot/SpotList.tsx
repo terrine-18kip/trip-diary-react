@@ -16,7 +16,7 @@ import Modal from '../elements/Modal'
 
 type Props = {
   plan: Plan
-  getTrip: any
+  getTrip: () => Promise<void>
 }
 
 const SpotList: React.FC<Props> = ({ plan, getTrip }) => {

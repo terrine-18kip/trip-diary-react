@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { PageHeader, Button, Form, Input, DatePicker, Select, Space } from 'antd'
 const { Option } = Select
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react'
 import { useCreateTrip } from '../../hooks/trip/useCreateTrip'
 import { InputTrip } from '../../types/Types'
 
