@@ -63,7 +63,7 @@ const PlaceList: React.FC = () => {
       </Modal>
 
       <Modal showModal={showDetail} setShowModal={setShowDetail}>
-        {place && <PlaceDetail place={place} setShowDetail={setShowDetail} />}
+        {place && <PlaceDetail place={place} getTrip={getTrip} setShowDetail={setShowDetail} />}
       </Modal>
     </div>
   )

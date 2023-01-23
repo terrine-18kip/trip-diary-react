@@ -9,7 +9,6 @@ import SpotCategory from './SpotCategory'
 import { InputSpot } from '../../types/Types'
 import { categories } from '../../data/SpotData'
 import { useUpdateSpot } from '../../hooks/spot/useUpdateSpot'
-import { useDeleteSpot } from '../../hooks/spot/useDeleteSpot'
 
 type Props = {
   spot: InputSpot
@@ -20,21 +19,11 @@ type Props = {
 
 const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) => {
   const { updateSpot } = useUpdateSpot()
-  const { deleteSpot } = useDeleteSpot()
   const [data, setData] = useState<InputSpot>(spot)
   const params = useParams()
 
   const handleSubmitUpdate = async () => {
     const res = await updateSpot(spot.id, data)
-    if (res) {
-      await getTrip(params.id)
-      setFlag(false)
-      setShowDetail(false)
-    }
-  }
-
-  const handleSubmitDelete = async () => {
-    const res = await deleteSpot(spot.id)
     if (res) {
       await getTrip(params.id)
       setFlag(false)

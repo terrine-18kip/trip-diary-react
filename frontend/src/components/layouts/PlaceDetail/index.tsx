@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { useParams } from 'react-router-dom'
 import { Button } from 'antd'
 import {
   EditOutlined,
@@ -14,15 +15,27 @@ import CategoryIcon from '../../elements/CategoryIcon'
 import { UserContext } from '../../../Context'
 import { Place } from '../../../types/Types'
 import { styles } from './styles'
+import { useDeletePlace } from './hooks'
 
 type Props = {
   place: Place
+  getTrip: (id: string | undefined) => Promise<void>
   setShowDetail: React.Dispatch<React.SetStateAction<boolean>>
   // setShowEdit: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const PlaceDetail: React.FC<Props> = ({ place, setShowDetail }) => {
+const PlaceDetail: React.FC<Props> = ({ place, getTrip, setShowDetail }) => {
   const { user } = useContext(UserContext)
+  const { deletePlace } = useDeletePlace()
+  const params = useParams()
+
+  const handleSubmitDelete = async () => {
+    const res = await deletePlace(place.id)
+    if (res) {
+      await getTrip(params.id)
+      setShowDetail(false)
+    }
+  }
 
   return (
     <>
@@ -30,7 +43,12 @@ const PlaceDetail: React.FC<Props> = ({ place, setShowDetail }) => {
         {user && (
           <>
             <Button type='text' shape='circle' disabled icon={<EditOutlined />} />
-            <Button type='text' shape='circle' disabled icon={<DeleteOutlined />} />
+            <Button
+              type='text'
+              shape='circle'
+              onClick={() => handleSubmitDelete()}
+              icon={<DeleteOutlined />}
+            />
           </>
         )}
         <Button
