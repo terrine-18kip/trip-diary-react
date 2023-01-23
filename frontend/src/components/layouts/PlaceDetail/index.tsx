@@ -20,10 +20,10 @@ type Props = {
   place: Place
   getTrip: () => Promise<void>
   setShowDetail: React.Dispatch<React.SetStateAction<boolean>>
-  // setShowEdit: React.Dispatch<React.SetStateAction<boolean>>
+  setShowEdit: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const PlaceDetail: React.FC<Props> = ({ place, getTrip, setShowDetail }) => {
+const PlaceDetail: React.FC<Props> = ({ place, getTrip, setShowDetail, setShowEdit }) => {
   const { user } = useContext(UserContext)
   const { deletePlace } = useDeletePlace()
 
@@ -40,7 +40,12 @@ const PlaceDetail: React.FC<Props> = ({ place, getTrip, setShowDetail }) => {
       <div css={styles.button}>
         {user && (
           <>
-            <Button type='text' shape='circle' disabled icon={<EditOutlined />} />
+            <Button
+              type='text'
+              shape='circle'
+              onClick={() => setShowEdit(true)}
+              icon={<EditOutlined />}
+            />
             <Button
               type='text'
               shape='circle'

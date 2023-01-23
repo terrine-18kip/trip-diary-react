@@ -7,27 +7,26 @@ import { styles } from './styles'
 import CategoryIcon from '../../elements/CategoryIcon/index'
 import { InputPlace } from '../../../types/Types'
 import { categories } from '../../../data/SpotData'
-import { useAddPlace } from './hooks'
+import { useUpdatePlace } from './hooks'
 
 type Props = {
-  tripId: number
+  place: InputPlace
   getTrip: () => Promise<void>
-  setFlag: React.Dispatch<React.SetStateAction<boolean>>
+  setShowEdit: React.Dispatch<React.SetStateAction<boolean>>
+  setShowDetail: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const PlaceCreate: React.FC<Props> = ({ tripId, getTrip, setFlag }) => {
-  const { addPlace } = useAddPlace()
+const PlaceEdit: React.FC<Props> = ({ place, getTrip, setShowEdit, setShowDetail }) => {
+  const { updatePlace } = useUpdatePlace()
 
-  const [data, setData] = useState<InputPlace>({
-    trip_id: tripId,
-    category_id: 0,
-  })
+  const [data, setData] = useState<InputPlace>(place)
 
   const handleSubmit = async () => {
-    const res = await addPlace(data)
+    const res = await updatePlace(place.id, data)
     if (res) {
       await getTrip()
-      setFlag(false)
+      setShowEdit(false)
+      setShowDetail(false)
     }
   }
 
@@ -39,7 +38,7 @@ const PlaceCreate: React.FC<Props> = ({ tripId, getTrip, setFlag }) => {
             type='text'
             shape='circle'
             icon={<PlusOutlined rotate={45} />}
-            onClick={() => setFlag(false)}
+            onClick={() => setShowEdit(false)}
           />
           <Button shape='round' htmlType='submit' type='primary'>
             更新
@@ -77,6 +76,7 @@ const PlaceCreate: React.FC<Props> = ({ tripId, getTrip, setFlag }) => {
         <div style={{ marginBottom: '10px' }}>
           <InputNumber
             placeholder='金額'
+            value={data.fee ?? undefined}
             addonAfter='円'
             formatter={(value) => String(value).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
             style={{ width: '100%' }}
@@ -87,6 +87,7 @@ const PlaceCreate: React.FC<Props> = ({ tripId, getTrip, setFlag }) => {
         <div style={{ marginBottom: '10px' }}>
           <Input
             placeholder='リンク'
+            value={data.link ?? undefined}
             onChange={(event) => setData({ ...data, link: event.target.value })}
           />
         </div>
@@ -94,6 +95,7 @@ const PlaceCreate: React.FC<Props> = ({ tripId, getTrip, setFlag }) => {
         <div style={{ marginBottom: '20px' }}>
           <Input
             placeholder='メモ'
+            value={data.memo ?? undefined}
             onChange={(event) => setData({ ...data, memo: event.target.value })}
           />
         </div>
@@ -102,4 +104,4 @@ const PlaceCreate: React.FC<Props> = ({ tripId, getTrip, setFlag }) => {
   )
 }
 
-export default PlaceCreate
+export default PlaceEdit

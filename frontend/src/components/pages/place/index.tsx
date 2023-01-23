@@ -6,18 +6,20 @@ import { PageHeader, Button } from 'antd'
 import Modal from '../../elements/Modal'
 import NotFound from '../../common/NotFound'
 import PlaceCard from '../../elements/PlaceCard'
-import PlaceCreate from '../../layouts/placeCreate'
+import PlaceCreate from '../../layouts/PlaceCreate'
 import PlaceDetail from '../../layouts/PlaceDetail'
 import { UserContext } from '../../../Context'
 import { useGetTrip } from '../../../hooks/trip/useGetTrip'
 import { styles } from './styles'
 import { Place } from '../../../types/Types'
+import PlaceEdit from '../../layouts/PlaceEdit'
 
 const PlaceList: React.FC = () => {
   const { user } = useContext(UserContext)
   const { trip, places, unauthorized, getTrip } = useGetTrip()
   const [showCreate, setShowCreate] = useState<boolean>(false)
   const [showDetail, setShowDetail] = useState<boolean>(false)
+  const [showEdit, setShowEdit] = useState<boolean>(false)
   const [place, setPlace] = useState<Place>()
 
   const navigation = useNavigate()
@@ -62,7 +64,25 @@ const PlaceList: React.FC = () => {
       </Modal>
 
       <Modal showModal={showDetail} setShowModal={setShowDetail}>
-        {place && <PlaceDetail place={place} getTrip={getTrip} setShowDetail={setShowDetail} />}
+        {place && (
+          <PlaceDetail
+            place={place}
+            getTrip={getTrip}
+            setShowDetail={setShowDetail}
+            setShowEdit={setShowEdit}
+          />
+        )}
+      </Modal>
+
+      <Modal showModal={showEdit} setShowModal={setShowEdit}>
+        {place && (
+          <PlaceEdit
+            place={place}
+            getTrip={getTrip}
+            setShowEdit={setShowEdit}
+            setShowDetail={setShowDetail}
+          />
+        )}
       </Modal>
     </div>
   )
