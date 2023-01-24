@@ -6,4 +6,7 @@ export const styles = {
     padding: 0;
     margin-bottom: 10px;
   `,
+  addButton: css`
+    text-align: center;
+  `,
 }

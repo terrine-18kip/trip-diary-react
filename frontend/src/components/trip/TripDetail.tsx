@@ -1,6 +1,6 @@
-import React, { useLayoutEffect, useState, useContext } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { PageHeader, Button } from 'antd'
+import React, { useLayoutEffect, useContext } from 'react'
+import { Link } from 'react-router-dom'
+import { Button } from 'antd'
 import {
   CarryOutOutlined,
   PushpinOutlined,
@@ -13,16 +13,12 @@ import { css } from '@emotion/react'
 
 import { UserContext } from '../../Context'
 import { useGetTrip } from '../../hooks/trip/useGetTrip'
-import TripMember from '../trip/TripMember'
 import TripOutline from '../trip/TripOutline'
 import NotFound from '../common/NotFound'
 
 const TripDetail: React.FC = () => {
   const { user } = useContext(UserContext)
   const { trip, unauthorized, getTrip } = useGetTrip()
-
-  const [showMember, setShowMember] = useState<boolean>(false)
-  const navigation = useNavigate()
 
   useLayoutEffect(() => {
     getTrip()
@@ -44,26 +40,12 @@ const TripDetail: React.FC = () => {
     `,
   }
 
-  if (unauthorized) {
-    return <NotFound />
-  }
+  if (unauthorized) return <NotFound />
+  if (!trip) return <></>
 
-  return trip ? (
-    <div>
-      <PageHeader
-        title='旅の詳細'
-        onBack={() => navigation('/')}
-        extra={
-          user && (
-            <Button type='primary' onClick={() => setShowMember(true)}>
-              メンバーを編集
-            </Button>
-          )
-        }
-      />
-      {showMember && <TripMember trip={trip} getTrip={getTrip} setFlag={setShowMember} />}
-
-      <TripOutline trip={trip} />
+  return (
+    <>
+      <TripOutline trip={trip} getTrip={getTrip} />
 
       <div css={styles.services}>
         <Button block disabled icon={<CarryOutOutlined />} css={styles.button}>
@@ -90,9 +72,7 @@ const TripDetail: React.FC = () => {
           割り勘計算
         </Button>
       </div>
-    </div>
-  ) : (
-    <></>
+    </>
   )
 }
 

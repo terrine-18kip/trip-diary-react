@@ -1,6 +1,6 @@
 import React, { useState, useLayoutEffect, useContext } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { PageHeader, Button } from 'antd'
+import { Button } from 'antd'
+import { PlusOutlined } from '@ant-design/icons'
 /** @jsxImportSource @emotion/react */
 
 import Modal from '../../elements/Modal'
@@ -22,8 +22,6 @@ const PlaceList: React.FC = () => {
   const [showEdit, setShowEdit] = useState<boolean>(false)
   const [place, setPlace] = useState<Place>()
 
-  const navigation = useNavigate()
-
   useLayoutEffect(() => {
     getTrip()
   }, [user])
@@ -32,17 +30,7 @@ const PlaceList: React.FC = () => {
   if (!trip) return <></>
 
   return (
-    <div>
-      <PageHeader
-        title='行き先メモ'
-        onBack={() => navigation(`/${trip.uniqid}`)}
-        extra={
-          <Button type='primary' onClick={() => setShowCreate(true)}>
-            作成
-          </Button>
-        }
-      />
-
+    <>
       <div css={styles.places}>
         {places.map((place) => {
           return (
@@ -57,6 +45,15 @@ const PlaceList: React.FC = () => {
             </div>
           )
         })}
+      </div>
+
+      <div css={styles.addButton}>
+        <Button
+          shape='circle'
+          type='ghost'
+          icon={<PlusOutlined />}
+          onClick={() => setShowCreate(true)}
+        />
       </div>
 
       <Modal showModal={showCreate} setShowModal={setShowCreate}>
@@ -84,7 +81,7 @@ const PlaceList: React.FC = () => {
           />
         )}
       </Modal>
-    </div>
+    </>
   )
 }
 

@@ -1,6 +1,4 @@
 import React, { useLayoutEffect, useContext } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { PageHeader } from 'antd'
 import { css } from '@emotion/react'
 /** @jsxImportSource @emotion/react */
 
@@ -15,8 +13,6 @@ const PlanList: React.FC = () => {
   const { user } = useContext(UserContext)
   const { trip, plans, unauthorized, getTrip } = useGetTrip()
 
-  const navigation = useNavigate()
-
   useLayoutEffect(() => {
     getTrip()
   }, [user])
@@ -30,29 +26,22 @@ const PlanList: React.FC = () => {
     `,
   }
 
-  if (unauthorized) {
-    return <NotFound />
-  }
+  if (unauthorized) return <NotFound />
+  if (!trip) return <></>
 
-  return trip ? (
-    <div>
-      <PageHeader title='旅のプラン' onBack={() => navigation(`/${trip.uniqid}`)} />
+  return (
+    <div css={styles.plans}>
+      {plans?.map((plan) => {
+        return (
+          <>
+            <PlanOutline tripId={trip.id} plan={plan} getTrip={getTrip} />
+            <SpotList plan={plan} getTrip={getTrip} />
+          </>
+        )
+      })}
 
-      <div css={styles.plans}>
-        {plans?.map((plan) => {
-          return (
-            <>
-              <PlanOutline tripId={trip.id} plan={plan} getTrip={getTrip} />
-              <SpotList plan={plan} getTrip={getTrip} />
-            </>
-          )
-        })}
-
-        {user && <PlanCreate trip={trip} plans={plans} getTrip={getTrip} />}
-      </div>
+      {user && <PlanCreate trip={trip} plans={plans} getTrip={getTrip} />}
     </div>
-  ) : (
-    <></>
   )
 }
 

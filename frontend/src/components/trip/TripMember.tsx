@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { PageHeader, Alert, Button, Form, Input } from 'antd'
-import { CloseOutlined } from '@ant-design/icons'
+import { PlusOutlined } from '@ant-design/icons'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
@@ -33,27 +33,6 @@ const TripMember: React.FC<Props> = ({ trip, getTrip, setFlag }) => {
   }
 
   const styles = {
-    wrapper: css`
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: rgba(0, 0, 0, 0.4);
-      z-index: 100;
-    `,
-    container: css`
-      width: 80%;
-      max-width: 720px;
-      padding: 30px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      text-align: center;
-      background-color: #fafafa;
-    `,
     tripMember: css`
       display: flex;
       align-items: center;
@@ -65,50 +44,55 @@ const TripMember: React.FC<Props> = ({ trip, getTrip, setFlag }) => {
   }
 
   return (
-    <div css={styles.wrapper}>
-      <div css={styles.container}>
-        <PageHeader
-          style={{ padding: 0, marginBottom: '16px' }}
-          title='メンバーを編集'
-          extra={<Button shape='circle' icon={<CloseOutlined />} onClick={() => setFlag(false)} />}
+    <>
+      <PageHeader
+        style={{ padding: 0, marginBottom: '16px' }}
+        title='メンバーを編集'
+        extra={
+          <Button
+            type='text'
+            shape='circle'
+            icon={<PlusOutlined rotate={45} />}
+            onClick={() => setFlag(false)}
+          />
+        }
+      />
+      {errorMessage && (
+        <Alert
+          message={errorMessage}
+          type='error'
+          banner
+          style={{ textAlign: 'left', marginBottom: '10px' }}
         />
-        {errorMessage && (
-          <Alert
-            message={errorMessage}
-            type='error'
-            banner
-            style={{ textAlign: 'left', marginBottom: '10px' }}
-          />
-        )}
-        <div>
-          {trip.users?.map((member) => {
-            return (
-              <div css={styles.tripMember} key={member.id}>
-                <MemberIcon member={member} />
-                {member.id !== user!.id && (
-                  <Button
-                    shape='circle'
-                    size='small'
-                    type='text'
-                    icon={<CloseOutlined />}
-                    onClick={() => handleRemove(member)}
-                  />
-                )}
-              </div>
-            )
-          })}
-        </div>
-        <Form css={styles.form} onFinish={handleSubmit}>
-          <Input
-            placeholder='メールアドレスを入力'
-            onChange={(event) => setEmail(event.target.value)}
-          />
-          <Button type='primary' htmlType='submit'>
-            招待
-          </Button>
-        </Form>
+      )}
+      <div>
+        {trip.users?.map((member) => {
+          return (
+            <div css={styles.tripMember} key={member.id}>
+              <MemberIcon member={member} />
+              {member.id !== user!.id && (
+                <Button
+                  shape='circle'
+                  size='small'
+                  type='text'
+                  icon={<PlusOutlined rotate={45} />}
+                  onClick={() => handleRemove(member)}
+                />
+              )}
+            </div>
+          )
+        })}
       </div>
-    </div>
+      <Form css={styles.form} onFinish={handleSubmit}>
+        <Input
+          placeholder='メールアドレスを入力'
+          onChange={(event) => setEmail(event.target.value)}
+        />
+        <Button type='primary' htmlType='submit'>
+          招待
+        </Button>
+      </Form>
+    </>
   )
 }
 

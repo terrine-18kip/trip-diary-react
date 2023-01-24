@@ -84,8 +84,8 @@ const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
           <div style={{ textAlign: 'center', marginBottom: '20px' }}>
             <Button
               shape='circle'
-              icon={<PlusOutlined />}
               size='small'
+              icon={<PlusOutlined />}
               onClick={() => setShowCreate(true)}
             />
           </div>
