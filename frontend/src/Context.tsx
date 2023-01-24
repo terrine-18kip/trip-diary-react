@@ -1,59 +1,24 @@
-import React, { createContext, useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
-import axios from 'axios'
-
-const apiUrl = process.env.REACT_APP_API_URL
-
-type User = {
-  id?: number
-  name?: string
-  email?: string
-  created_at?: string
-  updated_at?: string
-  trips?: Trip[]
-}
-type Trip = {
-  id: number
-  title: string
-  start_date: string | null
-  end_date: string | null
-  memo: string | null
-  thumb: string | null
-  created_at?: string
-  updated_at?: string
-}
+import React, { createContext, useLayoutEffect } from 'react'
+import { useLocation } from 'react-router-dom'
+import { User } from './types/Types'
+import { useAuthUser } from './hooks/user/useAuthUser'
 
 const UserContext = createContext(
   {} as {
-    user: User
+    user: User | undefined
+    getAuthUser: () => Promise<void>
   },
 )
 
 const UserProvider = (props: any) => {
-  const [user, setUser] = useState<User>({})
-  const navigation = useNavigate()
+  const { user, getAuthUser } = useAuthUser()
   const locationHook = useLocation()
 
-  useEffect(() => {
-    fetchUser()
+  useLayoutEffect(() => {
+    getAuthUser()
   }, [locationHook.pathname])
 
-  async function fetchUser() {
-    try {
-      const res = await axios.get(`${apiUrl}/user`, {
-        withCredentials: true,
-      })
-      setUser(res.data)
-    } catch (error) {
-      navigation('/login')
-    }
-  }
-
-  return (
-    <UserContext.Provider value={{ user }}>
-      {props.children}
-    </UserContext.Provider>
-  )
+  return <UserContext.Provider value={{ user, getAuthUser }}>{props.children}</UserContext.Provider>
 }
 
 export { UserContext, UserProvider }

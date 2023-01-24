@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Trip;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Exception;
 
 class TripController extends Controller
@@ -28,7 +29,9 @@ class TripController extends Controller
      */
     public function store(Request $request)
     {
-        $trip = Trip::create($request->all());
+        $inputs = $request->all();
+        $inputs['uniqid'] = uniqid();
+        $trip = Trip::create($inputs);
         $trip->users()->sync($request->user_id);
         return $trip;
     }
@@ -46,6 +49,32 @@ class TripController extends Controller
         foreach ($trip->plans as $plan) {
             $plan->spots;
         }
+        return $trip;
+    }
+
+    public function find($uniqid)
+    {
+        $trip = Trip::where('uniqid', $uniqid)->first();
+        $user = Auth::user();
+        $members = $trip->users->toArray();
+
+        if ($trip->privacy_id === 1) {
+            if (!$user) {
+                return abort(401);
+            }
+
+            $member_ids = array_column($members, 'id');
+            $is_member = in_array($user->id, $member_ids);
+            if (!$is_member) {
+                return abort(401);
+            }
+        }
+        
+        $trip->plans;
+        foreach ($trip->plans as $plan) {
+            $plan->spots;
+        }
+        $trip->places;
         return $trip;
     }
 

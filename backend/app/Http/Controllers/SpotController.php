@@ -27,7 +27,9 @@ class SpotController extends Controller
      */
     public function update(Request $request, Spot $spot)
     {
-        $spot->update($request->all());
+        $inputs = $request->all();
+        $inputs['order'] = $spot->order;
+        $spot->update($inputs);
         return $spot;
     }
 

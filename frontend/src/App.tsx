@@ -1,9 +1,8 @@
 import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { UserProvider } from './Context'
 import Default from './Default'
-import Login from './components/Login'
-import Entry from './components/Entry'
+import Login from './components/auth/Login'
+import Entry from './components/auth/Entry'
 
 const App: React.FC = () => {
   return (
