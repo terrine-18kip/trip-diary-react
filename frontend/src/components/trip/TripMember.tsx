@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react'
-import { useParams } from 'react-router-dom'
 import { PageHeader, Alert, Button, Form, Input } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 /** @jsxImportSource @emotion/react */
@@ -13,7 +12,7 @@ import MemberIcon from '../common/MemberIcon'
 
 type Props = {
   trip: Trip
-  getTrip: any
+  getTrip: () => Promise<void>
   setFlag: React.Dispatch<React.SetStateAction<boolean>>
 }
 
@@ -22,16 +21,15 @@ const TripMember: React.FC<Props> = ({ trip, getTrip, setFlag }) => {
   const { removeMember } = useRemoveMember()
   const { user } = useContext(UserContext)
   const [email, setEmail] = useState<string>('')
-  const params = useParams()
 
   const handleSubmit = async () => {
     const res = await addMember(trip.id, email)
-    res && getTrip(params.id)
+    res && getTrip()
   }
 
   const handleRemove = async (member: User) => {
     const res = await removeMember(trip, member)
-    res && getTrip(params.id)
+    res && getTrip()
   }
 
   const styles = {

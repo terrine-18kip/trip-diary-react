@@ -74,6 +74,7 @@ class TripController extends Controller
         foreach ($trip->plans as $plan) {
             $plan->spots;
         }
+        $trip->places;
         return $trip;
     }
 

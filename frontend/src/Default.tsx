@@ -10,6 +10,8 @@ import MyPage from './components/auth/MyPage'
 import TripCreate from './components/trip/TripCreate'
 import TripDetail from './components/trip/TripDetail'
 import TripEdit from './components/trip/TripEdit'
+import PlanList from './components/plan/PlanList'
+import PlaceList from './components/pages/place/index'
 
 const Default: React.FC = () => {
   const styles = {
@@ -36,6 +38,8 @@ const Default: React.FC = () => {
           <Route path='/new' element={<TripCreate />} />
           <Route path='/:id' element={<TripDetail />} />
           <Route path='/:id/edit' element={<TripEdit />} />
+          <Route path='/:id/plan' element={<PlanList />} />
+          <Route path='/:id/place' element={<PlaceList />} />
         </Routes>
       </main>
     </UserProvider>

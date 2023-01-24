@@ -1,76 +1,44 @@
 import React, { useState } from 'react'
 import { Button, Form, Input, InputNumber, Radio } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
+import { styles } from './styles'
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react'
 
-import SpotCategory from './SpotCategory'
-import { InputSpot } from '../../types/Types'
-import { categories } from '../../data/SpotData'
-import { useUpdateSpot } from '../../hooks/spot/useUpdateSpot'
+import CategoryIcon from '../../elements/CategoryIcon/index'
+import { InputPlace } from '../../../types/Types'
+import { categories } from '../../../data/SpotData'
+import { useUpdatePlace } from './hooks'
 
 type Props = {
-  spot: InputSpot
+  place: InputPlace
   getTrip: () => Promise<void>
-  setFlag: React.Dispatch<React.SetStateAction<boolean>>
+  setShowEdit: React.Dispatch<React.SetStateAction<boolean>>
   setShowDetail: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) => {
-  const { updateSpot } = useUpdateSpot()
-  const [data, setData] = useState<InputSpot>(spot)
+const PlaceEdit: React.FC<Props> = ({ place, getTrip, setShowEdit, setShowDetail }) => {
+  const { updatePlace } = useUpdatePlace()
 
-  const handleSubmitUpdate = async () => {
-    const res = await updateSpot(spot.id, data)
+  const [data, setData] = useState<InputPlace>(place)
+
+  const handleSubmit = async () => {
+    const res = await updatePlace(place.id, data)
     if (res) {
       await getTrip()
-      setFlag(false)
+      setShowEdit(false)
       setShowDetail(false)
     }
   }
 
-  const styles = {
-    button: css`
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-    `,
-    radioGroup: css`
-      max-width: 360px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      flex-wrap: wrap;
-    `,
-    radio: css`
-      .ant-radio {
-        display: none;
-      }
-      &.ant-radio-wrapper {
-        width: 16%;
-        margin: 0 0 10px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-    `,
-    icon: css`
-      width: 36px;
-      height: 36px;
-    `,
-  }
-
   return (
     <>
-      <Form onFinish={handleSubmitUpdate}>
+      <Form onFinish={handleSubmit}>
         <div css={styles.button}>
           <Button
             type='text'
             shape='circle'
             icon={<PlusOutlined rotate={45} />}
-            onClick={() => setFlag(false)}
+            onClick={() => setShowEdit(false)}
           />
           <Button shape='round' htmlType='submit' type='primary'>
             更新
@@ -82,24 +50,7 @@ const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) =>
             autoFocus
             placeholder='スポット名'
             value={data.name}
-            style={{ width: '100%' }}
             onChange={(event) => setData({ ...data, name: event.target.value })}
-          />
-        </div>
-
-        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '15px' }}>
-          <Input
-            type='time'
-            placeholder='開始時間'
-            value={data.start_time ? data.start_time : undefined}
-            onChange={(event) => setData({ ...data, start_time: event.target.value })}
-          />
-          <span style={{ padding: '0 5px' }}>～</span>
-          <Input
-            type='time'
-            placeholder='終了時間'
-            value={data.end_time ? data.end_time : undefined}
-            onChange={(event) => setData({ ...data, end_time: event.target.value })}
           />
         </div>
 
@@ -111,7 +62,7 @@ const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) =>
             {categories.map((category) => (
               <Radio css={styles.radio} type='circle' key={category.id} value={category.id}>
                 <div css={styles.icon}>
-                  <SpotCategory
+                  <CategoryIcon
                     id={category.id}
                     active={data.category_id === category.id}
                     hoverable
@@ -126,9 +77,9 @@ const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) =>
           <InputNumber
             placeholder='金額'
             value={data.fee ?? undefined}
-            style={{ width: '100%' }}
             addonAfter='円'
             formatter={(value) => String(value).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+            style={{ width: '100%' }}
             onChange={(event) => setData({ ...data, fee: Number(event) })}
           />
         </div>
@@ -153,4 +104,4 @@ const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) =>
   )
 }
 
-export default SpotEdit
+export default PlaceEdit

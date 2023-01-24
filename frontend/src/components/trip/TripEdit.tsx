@@ -1,10 +1,8 @@
 import React, { useLayoutEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
 import { PageHeader, Button, Form, Input, DatePicker, Select, Space } from 'antd'
 const { Option } = Select
 import moment from 'moment'
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react'
 import { InputTrip } from '../../types/Types'
 import { useGetTrip } from '../../hooks/trip/useGetTrip'
 import { useUpdateTrip } from '../../hooks/trip/useUpdateTrip'
@@ -13,10 +11,9 @@ const TripEdit: React.FC = () => {
   const { trip, getTrip } = useGetTrip()
   const { updateTrip } = useUpdateTrip()
   const [data, setData] = useState<InputTrip>({})
-  const params = useParams()
 
   useLayoutEffect(() => {
-    getTrip(params.id)
+    getTrip()
   }, [])
 
   return (

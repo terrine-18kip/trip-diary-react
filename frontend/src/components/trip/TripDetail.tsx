@@ -1,6 +1,13 @@
 import React, { useLayoutEffect, useState, useContext } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { PageHeader, Button } from 'antd'
+import {
+  CarryOutOutlined,
+  PushpinOutlined,
+  NodeIndexOutlined,
+  ShoppingOutlined,
+  TransactionOutlined,
+} from '@ant-design/icons'
 import { css } from '@emotion/react'
 /** @jsxImportSource @emotion/react */
 
@@ -8,29 +15,32 @@ import { UserContext } from '../../Context'
 import { useGetTrip } from '../../hooks/trip/useGetTrip'
 import TripMember from '../trip/TripMember'
 import TripOutline from '../trip/TripOutline'
-import PlanOutline from '../plan/PlanOutline'
-import PlanCreate from '../plan/PlanCreate'
-import SpotList from '../spot/SpotList'
 import NotFound from '../common/NotFound'
 
 const TripDetail: React.FC = () => {
   const { user } = useContext(UserContext)
-  const { trip, plans, unauthorized, getTrip } = useGetTrip()
+  const { trip, unauthorized, getTrip } = useGetTrip()
 
   const [showMember, setShowMember] = useState<boolean>(false)
   const navigation = useNavigate()
-  const params = useParams()
 
   useLayoutEffect(() => {
-    getTrip(params.id)
+    getTrip()
   }, [user])
 
   const styles = {
-    plans: css`
+    services: css`
       padding: 20px 10px;
-      @media screen and (max-width: 768px) {
-        padding: 15px 1%;
-      }
+      display: grid;
+      grid-gap: 10px;
+    `,
+    button: css`
+      height: 50px;
+      padding-left: 10%;
+      border-radius: 10px;
+      color: #666;
+      font-size: 15px;
+      text-align: left;
     `,
   }
 
@@ -55,17 +65,30 @@ const TripDetail: React.FC = () => {
 
       <TripOutline trip={trip} />
 
-      <div css={styles.plans}>
-        {plans?.map((plan) => {
-          return (
-            <>
-              <PlanOutline tripId={trip.id} plan={plan} getTrip={getTrip} />
-              <SpotList plan={plan} getTrip={getTrip} />
-            </>
-          )
-        })}
+      <div css={styles.services}>
+        <Button block disabled icon={<CarryOutOutlined />} css={styles.button}>
+          日程調整
+        </Button>
 
-        {user && <PlanCreate trip={trip} plans={plans} getTrip={getTrip} />}
+        <Link to={`/${trip.uniqid}/place`}>
+          <Button block icon={<PushpinOutlined />} css={styles.button}>
+            行き先メモ
+          </Button>
+        </Link>
+
+        <Link to={`/${trip.uniqid}/plan`}>
+          <Button block icon={<NodeIndexOutlined />} css={styles.button}>
+            旅のプラン
+          </Button>
+        </Link>
+
+        <Button block disabled icon={<ShoppingOutlined />} css={styles.button}>
+          持ち物リスト
+        </Button>
+
+        <Button block disabled icon={<TransactionOutlined />} css={styles.button}>
+          割り勘計算
+        </Button>
       </div>
     </div>
   ) : (

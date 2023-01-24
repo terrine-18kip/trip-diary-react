@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react'
-import { useParams } from 'react-router-dom'
 import { Button, InputNumber } from 'antd'
 import { DeleteFilled } from '@ant-design/icons'
 import { css } from '@emotion/react'
@@ -13,7 +12,7 @@ import { useDeletePlan } from '../../hooks/plan/useDeletePlan'
 type Props = {
   tripId: number | undefined
   plan: Plan
-  getTrip: (id: string | undefined) => Promise<void>
+  getTrip: () => Promise<void>
 }
 
 const PlanOutline: React.FC<Props> = ({ tripId, plan, getTrip }) => {
@@ -22,7 +21,6 @@ const PlanOutline: React.FC<Props> = ({ tripId, plan, getTrip }) => {
   const { deletePlan } = useDeletePlan()
 
   const [editing, setEditing] = useState<boolean>(false)
-  const params = useParams()
 
   const styles = {
     plan: css`
@@ -48,13 +46,13 @@ const PlanOutline: React.FC<Props> = ({ tripId, plan, getTrip }) => {
 
   const handleUpdatePlan = async (id: number, old: number, value: string) => {
     const res = await updatePlan(id, old, value, tripId)
-    if (res) await getTrip(params.id)
+    if (res) await getTrip()
     setEditing(false)
   }
 
   const handleDeletePlan = async (id: number) => {
     const res = await deletePlan(id)
-    if (res) getTrip(params.id)
+    if (res) getTrip()
   }
 
   return (

@@ -11,18 +11,13 @@ export const styles = {
   category: css`
     width: 36px;
     height: 36px;
-    margin: 0 10px;
+    margin-right: 10px;
     @media screen and (max-width: 768px) {
-      margin: 0 2%;
+      margin-right: 2%;
     }
   `,
-  timeFee: css`
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  `,
-  timeFeeContent: css`
-    width: 50%;
+  name: css`
+    flex: 1;
   `,
   key: css`
     padding-left: 2px;
