@@ -33,10 +33,10 @@ const PlanList: React.FC = () => {
     <div css={styles.plans}>
       {plans?.map((plan) => {
         return (
-          <>
+          <div key={plan.id}>
             <PlanOutline tripId={trip.id} plan={plan} getTrip={getTrip} />
             <SpotList plan={plan} getTrip={getTrip} />
-          </>
+          </div>
         )
       })}
 

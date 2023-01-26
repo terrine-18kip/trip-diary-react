@@ -30,7 +30,7 @@ const PlaceList: React.FC = () => {
   if (!trip) return <></>
 
   return (
-    <>
+    <div css={styles.wrapper}>
       <div css={styles.places}>
         {places.map((place) => {
           return (
@@ -81,7 +81,7 @@ const PlaceList: React.FC = () => {
           />
         )}
       </Modal>
-    </>
+    </div>
   )
 }
 
