@@ -8,15 +8,14 @@ import NotFound from '../../common/NotFound'
 import PlaceCard from '../../elements/PlaceCard'
 import PlaceCreate from '../../layouts/PlaceCreate'
 import PlaceDetail from '../../layouts/PlaceDetail'
-import { UserContext } from '../../../Context'
-import { useGetTrip } from '../../../hooks/trip/useGetTrip'
+import { TripContext, UserContext } from '../../../Context'
 import { styles } from './styles'
 import { Place } from '../../../types/Types'
 import PlaceEdit from '../../layouts/PlaceEdit'
 
 const PlaceList: React.FC = () => {
   const { user } = useContext(UserContext)
-  const { trip, places, unauthorized, getTrip } = useGetTrip()
+  const { trip, places, unauthorized, getTrip } = useContext(TripContext)
   const [showCreate, setShowCreate] = useState<boolean>(false)
   const [showDetail, setShowDetail] = useState<boolean>(false)
   const [showEdit, setShowEdit] = useState<boolean>(false)
@@ -57,28 +56,18 @@ const PlaceList: React.FC = () => {
       </div>
 
       <Modal showModal={showCreate} setShowModal={setShowCreate}>
-        <PlaceCreate tripId={trip.id} getTrip={getTrip} setFlag={setShowCreate} />
+        <PlaceCreate tripId={trip.id} setFlag={setShowCreate} />
       </Modal>
 
       <Modal showModal={showDetail} setShowModal={setShowDetail}>
         {place && (
-          <PlaceDetail
-            place={place}
-            getTrip={getTrip}
-            setShowDetail={setShowDetail}
-            setShowEdit={setShowEdit}
-          />
+          <PlaceDetail place={place} setShowDetail={setShowDetail} setShowEdit={setShowEdit} />
         )}
       </Modal>
 
       <Modal showModal={showEdit} setShowModal={setShowEdit}>
         {place && (
-          <PlaceEdit
-            place={place}
-            getTrip={getTrip}
-            setShowEdit={setShowEdit}
-            setShowDetail={setShowDetail}
-          />
+          <PlaceEdit place={place} setShowEdit={setShowEdit} setShowDetail={setShowDetail} />
         )}
       </Modal>
     </div>

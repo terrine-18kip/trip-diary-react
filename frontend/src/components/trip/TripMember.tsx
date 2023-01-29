@@ -4,23 +4,26 @@ import { PlusOutlined } from '@ant-design/icons'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-import { UserContext } from '../../Context'
-import { Trip, User } from '../../types/Types'
+import { TripContext, UserContext } from '../../Context'
+import { User } from '../../types/Types'
 import { useAddMember } from '../../hooks/member/useAddMember'
 import { useRemoveMember } from '../../hooks/member/useRemoveMember'
 import MemberIcon from '../common/MemberIcon'
 
 type Props = {
-  trip: Trip
-  getTrip: () => Promise<void>
   setFlag: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const TripMember: React.FC<Props> = ({ trip, getTrip, setFlag }) => {
+const TripMember: React.FC<Props> = ({ setFlag }) => {
   const { addMember, errorMessage } = useAddMember()
   const { removeMember } = useRemoveMember()
   const { user } = useContext(UserContext)
+  const { trip, getTrip } = useContext(TripContext)
   const [email, setEmail] = useState<string>('')
+
+  if (!trip) {
+    return <></>
+  }
 
   const handleSubmit = async () => {
     const res = await addMember(trip.id, email)

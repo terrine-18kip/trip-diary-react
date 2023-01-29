@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Button, Form, Input, InputNumber, Radio } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { css } from '@emotion/react'
@@ -8,17 +8,18 @@ import SpotCategory from './SpotCategory'
 import { InputSpot, Plan } from '../../types/Types'
 import { categories } from '../../data/SpotData'
 import { useAddSpot } from '../../hooks/spot/useAddSpot'
+import { TripContext } from '../../Context'
 
 type Props = {
   plan: Plan
-  getTrip: () => Promise<void>
   setFlag: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const SpotCreate: React.FC<Props> = ({ plan, getTrip, setFlag }) => {
+const SpotCreate: React.FC<Props> = ({ plan, setFlag }) => {
   const { addSpot } = useAddSpot()
   const spotOrder: number | undefined = plan.spots[plan.spots.length - 1]?.order + 1
 
+  const { getTrip } = useContext(TripContext)
   const [data, setData] = useState<InputSpot>({
     plan_id: plan.id,
     category_id: 0,

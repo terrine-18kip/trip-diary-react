@@ -1,5 +1,5 @@
-import { useCallback, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useCallback, useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import axios from 'axios'
 import { Trip, Plan, Place } from '../../types/Types'
 
@@ -10,10 +10,16 @@ export const useGetTrip = () => {
   const [plans, setPlans] = useState<Plan[]>([])
   const [places, setPlaces] = useState<Place[]>([])
   const [unauthorized, setUnauthorized] = useState<boolean>(false)
-  const params = useParams()
+  const location = useLocation()
+  const urlArray = location.pathname.split('/')
+  const id = urlArray[1]
+
+  useEffect(() => {
+    getTrip()
+  }, [])
 
   const getTrip = useCallback(async () => {
-    const id = params.id
+    console.log('getTrip')
     if (!id) {
       return setUnauthorized(true)
     }

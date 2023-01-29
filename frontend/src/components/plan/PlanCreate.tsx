@@ -1,22 +1,19 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Form, Button, InputNumber } from 'antd'
 import { PlusCircleFilled } from '@ant-design/icons'
 import { css } from '@emotion/react'
 /** @jsxImportSource @emotion/react */
 
-import { Trip, Plan } from '../../types/Types'
 import { useAddPlan } from '../../hooks/plan/useAddPlan'
+import { TripContext } from '../../Context'
 
-type Props = {
-  trip: Trip
-  plans: Plan[]
-  getTrip: () => Promise<void>
-}
-
-const PlanCreate: React.FC<Props> = ({ trip, plans, getTrip }) => {
+const PlanCreate: React.FC = () => {
   const { addPlan } = useAddPlan()
 
+  const { trip, plans, getTrip } = useContext(TripContext)
   const [planNum, setPlanNum] = useState<number | null>(1)
+
+  if (!trip) return <></>
 
   useEffect(() => {
     if (plans.length === 0) {

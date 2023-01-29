@@ -11,14 +11,13 @@ import {
 import { css } from '@emotion/react'
 /** @jsxImportSource @emotion/react */
 
-import { UserContext } from '../../Context'
-import { useGetTrip } from '../../hooks/trip/useGetTrip'
+import { TripContext, UserContext } from '../../Context'
 import TripOutline from '../trip/TripOutline'
 import NotFound from '../common/NotFound'
 
 const TripDetail: React.FC = () => {
   const { user } = useContext(UserContext)
-  const { trip, unauthorized, getTrip } = useGetTrip()
+  const { trip, unauthorized, getTrip } = useContext(TripContext)
 
   useLayoutEffect(() => {
     getTrip()
@@ -45,7 +44,7 @@ const TripDetail: React.FC = () => {
 
   return (
     <>
-      <TripOutline trip={trip} getTrip={getTrip} />
+      <TripOutline />
 
       <div css={styles.services}>
         <Button block disabled icon={<CarryOutOutlined />} css={styles.button}>

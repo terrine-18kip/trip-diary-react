@@ -13,20 +13,15 @@ import {
 import { css } from '@emotion/react'
 /** @jsxImportSource @emotion/react */
 
-import { UserContext } from '../../Context'
+import { TripContext, UserContext } from '../../Context'
 import { useDeleteTrip } from '../../hooks/trip/useDeleteTrip'
-import { Trip } from '../../types/Types'
 import MemberIcon from '../common/MemberIcon'
 import Modal from '../elements/Modal'
 import TripMember from './TripMember'
 
-type Props = {
-  trip: Trip
-  getTrip: () => Promise<void>
-}
-
-const TripOutline: React.FC<Props> = ({ trip, getTrip }) => {
+const TripOutline: React.FC = () => {
   const { user } = useContext(UserContext)
+  const { trip } = useContext(TripContext)
   const { deleteTrip } = useDeleteTrip()
 
   const [showMember, setShowMember] = useState<boolean>(false)
@@ -52,6 +47,10 @@ const TripOutline: React.FC<Props> = ({ trip, getTrip }) => {
       align-items: center;
       flex-wrap: wrap;
     `,
+  }
+
+  if (!trip) {
+    return <></>
   }
 
   return (
@@ -124,7 +123,7 @@ const TripOutline: React.FC<Props> = ({ trip, getTrip }) => {
       </div>
 
       <Modal showModal={showMember} setShowModal={setShowMember}>
-        <TripMember trip={trip} getTrip={getTrip} setFlag={setShowMember} />
+        <TripMember setFlag={setShowMember} />
       </Modal>
     </Card>
   )

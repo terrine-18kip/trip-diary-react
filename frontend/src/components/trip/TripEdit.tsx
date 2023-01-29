@@ -1,14 +1,14 @@
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useContext, useLayoutEffect, useState } from 'react'
 import { PageHeader, Button, Form, Input, DatePicker, Select, Space } from 'antd'
 const { Option } = Select
 import moment from 'moment'
 /** @jsxImportSource @emotion/react */
 import { InputTrip } from '../../types/Types'
-import { useGetTrip } from '../../hooks/trip/useGetTrip'
 import { useUpdateTrip } from '../../hooks/trip/useUpdateTrip'
+import { TripContext } from '../../Context'
 
 const TripEdit: React.FC = () => {
-  const { trip, getTrip } = useGetTrip()
+  const { trip, getTrip } = useContext(TripContext)
   const { updateTrip } = useUpdateTrip()
   const [data, setData] = useState<InputTrip>({})
 

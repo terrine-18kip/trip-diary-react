@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Button, Form, Input, InputNumber, Radio } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { styles } from './styles'
@@ -8,16 +8,17 @@ import CategoryIcon from '../../elements/CategoryIcon/index'
 import { InputPlace } from '../../../types/Types'
 import { categories } from '../../../data/SpotData'
 import { useAddPlace } from './hooks'
+import { TripContext } from '../../../Context'
 
 type Props = {
   tripId: number
-  getTrip: () => Promise<void>
   setFlag: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const PlaceCreate: React.FC<Props> = ({ tripId, getTrip, setFlag }) => {
+const PlaceCreate: React.FC<Props> = ({ tripId, setFlag }) => {
   const { addPlace } = useAddPlace()
 
+  const { getTrip } = useContext(TripContext)
   const [data, setData] = useState<InputPlace>({
     trip_id: tripId,
     category_id: 0,

@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-import { UserProvider } from './Context'
+import { TripProvider, UserProvider } from './Context'
 import Header from './components/common/Header'
 import Top from './components/trip/Top'
 import MyPage from './components/auth/MyPage'
@@ -31,20 +31,22 @@ const Default: React.FC = () => {
 
   return (
     <UserProvider>
-      <Header />
-      <main css={styles.container}>
-        <Routes>
-          <Route path='/' element={<Top />} />
-          <Route path='/mypage' element={<MyPage />} />
-          <Route path='/new' element={<TripCreate />} />
-          <Route path='/:id/' element={<TripDetail />} />
-          <Route path='/:id/edit' element={<TripEdit />} />
-          <Route path='/:id/' element={<TripLayout />}>
-            <Route path='/:id/plan' element={<PlanList />} />
-            <Route path='/:id/place' element={<PlaceList />} />
-          </Route>
-        </Routes>
-      </main>
+      <TripProvider>
+        <Header />
+        <main css={styles.container}>
+          <Routes>
+            <Route path='/' element={<Top />} />
+            <Route path='/mypage' element={<MyPage />} />
+            <Route path='/new' element={<TripCreate />} />
+            <Route path='/:id/' element={<TripDetail />} />
+            <Route path='/:id/edit' element={<TripEdit />} />
+            <Route path='/:id/' element={<TripLayout />}>
+              <Route path='/:id/plan' element={<PlanList />} />
+              <Route path='/:id/place' element={<PlaceList />} />
+            </Route>
+          </Routes>
+        </main>
+      </TripProvider>
     </UserProvider>
   )
 }

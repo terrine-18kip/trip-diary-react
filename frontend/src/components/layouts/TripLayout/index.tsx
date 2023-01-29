@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useContext } from 'react'
+import React, { useContext } from 'react'
 import { Outlet, Link, useLocation } from 'react-router-dom'
 import { Button } from 'antd'
 import {
@@ -10,16 +10,10 @@ import {
 import { css } from '@emotion/react'
 /** @jsxImportSource @emotion/react */
 
-import { UserContext } from '../../../Context'
-import { useGetTrip } from '../../../hooks/trip/useGetTrip'
+import { TripContext } from '../../../Context'
 
 const TripLayout: React.FC = () => {
-  const { user } = useContext(UserContext)
-  const { trip, unauthorized, getTrip } = useGetTrip()
-
-  useLayoutEffect(() => {
-    getTrip()
-  }, [user])
+  const { trip, unauthorized } = useContext(TripContext)
 
   const location = useLocation()
   const urlArray = location.pathname.split('/')

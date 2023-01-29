@@ -1,9 +1,8 @@
-import React, { useLayoutEffect, useContext } from 'react'
+import React, { useContext } from 'react'
 import { css } from '@emotion/react'
 /** @jsxImportSource @emotion/react */
 
-import { UserContext } from '../../Context'
-import { useGetTrip } from '../../hooks/trip/useGetTrip'
+import { TripContext, UserContext } from '../../Context'
 import PlanOutline from '../plan/PlanOutline'
 import PlanCreate from '../plan/PlanCreate'
 import SpotList from '../spot/SpotList'
@@ -11,11 +10,7 @@ import NotFound from '../common/NotFound'
 
 const PlanList: React.FC = () => {
   const { user } = useContext(UserContext)
-  const { trip, plans, unauthorized, getTrip } = useGetTrip()
-
-  useLayoutEffect(() => {
-    getTrip()
-  }, [user])
+  const { trip, plans, unauthorized } = useContext(TripContext)
 
   const styles = {
     plans: css`
@@ -34,13 +29,13 @@ const PlanList: React.FC = () => {
       {plans?.map((plan) => {
         return (
           <div key={plan.id}>
-            <PlanOutline tripId={trip.id} plan={plan} getTrip={getTrip} />
-            <SpotList plan={plan} getTrip={getTrip} />
+            <PlanOutline tripId={trip.id} plan={plan} />
+            <SpotList plan={plan} />
           </div>
         )
       })}
 
-      {user && <PlanCreate trip={trip} plans={plans} getTrip={getTrip} />}
+      {user && <PlanCreate />}
     </div>
   )
 }

@@ -16,10 +16,9 @@ import Modal from '../elements/Modal'
 
 type Props = {
   plan: Plan
-  getTrip: () => Promise<void>
 }
 
-const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
+const SpotList: React.FC<Props> = ({ plan }) => {
   const { updateOrder } = useUpdateSpotOrder()
   const { user } = useContext(UserContext)
   const [spots, setSpots] = useState<Spot[]>(plan.spots)
@@ -71,12 +70,7 @@ const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
       </div>
 
       <Modal showModal={showDetail} setShowModal={setShowDetail}>
-        <SpotDetail
-          spot={spot}
-          getTrip={getTrip}
-          setShowDetail={setShowDetail}
-          setShowEdit={setShowEdit}
-        />
+        <SpotDetail spot={spot} setShowDetail={setShowDetail} setShowEdit={setShowEdit} />
       </Modal>
 
       {user && (
@@ -91,16 +85,11 @@ const SpotList: React.FC<Props> = ({ plan, getTrip }) => {
           </div>
 
           <Modal showModal={showCreate} setShowModal={setShowCreate}>
-            <SpotCreate plan={plan} getTrip={getTrip} setFlag={setShowCreate} />
+            <SpotCreate plan={plan} setFlag={setShowCreate} />
           </Modal>
 
           <Modal showModal={showEdit} setShowModal={setShowEdit}>
-            <SpotEdit
-              spot={spot}
-              getTrip={getTrip}
-              setFlag={setShowEdit}
-              setShowDetail={setShowDetail}
-            />
+            <SpotEdit spot={spot} setFlag={setShowEdit} setShowDetail={setShowDetail} />
           </Modal>
         </>
       )}

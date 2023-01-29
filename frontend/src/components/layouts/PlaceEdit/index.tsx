@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Button, Form, Input, InputNumber, Radio } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { styles } from './styles'
@@ -8,17 +8,18 @@ import CategoryIcon from '../../elements/CategoryIcon/index'
 import { InputPlace } from '../../../types/Types'
 import { categories } from '../../../data/SpotData'
 import { useUpdatePlace } from './hooks'
+import { TripContext } from '../../../Context'
 
 type Props = {
   place: InputPlace
-  getTrip: () => Promise<void>
   setShowEdit: React.Dispatch<React.SetStateAction<boolean>>
   setShowDetail: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const PlaceEdit: React.FC<Props> = ({ place, getTrip, setShowEdit, setShowDetail }) => {
+const PlaceEdit: React.FC<Props> = ({ place, setShowEdit, setShowDetail }) => {
   const { updatePlace } = useUpdatePlace()
 
+  const { getTrip } = useContext(TripContext)
   const [data, setData] = useState<InputPlace>(place)
 
   const handleSubmit = async () => {
