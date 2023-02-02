@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Card, Button } from 'antd'
 import {
+  ArrowLeftOutlined,
   EditOutlined,
   DeleteOutlined,
   ScheduleOutlined,
@@ -55,7 +56,14 @@ const TripOutline: React.FC = () => {
 
   return (
     <Card
-      title={trip.title}
+      title={
+        <>
+          <Link key='edit' to='/'>
+            <Button type='text' shape='circle' icon={<ArrowLeftOutlined />} />
+          </Link>
+          {trip.title}
+        </>
+      }
       extra={
         user && (
           <>
