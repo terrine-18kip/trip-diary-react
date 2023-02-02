@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Outlet, Link, useLocation } from 'react-router-dom'
 import { Button } from 'antd'
 import {
@@ -14,10 +14,13 @@ import { TripContext } from '../../../Context'
 
 const TripLayout: React.FC = () => {
   const { trip, unauthorized } = useContext(TripContext)
-
+  const [pageName, setPageName] = useState<string>('')
   const location = useLocation()
-  const urlArray = location.pathname.split('/')
-  const pageName = urlArray.slice(-1)[0]
+
+  useEffect(() => {
+    const urlArray = location.pathname.split('/')
+    setPageName(urlArray.slice(-1)[0])
+  }, [location.pathname])
 
   const styles = {
     header: css`
@@ -41,6 +44,7 @@ const TripLayout: React.FC = () => {
       bottom: 0;
       width: 100%;
       display: flex;
+      background-color: #fafafa;
     `,
     footerContent: css`
       width: 50%;
@@ -64,7 +68,9 @@ const TripLayout: React.FC = () => {
   if (unauthorized) return <></>
   if (!trip) return <></>
 
-  const date = `${trip.start_date}${trip.start_date && trip.end_date && ' ～ '}${trip.end_date}`
+  const date = `${trip.start_date ?? ''}${trip.start_date && trip.end_date ? ' ～ ' : ''}${
+    trip.end_date ?? ''
+  }`
 
   return (
     <>
@@ -75,7 +81,7 @@ const TripLayout: React.FC = () => {
           </Link>
           <span>{trip.title}</span>
         </div>
-        {date && (
+        {date.length > 0 && (
           <div css={styles.headerDate}>
             <ScheduleOutlined /> {date}
           </div>
