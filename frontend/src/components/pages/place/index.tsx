@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect, useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import { Button } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 /** @jsxImportSource @emotion/react */
@@ -8,22 +8,17 @@ import NotFound from '../../common/NotFound'
 import PlaceCard from '../../elements/PlaceCard'
 import PlaceCreate from '../../layouts/PlaceCreate'
 import PlaceDetail from '../../layouts/PlaceDetail'
-import { TripContext, UserContext } from '../../../Context'
+import { TripContext } from '../../../Context'
 import { styles } from './styles'
 import { Place } from '../../../types/Types'
 import PlaceEdit from '../../layouts/PlaceEdit'
 
 const PlaceList: React.FC = () => {
-  const { user } = useContext(UserContext)
-  const { trip, places, unauthorized, getTrip } = useContext(TripContext)
+  const { trip, places, unauthorized } = useContext(TripContext)
   const [showCreate, setShowCreate] = useState<boolean>(false)
   const [showDetail, setShowDetail] = useState<boolean>(false)
   const [showEdit, setShowEdit] = useState<boolean>(false)
   const [place, setPlace] = useState<Place>()
-
-  useLayoutEffect(() => {
-    getTrip()
-  }, [user])
 
   if (unauthorized) return <NotFound />
   if (!trip) return <></>

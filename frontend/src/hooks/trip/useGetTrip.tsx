@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import axios from 'axios'
 import { Trip, Plan, Place } from '../../types/Types'
@@ -10,30 +10,34 @@ export const useGetTrip = () => {
   const [plans, setPlans] = useState<Plan[]>([])
   const [places, setPlaces] = useState<Place[]>([])
   const [unauthorized, setUnauthorized] = useState<boolean>(false)
+  const [tripId, setTripId] = useState<string | undefined>()
   const location = useLocation()
-  const urlArray = location.pathname.split('/')
-  const id = urlArray[1]
+
+  useEffect(() => {
+    const urlArray = location.pathname.split('/')
+    setTripId(urlArray[1])
+  }, [location.pathname])
 
   useEffect(() => {
     getTrip()
-  }, [])
+  }, [tripId])
 
-  const getTrip = useCallback(async () => {
-    console.log('getTrip')
-    if (!id) {
-      return setUnauthorized(true)
+  const getTrip = async () => {
+    if (!tripId) {
+      return setTrip(undefined)
     }
     try {
-      const res = await axios.get(`${apiUrl}/trips/find/${id}`, {
+      const res = await axios.get(`${apiUrl}/trips/find/${tripId}`, {
         withCredentials: true,
       })
+      setUnauthorized(false)
       setTrip(res.data)
       setPlans(res.data.plans)
       setPlaces(res.data.places)
     } catch (error) {
       setUnauthorized(true)
     }
-  }, [])
+  }
 
   return { trip, plans, places, unauthorized, getTrip }
 }

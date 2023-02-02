@@ -21,7 +21,7 @@ const TripMember: React.FC<Props> = ({ setFlag }) => {
   const { trip, getTrip } = useContext(TripContext)
   const [email, setEmail] = useState<string>('')
 
-  if (!trip) {
+  if (!trip || !user) {
     return <></>
   }
 
@@ -73,7 +73,7 @@ const TripMember: React.FC<Props> = ({ setFlag }) => {
           return (
             <div css={styles.tripMember} key={member.id}>
               <MemberIcon member={member} />
-              {member.id !== user!.id && (
+              {member.id !== user.id && (
                 <Button
                   shape='circle'
                   size='small'

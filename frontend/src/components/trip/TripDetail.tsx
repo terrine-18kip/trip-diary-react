@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useContext } from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from 'antd'
 import {
@@ -11,17 +11,12 @@ import {
 import { css } from '@emotion/react'
 /** @jsxImportSource @emotion/react */
 
-import { TripContext, UserContext } from '../../Context'
+import { TripContext } from '../../Context'
 import TripOutline from '../trip/TripOutline'
 import NotFound from '../common/NotFound'
 
 const TripDetail: React.FC = () => {
-  const { user } = useContext(UserContext)
-  const { trip, unauthorized, getTrip } = useContext(TripContext)
-
-  useLayoutEffect(() => {
-    getTrip()
-  }, [user])
+  const { trip, unauthorized } = useContext(TripContext)
 
   const styles = {
     services: css`

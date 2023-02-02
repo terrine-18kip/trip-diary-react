@@ -1,4 +1,4 @@
-import React, { createContext, useLayoutEffect } from 'react'
+import React, { createContext, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Place, Plan, Trip, User } from './types/Types'
 import { useAuthUser } from './hooks/user/useAuthUser'
@@ -15,7 +15,7 @@ const UserProvider = (props: any) => {
   const { user, getAuthUser } = useAuthUser()
   const locationHook = useLocation()
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     getAuthUser()
   }, [locationHook.pathname])
 
