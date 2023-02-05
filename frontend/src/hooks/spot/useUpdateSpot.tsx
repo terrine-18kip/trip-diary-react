@@ -1,8 +1,8 @@
 import { useCallback, useContext } from 'react'
-import axios from '../../axios'
+import axios from 'axiosInstance'
 
-import { UserContext } from '../../Context'
-import { InputSpot } from '../../types/Types'
+import { UserContext } from 'Context'
+import { InputSpot } from 'types/Types'
 
 export const useUpdateSpot = () => {
   const { user } = useContext(UserContext)

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import axios from 'axios'
-import axiosInstance from '../../axios'
+import axiosInstance from 'axiosInstance'
 
 export const useAddMember = () => {
   const [errorMessage, setErrorMessage] = useState<string>('')

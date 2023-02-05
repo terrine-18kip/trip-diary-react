@@ -1,8 +1,8 @@
 import React, { createContext, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { Place, Plan, Trip, User } from './types/Types'
-import { useAuthUser } from './hooks/user/useAuthUser'
-import { useGetTrip } from './hooks/trip/useGetTrip'
+import { Place, Plan, Trip, User } from 'types/Types'
+import { useAuthUser } from 'hooks/user/useAuthUser'
+import { useGetTrip } from 'hooks/trip/useGetTrip'
 
 const UserContext = createContext(
   {} as {

@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { PageHeader, Button, Form, Input, Space, message } from 'antd'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { useAdminAuth } from '../../hooks/auth/useAdminAuth'
+import { useAdminAuth } from 'hooks/auth/useAdminAuth'
 
 type Login = {
   email?: string

@@ -1,5 +1,5 @@
 import { css } from '@emotion/react'
-import { Category } from '../../../types/Types'
+import { Category } from 'types/Types'
 
 export const generateStyles = (category: Category) => {
   return {

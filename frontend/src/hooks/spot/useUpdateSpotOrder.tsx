@@ -1,8 +1,8 @@
 import { useCallback, useContext } from 'react'
-import axios from '../../axios'
+import axios from 'axiosInstance'
 
-import { UserContext } from '../../Context'
-import { Spot } from '../../types/Types'
+import { UserContext } from 'Context'
+import { Spot } from 'types/Types'
 
 export const useUpdateSpotOrder = () => {
   const { user } = useContext(UserContext)

@@ -1,5 +1,5 @@
-import axios from '../../axios'
-import { Trip, User } from '../../types/Types'
+import axios from 'axiosInstance'
+import { Trip, User } from 'types/Types'
 
 export const useRemoveMember = () => {
   const removeMember = async (trip: Trip, member: User) => {

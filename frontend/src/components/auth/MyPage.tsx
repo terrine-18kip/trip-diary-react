@@ -4,7 +4,7 @@ import { UserOutlined } from '@ant-design/icons'
 import { css } from '@emotion/react'
 /** @jsxImportSource @emotion/react */
 
-import { UserContext } from '../../Context'
+import { UserContext } from 'Context'
 import EditName from './EditName'
 import EditEmail from './EditEmail'
 import EditPassword from './EditPassword'

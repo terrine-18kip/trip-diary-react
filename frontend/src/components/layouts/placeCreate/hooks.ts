@@ -1,6 +1,6 @@
-import axios from '../../../axios'
+import axios from 'axiosInstance'
 import { useCallback } from 'react'
-import { InputPlace } from '../../../types/Types'
+import { InputPlace } from 'types/Types'
 
 export const useAddPlace = () => {
   const addPlace = useCallback(async (data: InputPlace) => {

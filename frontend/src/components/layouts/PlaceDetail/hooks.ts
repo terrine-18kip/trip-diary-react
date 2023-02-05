@@ -1,7 +1,7 @@
 import { useCallback, useContext } from 'react'
-import axios from '../../../axios'
+import axios from 'axiosInstance'
 
-import { UserContext } from '../../../Context'
+import { UserContext } from 'Context'
 
 export const useDeletePlace = () => {
   const { user } = useContext(UserContext)

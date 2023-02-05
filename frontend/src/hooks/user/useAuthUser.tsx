@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
-import axios from '../../axios'
-import { User } from '../../types/Types'
+import axios from 'axiosInstance'
+import { User } from 'types/Types'
 
 export const useAuthUser = () => {
   const [user, setUser] = useState<User | undefined>(undefined)

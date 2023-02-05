@@ -10,9 +10,9 @@ import {
 } from '@ant-design/icons'
 /** @jsxImportSource @emotion/react */
 
-import CategoryIcon from '../../elements/CategoryIcon'
-import { TripContext, UserContext } from '../../../Context'
-import { Place } from '../../../types/Types'
+import CategoryIcon from 'components/elements/CategoryIcon'
+import { TripContext, UserContext } from 'Context'
+import { Place } from 'types/Types'
 import { styles } from './styles'
 import { useDeletePlace } from './hooks'
 

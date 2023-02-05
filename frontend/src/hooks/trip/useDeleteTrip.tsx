@@ -1,7 +1,7 @@
 import { useCallback, useContext } from 'react'
-import { UserContext } from '../../Context'
+import { UserContext } from 'Context'
 import { useNavigate } from 'react-router-dom'
-import axios from '../../axios'
+import axios from 'axiosInstance'
 
 export const useDeleteTrip = () => {
   const { user } = useContext(UserContext)

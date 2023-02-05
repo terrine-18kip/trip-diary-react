@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
-import { UserContext } from '../../Context'
+import { UserContext } from 'Context'
 import { MenuOutlined } from '@ant-design/icons'
 import { Draggable } from 'react-beautiful-dnd'
 
 import SpotCategory from './SpotCategory'
-import { styles } from '../../styles/SpotList.styles'
-import { Spot } from '../../types/Types'
+import { styles } from 'styles/SpotList.styles'
+import { Spot } from 'types/Types'
 /** @jsxImportSource @emotion/react */
 
 type Props = {

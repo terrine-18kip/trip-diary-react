@@ -1,6 +1,6 @@
 import { useCallback, useContext } from 'react'
-import { UserContext } from '../../Context'
-import axios from '../../axios'
+import { UserContext } from 'Context'
+import axios from 'axiosInstance'
 
 export const useUpdatePlan = () => {
   const { user } = useContext(UserContext)

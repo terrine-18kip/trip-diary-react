@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import axios from '../../axios'
-import { Trip, Plan, Place } from '../../types/Types'
+import axios from 'axiosInstance'
+import { Trip, Plan, Place } from 'types/Types'
 
 export const useGetTrip = () => {
   const [trip, setTrip] = useState<Trip | undefined>(undefined)

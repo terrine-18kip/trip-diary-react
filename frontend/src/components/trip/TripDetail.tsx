@@ -11,9 +11,9 @@ import {
 import { css } from '@emotion/react'
 /** @jsxImportSource @emotion/react */
 
-import { TripContext } from '../../Context'
-import TripOutline from '../trip/TripOutline'
-import NotFound from '../common/NotFound'
+import { TripContext } from 'Context'
+import TripOutline from 'components/trip/TripOutline'
+import NotFound from 'components/common/NotFound'
 
 const TripDetail: React.FC = () => {
   const { trip, unauthorized } = useContext(TripContext)

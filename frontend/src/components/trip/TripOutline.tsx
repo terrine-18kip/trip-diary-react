@@ -14,10 +14,10 @@ import {
 import { css } from '@emotion/react'
 /** @jsxImportSource @emotion/react */
 
-import { TripContext, UserContext } from '../../Context'
-import { useDeleteTrip } from '../../hooks/trip/useDeleteTrip'
-import MemberIcon from '../common/MemberIcon'
-import Modal from '../elements/Modal'
+import { TripContext, UserContext } from 'Context'
+import { useDeleteTrip } from 'hooks/trip/useDeleteTrip'
+import MemberIcon from 'components/common/MemberIcon'
+import Modal from 'components/elements/Modal'
 import TripMember from './TripMember'
 
 const TripOutline: React.FC = () => {

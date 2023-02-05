@@ -5,10 +5,10 @@ import { css } from '@emotion/react'
 /** @jsxImportSource @emotion/react */
 
 import SpotCategory from './SpotCategory'
-import { InputSpot, Plan } from '../../types/Types'
-import { categories } from '../../data/SpotData'
-import { useAddSpot } from '../../hooks/spot/useAddSpot'
-import { TripContext } from '../../Context'
+import { InputSpot, Plan } from 'types/Types'
+import { categories } from 'data/SpotData'
+import { useAddSpot } from 'hooks/spot/useAddSpot'
+import { TripContext } from 'Context'
 
 type Props = {
   plan: Plan

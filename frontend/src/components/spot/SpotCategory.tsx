@@ -2,7 +2,7 @@ import React from 'react'
 import { css } from '@emotion/react'
 /** @jsxImportSource @emotion/react */
 
-import { categories } from '../../data/SpotData'
+import { categories } from 'data/SpotData'
 
 type Props = {
   id: number

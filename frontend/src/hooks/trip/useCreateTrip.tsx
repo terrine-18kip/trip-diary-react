@@ -1,9 +1,9 @@
 import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
-import axios from '../../axios'
+import axios from 'axiosInstance'
 
-import { UserContext } from '../../Context'
-import { InputTrip, Trip } from '../../types/Types'
+import { UserContext } from 'Context'
+import { InputTrip, Trip } from 'types/Types'
 
 export const useCreateTrip = () => {
   const { user } = useContext(UserContext)

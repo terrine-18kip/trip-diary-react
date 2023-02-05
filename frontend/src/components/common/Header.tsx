@@ -6,9 +6,9 @@ import { MenuOutlined, CloseOutlined } from '@ant-design/icons'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-import { UserContext } from '../../Context'
+import { UserContext } from 'Context'
 import Menu from './Menu'
-import titleLogo from '../../img/title_logo.png'
+import titleLogo from 'img/title_logo.png'
 
 const Header: React.FC = () => {
   const { user } = useContext(UserContext)

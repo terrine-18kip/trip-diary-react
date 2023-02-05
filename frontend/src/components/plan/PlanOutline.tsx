@@ -4,10 +4,10 @@ import { DeleteFilled } from '@ant-design/icons'
 import { css } from '@emotion/react'
 /** @jsxImportSource @emotion/react */
 
-import { TripContext, UserContext } from '../../Context'
-import { Plan } from '../../types/Types'
-import { useUpdatePlan } from '../../hooks/plan/useUpdatePlan'
-import { useDeletePlan } from '../../hooks/plan/useDeletePlan'
+import { TripContext, UserContext } from 'Context'
+import { Plan } from 'types/Types'
+import { useUpdatePlan } from 'hooks/plan/useUpdatePlan'
+import { useDeletePlan } from 'hooks/plan/useDeletePlan'
 
 type Props = {
   tripId: number | undefined

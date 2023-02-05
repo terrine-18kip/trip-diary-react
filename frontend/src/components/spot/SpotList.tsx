@@ -4,14 +4,14 @@ import { PlusOutlined } from '@ant-design/icons'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 
 import SpotDetail from './SpotDetail'
-import SpotCreate from '../spot/SpotCreate'
+import SpotCreate from 'components/spot/SpotCreate'
 import SpotEdit from './SpotEdit'
 import SpotTab from './SpotTab'
-import { UserContext } from '../../Context'
-import { styles } from '../../styles/SpotList.styles'
-import { InputSpot, Plan, Spot } from '../../types/Types'
-import { useUpdateSpotOrder } from '../../hooks/spot/useUpdateSpotOrder'
-import Modal from '../elements/Modal'
+import { UserContext } from 'Context'
+import { styles } from 'styles/SpotList.styles'
+import { InputSpot, Plan, Spot } from 'types/Types'
+import { useUpdateSpotOrder } from 'hooks/spot/useUpdateSpotOrder'
+import Modal from 'components/elements/Modal'
 /** @jsxImportSource @emotion/react */
 
 type Props = {

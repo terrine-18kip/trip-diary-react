@@ -2,11 +2,11 @@ import React, { useContext } from 'react'
 import { css } from '@emotion/react'
 /** @jsxImportSource @emotion/react */
 
-import { TripContext, UserContext } from '../../Context'
-import PlanOutline from '../plan/PlanOutline'
-import PlanCreate from '../plan/PlanCreate'
-import SpotList from '../spot/SpotList'
-import NotFound from '../common/NotFound'
+import { TripContext, UserContext } from 'Context'
+import PlanOutline from 'components/plan/PlanOutline'
+import PlanCreate from 'components/plan/PlanCreate'
+import SpotList from 'components/spot/SpotList'
+import NotFound from 'components/common/NotFound'
 
 const PlanList: React.FC = () => {
   const { user } = useContext(UserContext)
