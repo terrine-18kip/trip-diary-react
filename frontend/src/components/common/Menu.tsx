@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom'
 import { css } from '@emotion/react'
 /** @jsxImportSource @emotion/react */
 
-import { UserContext } from '../../Context'
-import { useAdminAuth } from '../../hooks/auth/useAdminAuth'
+import { UserContext } from 'Context'
+import { useAdminAuth } from 'hooks/auth/useAdminAuth'
 import MemberIcon from './MemberIcon'
 
 type Props = {

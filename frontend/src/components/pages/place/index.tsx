@@ -3,15 +3,15 @@ import { Button } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 /** @jsxImportSource @emotion/react */
 
-import Modal from '../../elements/Modal'
-import NotFound from '../../common/NotFound'
-import PlaceCard from '../../elements/PlaceCard'
-import PlaceCreate from '../../layouts/PlaceCreate'
-import PlaceDetail from '../../layouts/PlaceDetail'
-import { TripContext } from '../../../Context'
+import Modal from 'components/elements/Modal'
+import NotFound from 'components/common/NotFound'
+import PlaceCard from 'components/elements/PlaceCard'
+import PlaceCreate from 'components/layouts/PlaceCreate'
+import PlaceDetail from 'components/layouts/PlaceDetail'
+import PlaceEdit from 'components/layouts/PlaceEdit'
+import { TripContext } from 'Context'
 import { styles } from './styles'
-import { Place } from '../../../types/Types'
-import PlaceEdit from '../../layouts/PlaceEdit'
+import { Place } from 'types/Types'
 
 const PlaceList: React.FC = () => {
   const { trip, places, unauthorized } = useContext(TripContext)

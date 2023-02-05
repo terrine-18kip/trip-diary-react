@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { PageHeader, Button, Form, Input, DatePicker, Select, Space } from 'antd'
 const { Option } = Select
 /** @jsxImportSource @emotion/react */
-import { useCreateTrip } from '../../hooks/trip/useCreateTrip'
-import { InputTrip } from '../../types/Types'
+import { useCreateTrip } from 'hooks/trip/useCreateTrip'
+import { InputTrip } from 'types/Types'
 
 const TripCreate: React.FC = () => {
   const { createTrip } = useCreateTrip()

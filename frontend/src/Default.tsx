@@ -3,16 +3,16 @@ import { Route, Routes } from 'react-router-dom'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-import { TripProvider, UserProvider } from './Context'
-import Header from './components/common/Header'
-import Top from './components/trip/Top'
-import MyPage from './components/auth/MyPage'
-import TripCreate from './components/trip/TripCreate'
-import TripDetail from './components/trip/TripDetail'
-import TripEdit from './components/trip/TripEdit'
-import PlanList from './components/plan/PlanList'
-import PlaceList from './components/pages/place/index'
-import TripLayout from './components/layouts/TripLayout'
+import { TripProvider, UserProvider } from 'Context'
+import Header from 'components/common/Header'
+import Top from 'components/trip/Top'
+import MyPage from 'components/auth/MyPage'
+import TripCreate from 'components/trip/TripCreate'
+import TripDetail from 'components/trip/TripDetail'
+import TripEdit from 'components/trip/TripEdit'
+import PlanList from 'components/plan/PlanList'
+import PlaceList from 'components/pages/place/index'
+import TripLayout from 'components/layouts/TripLayout'
 
 const Default: React.FC = () => {
   const styles = {

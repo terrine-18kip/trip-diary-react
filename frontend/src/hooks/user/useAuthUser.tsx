@@ -1,17 +1,13 @@
-import axios from 'axios'
 import { useCallback, useState } from 'react'
-import { User } from '../../types/Types'
-
-const apiUrl = process.env.REACT_APP_API_URL
+import axios from 'axiosInstance'
+import { User } from 'types/Types'
 
 export const useAuthUser = () => {
   const [user, setUser] = useState<User | undefined>(undefined)
 
   const getAuthUser = useCallback(async () => {
     try {
-      const res = await axios.get<User>(`${apiUrl}/user`, {
-        withCredentials: true,
-      })
+      const res = await axios.get<User>('/user')
       setUser(res.data)
     } catch (error) {
       setUser(undefined)

@@ -5,10 +5,10 @@ import { styles } from './styles'
 /** @jsxImportSource @emotion/react */
 
 import CategoryIcon from '../../elements/CategoryIcon/index'
-import { InputPlace } from '../../../types/Types'
-import { categories } from '../../../data/SpotData'
+import { InputPlace } from 'types/Types'
+import { categories } from 'data/SpotData'
 import { useUpdatePlace } from './hooks'
-import { TripContext } from '../../../Context'
+import { TripContext } from 'Context'
 
 type Props = {
   place: InputPlace

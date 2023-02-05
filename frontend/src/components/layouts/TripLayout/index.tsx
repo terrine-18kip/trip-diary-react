@@ -10,7 +10,7 @@ import {
 import { css } from '@emotion/react'
 /** @jsxImportSource @emotion/react */
 
-import { TripContext } from '../../../Context'
+import { TripContext } from 'Context'
 
 const TripLayout: React.FC = () => {
   const { trip, unauthorized } = useContext(TripContext)

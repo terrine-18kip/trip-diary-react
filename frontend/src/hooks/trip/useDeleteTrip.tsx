@@ -1,9 +1,7 @@
 import { useCallback, useContext } from 'react'
-import { UserContext } from '../../Context'
+import { UserContext } from 'Context'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
-
-const apiUrl = process.env.REACT_APP_API_URL
+import axios from 'axiosInstance'
 
 export const useDeleteTrip = () => {
   const { user } = useContext(UserContext)
@@ -16,9 +14,7 @@ export const useDeleteTrip = () => {
       return
     }
     try {
-      await axios.delete(`${apiUrl}/trips/${id}`, {
-        withCredentials: true,
-      })
+      await axios.delete(`/trips/${id}`)
       navigation('/')
     } catch (error) {
       console.log(error)

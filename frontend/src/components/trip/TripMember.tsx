@@ -4,11 +4,11 @@ import { PlusOutlined } from '@ant-design/icons'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-import { TripContext, UserContext } from '../../Context'
-import { User } from '../../types/Types'
-import { useAddMember } from '../../hooks/member/useAddMember'
-import { useRemoveMember } from '../../hooks/member/useRemoveMember'
-import MemberIcon from '../common/MemberIcon'
+import { TripContext, UserContext } from 'Context'
+import { User } from 'types/Types'
+import { useAddMember } from 'hooks/member/useAddMember'
+import { useRemoveMember } from 'hooks/member/useRemoveMember'
+import MemberIcon from 'components/common/MemberIcon'
 
 type Props = {
   setFlag: React.Dispatch<React.SetStateAction<boolean>>

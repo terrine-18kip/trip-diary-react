@@ -4,8 +4,8 @@ import { PlusCircleFilled } from '@ant-design/icons'
 import { css } from '@emotion/react'
 /** @jsxImportSource @emotion/react */
 
-import { useAddPlan } from '../../hooks/plan/useAddPlan'
-import { TripContext } from '../../Context'
+import { useAddPlan } from 'hooks/plan/useAddPlan'
+import { TripContext } from 'Context'
 
 const PlanCreate: React.FC = () => {
   const { addPlan } = useAddPlan()

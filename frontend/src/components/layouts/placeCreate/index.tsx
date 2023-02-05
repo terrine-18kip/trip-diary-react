@@ -8,7 +8,7 @@ import CategoryIcon from '../../elements/CategoryIcon/index'
 import { InputPlace } from '../../../types/Types'
 import { categories } from '../../../data/SpotData'
 import { useAddPlace } from './hooks'
-import { TripContext } from '../../../Context'
+import { TripContext } from 'Context'
 
 type Props = {
   tripId: number

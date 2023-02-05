@@ -12,10 +12,10 @@ import {
 /** @jsxImportSource @emotion/react */
 
 import SpotCategory from './SpotCategory'
-import { TripContext, UserContext } from '../../Context'
-import { InputSpot } from '../../types/Types'
-import { styles } from '../../styles/SpotDetail.styles'
-import { useDeleteSpot } from '../../hooks/spot/useDeleteSpot'
+import { TripContext, UserContext } from 'Context'
+import { InputSpot } from 'types/Types'
+import { styles } from 'styles/SpotDetail.styles'
+import { useDeleteSpot } from 'hooks/spot/useDeleteSpot'
 
 type Props = {
   spot: InputSpot

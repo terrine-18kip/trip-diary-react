@@ -5,7 +5,7 @@ import { PayCircleOutlined, LinkOutlined, FileTextOutlined } from '@ant-design/i
 
 import CategoryIcon from '../CategoryIcon'
 import { styles } from './styles'
-import { Place } from '../../../types/Types'
+import { Place } from 'types/Types'
 
 type Props = {
   place: Place

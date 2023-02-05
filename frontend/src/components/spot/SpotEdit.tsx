@@ -5,10 +5,10 @@ import { PlusOutlined } from '@ant-design/icons'
 import { css } from '@emotion/react'
 
 import SpotCategory from './SpotCategory'
-import { InputSpot } from '../../types/Types'
-import { categories } from '../../data/SpotData'
-import { useUpdateSpot } from '../../hooks/spot/useUpdateSpot'
-import { TripContext } from '../../Context'
+import { InputSpot } from 'types/Types'
+import { categories } from 'data/SpotData'
+import { useUpdateSpot } from 'hooks/spot/useUpdateSpot'
+import { TripContext } from 'Context'
 
 type Props = {
   spot: InputSpot

@@ -18,8 +18,9 @@ export type Trip = {
   privacy_id: number
   created_at: string
   updated_at: string
-  plans?: Plan[]
   users?: User[]
+  plans?: Plan[]
+  places?: Place[]
 }
 
 export type Plan = {

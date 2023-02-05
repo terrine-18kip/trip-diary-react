@@ -4,7 +4,7 @@ import { UserOutlined } from '@ant-design/icons'
 import { css } from '@emotion/react'
 /** @jsxImportSource @emotion/react */
 
-import { User } from '../../types/Types'
+import { User } from 'types/Types'
 import { AvatarSize } from 'antd/lib/avatar/SizeContext'
 
 type Props = {

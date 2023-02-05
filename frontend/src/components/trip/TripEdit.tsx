@@ -3,9 +3,9 @@ import { PageHeader, Button, Form, Input, DatePicker, Select, Space } from 'antd
 const { Option } = Select
 import moment from 'moment'
 /** @jsxImportSource @emotion/react */
-import { InputTrip } from '../../types/Types'
-import { useUpdateTrip } from '../../hooks/trip/useUpdateTrip'
-import { TripContext } from '../../Context'
+import { InputTrip } from 'types/Types'
+import { useUpdateTrip } from 'hooks/trip/useUpdateTrip'
+import { TripContext } from 'Context'
 
 const TripEdit: React.FC = () => {
   const { trip, getTrip } = useContext(TripContext)
