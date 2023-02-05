@@ -4,7 +4,7 @@ import { DeleteFilled } from '@ant-design/icons'
 import { css } from '@emotion/react'
 /** @jsxImportSource @emotion/react */
 
-import { UserContext } from '../../Context'
+import { TripContext, UserContext } from '../../Context'
 import { Plan } from '../../types/Types'
 import { useUpdatePlan } from '../../hooks/plan/useUpdatePlan'
 import { useDeletePlan } from '../../hooks/plan/useDeletePlan'
@@ -12,11 +12,11 @@ import { useDeletePlan } from '../../hooks/plan/useDeletePlan'
 type Props = {
   tripId: number | undefined
   plan: Plan
-  getTrip: () => Promise<void>
 }
 
-const PlanOutline: React.FC<Props> = ({ tripId, plan, getTrip }) => {
+const PlanOutline: React.FC<Props> = ({ tripId, plan }) => {
   const { user } = useContext(UserContext)
+  const { getTrip } = useContext(TripContext)
   const { updatePlan } = useUpdatePlan()
   const { deletePlan } = useDeletePlan()
 

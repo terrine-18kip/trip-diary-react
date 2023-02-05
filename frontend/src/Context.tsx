@@ -1,7 +1,8 @@
-import React, { createContext, useLayoutEffect } from 'react'
+import React, { createContext, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { User } from './types/Types'
+import { Place, Plan, Trip, User } from './types/Types'
 import { useAuthUser } from './hooks/user/useAuthUser'
+import { useGetTrip } from './hooks/trip/useGetTrip'
 
 const UserContext = createContext(
   {} as {
@@ -14,11 +15,31 @@ const UserProvider = (props: any) => {
   const { user, getAuthUser } = useAuthUser()
   const locationHook = useLocation()
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     getAuthUser()
   }, [locationHook.pathname])
 
   return <UserContext.Provider value={{ user, getAuthUser }}>{props.children}</UserContext.Provider>
 }
 
-export { UserContext, UserProvider }
+const TripContext = createContext(
+  {} as {
+    trip: Trip | undefined
+    plans: Plan[]
+    places: Place[]
+    unauthorized: boolean
+    getTrip: () => Promise<void>
+  },
+)
+
+const TripProvider = (props: any) => {
+  const { trip, plans, places, unauthorized, getTrip } = useGetTrip()
+
+  return (
+    <TripContext.Provider value={{ trip, plans, places, unauthorized, getTrip }}>
+      {props.children}
+    </TripContext.Provider>
+  )
+}
+
+export { UserContext, UserProvider, TripContext, TripProvider }

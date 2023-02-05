@@ -12,20 +12,20 @@ import {
 /** @jsxImportSource @emotion/react */
 
 import SpotCategory from './SpotCategory'
-import { UserContext } from '../../Context'
+import { TripContext, UserContext } from '../../Context'
 import { InputSpot } from '../../types/Types'
 import { styles } from '../../styles/SpotDetail.styles'
 import { useDeleteSpot } from '../../hooks/spot/useDeleteSpot'
 
 type Props = {
   spot: InputSpot
-  getTrip: () => Promise<void>
   setShowDetail: React.Dispatch<React.SetStateAction<boolean>>
   setShowEdit: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const SpotCreate: React.FC<Props> = ({ spot, getTrip, setShowDetail, setShowEdit }) => {
+const SpotCreate: React.FC<Props> = ({ spot, setShowDetail, setShowEdit }) => {
   const { user } = useContext(UserContext)
+  const { getTrip } = useContext(TripContext)
   const { deleteSpot } = useDeleteSpot()
 
   const handleSubmitDelete = async () => {

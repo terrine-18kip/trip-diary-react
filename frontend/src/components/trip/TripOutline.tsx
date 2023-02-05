@@ -1,7 +1,8 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Card, Button } from 'antd'
 import {
+  ArrowLeftOutlined,
   EditOutlined,
   DeleteOutlined,
   ScheduleOutlined,
@@ -13,18 +14,18 @@ import {
 import { css } from '@emotion/react'
 /** @jsxImportSource @emotion/react */
 
-import { UserContext } from '../../Context'
+import { TripContext, UserContext } from '../../Context'
 import { useDeleteTrip } from '../../hooks/trip/useDeleteTrip'
-import { Trip } from '../../types/Types'
 import MemberIcon from '../common/MemberIcon'
+import Modal from '../elements/Modal'
+import TripMember from './TripMember'
 
-type Props = {
-  trip: Trip
-}
-
-const TripOutline: React.FC<Props> = ({ trip }) => {
+const TripOutline: React.FC = () => {
   const { user } = useContext(UserContext)
+  const { trip } = useContext(TripContext)
   const { deleteTrip } = useDeleteTrip()
+
+  const [showMember, setShowMember] = useState<boolean>(false)
 
   const styles = {
     column: css`
@@ -32,6 +33,10 @@ const TripOutline: React.FC<Props> = ({ trip }) => {
     `,
     key: css`
       font-weight: 500;
+      a {
+        font-weight: 400;
+        font-size: 12px;
+      }
     `,
     privacyText: css`
       margin-left: 8px;
@@ -45,9 +50,20 @@ const TripOutline: React.FC<Props> = ({ trip }) => {
     `,
   }
 
+  if (!trip) {
+    return <></>
+  }
+
   return (
     <Card
-      title={trip.title}
+      title={
+        <>
+          <Link key='edit' to='/'>
+            <Button type='text' shape='circle' icon={<ArrowLeftOutlined />} />
+          </Link>
+          {trip.title}
+        </>
+      }
       extra={
         user && (
           <>
@@ -101,7 +117,7 @@ const TripOutline: React.FC<Props> = ({ trip }) => {
 
       <div css={styles.column}>
         <div css={styles.key}>
-          <UserOutlined /> メンバー
+          <UserOutlined /> メンバー {user && <a onClick={() => setShowMember(true)}>編集</a>}
         </div>
         <div css={styles.members}>
           {trip.users?.map((member) => {
@@ -113,6 +129,10 @@ const TripOutline: React.FC<Props> = ({ trip }) => {
           })}
         </div>
       </div>
+
+      <Modal showModal={showMember} setShowModal={setShowMember}>
+        <TripMember setFlag={setShowMember} />
+      </Modal>
     </Card>
   )
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Button, Form, Input, InputNumber, Radio } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 /** @jsxImportSource @emotion/react */
@@ -8,16 +8,17 @@ import SpotCategory from './SpotCategory'
 import { InputSpot } from '../../types/Types'
 import { categories } from '../../data/SpotData'
 import { useUpdateSpot } from '../../hooks/spot/useUpdateSpot'
+import { TripContext } from '../../Context'
 
 type Props = {
   spot: InputSpot
-  getTrip: () => Promise<void>
   setFlag: React.Dispatch<React.SetStateAction<boolean>>
   setShowDetail: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const SpotEdit: React.FC<Props> = ({ spot, getTrip, setFlag, setShowDetail }) => {
+const SpotEdit: React.FC<Props> = ({ spot, setFlag, setShowDetail }) => {
   const { updateSpot } = useUpdateSpot()
+  const { getTrip } = useContext(TripContext)
   const [data, setData] = useState<InputSpot>(spot)
 
   const handleSubmitUpdate = async () => {

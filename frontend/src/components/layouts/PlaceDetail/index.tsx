@@ -11,20 +11,20 @@ import {
 /** @jsxImportSource @emotion/react */
 
 import CategoryIcon from '../../elements/CategoryIcon'
-import { UserContext } from '../../../Context'
+import { TripContext, UserContext } from '../../../Context'
 import { Place } from '../../../types/Types'
 import { styles } from './styles'
 import { useDeletePlace } from './hooks'
 
 type Props = {
   place: Place
-  getTrip: () => Promise<void>
   setShowDetail: React.Dispatch<React.SetStateAction<boolean>>
   setShowEdit: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const PlaceDetail: React.FC<Props> = ({ place, getTrip, setShowDetail, setShowEdit }) => {
+const PlaceDetail: React.FC<Props> = ({ place, setShowDetail, setShowEdit }) => {
   const { user } = useContext(UserContext)
+  const { getTrip } = useContext(TripContext)
   const { deletePlace } = useDeletePlace()
 
   const handleSubmitDelete = async () => {
