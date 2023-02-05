@@ -1,15 +1,11 @@
-import axios from 'axios'
+import axios from '../../../axios'
 import { useCallback } from 'react'
 import { InputPlace } from '../../../types/Types'
-
-const apiUrl = process.env.REACT_APP_API_URL
 
 export const useAddPlace = () => {
   const addPlace = useCallback(async (data: InputPlace) => {
     try {
-      await axios.post(`${apiUrl}/places`, data, {
-        withCredentials: true,
-      })
+      await axios.post('/places', data)
       return true
     } catch (error) {
       return false

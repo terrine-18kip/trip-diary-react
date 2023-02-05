@@ -1,9 +1,7 @@
 import { useCallback, useContext } from 'react'
-import axios from 'axios'
+import axios from '../../axios'
 
 import { UserContext } from '../../Context'
-
-const apiUrl = process.env.REACT_APP_API_URL
 
 export const useDeleteSpot = () => {
   const { user } = useContext(UserContext)
@@ -13,9 +11,7 @@ export const useDeleteSpot = () => {
     const result = confirm('削除しますか？')
     if (!result) return false
     try {
-      await axios.delete(`${apiUrl}/spots/${id}`, {
-        withCredentials: true,
-      })
+      await axios.delete(`/spots/${id}`)
       return true
     } catch (error) {
       return false

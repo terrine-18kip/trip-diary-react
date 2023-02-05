@@ -1,7 +1,5 @@
-import axios from 'axios'
+import axios from '../../axios'
 import { message } from 'antd'
-
-const apiUrl = process.env.REACT_APP_API_URL
 
 type Entry = {
   name?: string
@@ -18,41 +16,27 @@ type Data = {
 
 export const useAdminAuth = () => {
   const initializeCsrf = async () => {
-    await axios.get(`${apiUrl}/sanctum/csrf-cookie`, {
-      withCredentials: true,
-    })
+    await axios.get('/sanctum/csrf-cookie')
   }
 
   const entry = async (data: Entry) => {
-    await axios.post(`${apiUrl}/entry`, data, {
-      withCredentials: true,
-    })
+    await axios.post('/entry', data)
   }
 
   const login = async (data: Entry) => {
-    await axios.post(`${apiUrl}/login`, data, {
-      withCredentials: true,
-    })
+    await axios.post(`/login`, data)
   }
 
   const logout = async () => {
     const result = confirm('ログアウトしますか？')
     if (!result) return
-    await axios.get(`${apiUrl}/logout`, {
-      withCredentials: true,
-    })
+    await axios.get(`/logout`)
     message.success('ログアウトしました')
   }
 
   const updateName = async (name: string) => {
     try {
-      await axios.post(
-        `${apiUrl}/user/update_name`,
-        { name },
-        {
-          withCredentials: true,
-        },
-      )
+      await axios.post('/user/update_name', { name })
       return true
     } catch (error) {
       return false
@@ -61,13 +45,7 @@ export const useAdminAuth = () => {
 
   const updateEmail = async (email: string) => {
     try {
-      await axios.post(
-        `${apiUrl}/user/update_email`,
-        { email },
-        {
-          withCredentials: true,
-        },
-      )
+      await axios.post('/user/update_email', { email })
       return true
     } catch (error) {
       return false
@@ -76,9 +54,7 @@ export const useAdminAuth = () => {
 
   const updatePassword = async (data: Data) => {
     try {
-      await axios.post(`${apiUrl}/user/update_password`, data, {
-        withCredentials: true,
-      })
+      await axios.post('/user/update_password', data)
       return true
     } catch (error) {
       return false

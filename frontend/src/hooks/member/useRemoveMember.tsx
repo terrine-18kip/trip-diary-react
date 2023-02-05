@@ -1,7 +1,5 @@
-import axios from 'axios'
+import axios from '../../axios'
 import { Trip, User } from '../../types/Types'
-
-const apiUrl = process.env.REACT_APP_API_URL
 
 export const useRemoveMember = () => {
   const removeMember = async (trip: Trip, member: User) => {
@@ -14,12 +12,9 @@ export const useRemoveMember = () => {
     }
 
     try {
-      await axios.post(`${apiUrl}/trips/remove_member`, param, {
-        withCredentials: true,
-      })
+      await axios.post('/trips/remove_member', param)
       return true
     } catch (error) {
-      console.log(error)
       return false
     }
   }

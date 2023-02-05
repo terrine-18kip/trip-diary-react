@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import axios from 'axios'
+import axios from '../../axios'
 import { Trip, Plan, Place } from '../../types/Types'
-
-const apiUrl = process.env.REACT_APP_API_URL
 
 export const useGetTrip = () => {
   const [trip, setTrip] = useState<Trip | undefined>(undefined)
@@ -27,13 +25,11 @@ export const useGetTrip = () => {
       return setTrip(undefined)
     }
     try {
-      const res = await axios.get(`${apiUrl}/trips/find/${tripId}`, {
-        withCredentials: true,
-      })
+      const res = await axios.get<Trip>(`/trips/find/${tripId}`)
       setUnauthorized(false)
       setTrip(res.data)
-      setPlans(res.data.plans)
-      setPlaces(res.data.places)
+      setPlans(res.data.plans ?? [])
+      setPlaces(res.data.places ?? [])
     } catch (error) {
       setUnauthorized(true)
     }

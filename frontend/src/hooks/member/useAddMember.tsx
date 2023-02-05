@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import axios from 'axios'
-
-const apiUrl = process.env.REACT_APP_API_URL
+import axiosInstance from '../../axios'
 
 export const useAddMember = () => {
   const [errorMessage, setErrorMessage] = useState<string>('')
@@ -13,9 +12,7 @@ export const useAddMember = () => {
     }
 
     try {
-      await axios.post(`${apiUrl}/trips/add_member`, param, {
-        withCredentials: true,
-      })
+      await axiosInstance.post('/trips/add_member', param)
       setErrorMessage('')
       return true
     } catch (error) {

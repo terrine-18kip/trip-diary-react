@@ -1,8 +1,6 @@
 import { useCallback, useContext } from 'react'
 import { UserContext } from '../../Context'
-import axios from 'axios'
-
-const apiUrl = process.env.REACT_APP_API_URL
+import axios from '../../axios'
 
 export const useUpdatePlan = () => {
   const { user } = useContext(UserContext)
@@ -12,16 +10,7 @@ export const useUpdatePlan = () => {
       const daily = Number(value)
       if (!user || !tripId || !value || daily === old) return false
       try {
-        await axios.put(
-          `${apiUrl}/plans/${id}`,
-          {
-            trip_id: tripId,
-            daily: daily,
-          },
-          {
-            withCredentials: true,
-          },
-        )
+        await axios.put(`/plans/${id}`, { trip_id: tripId, daily: daily })
         return true
       } catch (error) {
         return false
