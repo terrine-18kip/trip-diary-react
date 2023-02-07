@@ -6,7 +6,7 @@ const Loading: React.FC = () => {
   const squares = () => {
     const array = []
     for (let i = 0; i < 6; i++) {
-      array.push(<span css={[styles.square, fade(i)]}></span>)
+      array.push(<span key={i} css={[styles.square, fade(i)]}></span>)
     }
     return array
   }

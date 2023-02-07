@@ -14,9 +14,10 @@ import { css } from '@emotion/react'
 import { TripContext } from 'Context'
 import TripOutline from 'components/trip/TripOutline'
 import NotFound from 'components/common/NotFound'
+import Loading from 'components/elements/Loading'
 
 const TripDetail: React.FC = () => {
-  const { trip, unauthorized } = useContext(TripContext)
+  const { trip, loading, unauthorized } = useContext(TripContext)
 
   const styles = {
     services: css`
@@ -34,6 +35,7 @@ const TripDetail: React.FC = () => {
     `,
   }
 
+  if (loading) return <Loading />
   if (unauthorized) return <NotFound />
   if (!trip) return <></>
 

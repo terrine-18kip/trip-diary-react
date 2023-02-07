@@ -7,6 +7,7 @@ export const useGetTrip = () => {
   const [trip, setTrip] = useState<Trip | undefined>(undefined)
   const [plans, setPlans] = useState<Plan[]>([])
   const [places, setPlaces] = useState<Place[]>([])
+  const [loading, setLoading] = useState<boolean>(false)
   const [unauthorized, setUnauthorized] = useState<boolean>(false)
   const [tripId, setTripId] = useState<string | undefined>()
   const location = useLocation()
@@ -24,6 +25,7 @@ export const useGetTrip = () => {
     if (!tripId) {
       return setTrip(undefined)
     }
+    setLoading(true)
     try {
       const res = await axios.get<Trip>(`/trips/find/${tripId}`)
       setUnauthorized(false)
@@ -32,8 +34,10 @@ export const useGetTrip = () => {
       setPlaces(res.data.places ?? [])
     } catch (error) {
       setUnauthorized(true)
+    } finally {
+      setLoading(false)
     }
   }
 
-  return { trip, plans, places, unauthorized, getTrip }
+  return { trip, plans, places, loading, unauthorized, getTrip }
 }
