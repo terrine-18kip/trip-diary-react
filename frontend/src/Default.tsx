@@ -18,6 +18,7 @@ const Default: React.FC = () => {
   const styles = {
     container: css`
       width: 100%;
+      height: 1px;
       min-height: 100vh;
       padding: 10px 20px;
       padding-top: 45px;
