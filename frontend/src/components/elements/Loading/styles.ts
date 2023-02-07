@@ -6,7 +6,7 @@ const setAnimations = () => {
   if (animations.length > 6) return
 
   const span = 8
-  const duration = 40
+  const duration = 25
 
   for (let i = 0; i < 6; i++) {
     const frame = keyframes`
@@ -41,8 +41,12 @@ export const fade = (n: number) => {
 
 export const styles = {
   wrapper: css`
+    position: absolute;
+    top: 45%;
+    left: 50%;
     width: 100%;
-    height: 90%;
+    height: 100%;
+    transform: translate(-50%, -50%);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -56,7 +60,7 @@ export const styles = {
   `,
   square: css`
     aspect-ratio: 1;
-    animation-duration: 3s;
+    animation-duration: 1.5s;
     animation-iteration-count: infinite;
     &:nth-of-type(1),
     &:nth-of-type(2) {
