@@ -27,16 +27,17 @@ const TripContext = createContext(
     trip: Trip | undefined
     plans: Plan[]
     places: Place[]
+    loading: boolean
     unauthorized: boolean
     getTrip: () => Promise<void>
   },
 )
 
 const TripProvider = (props: any) => {
-  const { trip, plans, places, unauthorized, getTrip } = useGetTrip()
+  const { trip, plans, places, loading, unauthorized, getTrip } = useGetTrip()
 
   return (
-    <TripContext.Provider value={{ trip, plans, places, unauthorized, getTrip }}>
+    <TripContext.Provider value={{ trip, plans, places, loading, unauthorized, getTrip }}>
       {props.children}
     </TripContext.Provider>
   )

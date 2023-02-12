@@ -1,30 +1,16 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { PageHeader, Button, Form, Input, Space, message } from 'antd'
+import { Link } from 'react-router-dom'
+import { PageHeader, Button, Form, Input, Space } from 'antd'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { useAdminAuth } from 'hooks/auth/useAdminAuth'
-
-type Login = {
-  email?: string
-  password?: string
-}
+import { T, useLogin } from './hooks'
 
 const Login: React.FC = () => {
-  const { initializeCsrf, login } = useAdminAuth()
-  const [data, setData] = useState<Login>({})
-  const navigation = useNavigate()
-
-  async function handleSubmit() {
-    try {
-      await initializeCsrf()
-      await login(data)
-      message.success('ログインしました')
-      navigation(`/`)
-    } catch (error) {
-      message.error('ログインに失敗しました')
-    }
-  }
+  const { login, loading } = useLogin()
+  const [data, setData] = useState<T>({
+    email: '',
+    password: '',
+  })
 
   const styles = {
     container: css`
@@ -38,7 +24,7 @@ const Login: React.FC = () => {
   return (
     <div css={styles.container}>
       <PageHeader title='ログイン' />
-      <Form labelCol={{ span: 6 }} onFinish={handleSubmit}>
+      <Form labelCol={{ span: 6 }} onFinish={() => login(data)}>
         <Form.Item
           name='email'
           label='メールアドレス'
@@ -58,7 +44,7 @@ const Login: React.FC = () => {
         </Form.Item>
         <Form.Item style={{ textAlign: 'center' }}>
           <Space direction='vertical'>
-            <Button type='primary' htmlType='submit'>
+            <Button type='primary' htmlType='submit' loading={loading}>
               ログイン
             </Button>
             <Link to='/entry'>新規登録はこちら</Link>
