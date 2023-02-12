@@ -1,13 +1,6 @@
 import axios from 'axiosInstance'
 import { message } from 'antd'
 
-type Entry = {
-  name?: string
-  email?: string
-  password?: string
-  password_confirmation?: string
-}
-
 type Data = {
   password: string
   current_password: string
@@ -15,14 +8,6 @@ type Data = {
 }
 
 export const useAdminAuth = () => {
-  const initializeCsrf = async () => {
-    await axios.get('/sanctum/csrf-cookie')
-  }
-
-  const entry = async (data: Entry) => {
-    await axios.post('/entry', data)
-  }
-
   const logout = async () => {
     const result = confirm('ログアウトしますか？')
     if (!result) return
@@ -57,5 +42,5 @@ export const useAdminAuth = () => {
     }
   }
 
-  return { initializeCsrf, entry, logout, updateName, updateEmail, updatePassword }
+  return { logout, updateName, updateEmail, updatePassword }
 }

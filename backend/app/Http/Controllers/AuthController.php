@@ -19,7 +19,7 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password),
         ]);
-        return $user;
+        $this->login($request);
     }
 
     public function login(Request $request)
