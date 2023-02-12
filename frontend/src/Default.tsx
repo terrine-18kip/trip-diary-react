@@ -4,7 +4,8 @@ import { Route, Routes } from 'react-router-dom'
 import { css } from '@emotion/react'
 
 import { TripProvider, UserProvider } from 'Context'
-import Header from 'components/common/Header'
+import Header from 'components/elements/Header'
+import Footer from 'components/elements/Footer'
 import Top from 'components/trip/Top'
 import MyPage from 'components/auth/MyPage'
 import TripCreate from 'components/trip/TripCreate'
@@ -46,6 +47,7 @@ const Default: React.FC = () => {
             </Route>
           </Routes>
         </main>
+        <Footer />
       </TripProvider>
     </UserProvider>
   )
