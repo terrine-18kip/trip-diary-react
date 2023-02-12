@@ -2,12 +2,12 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { Button } from 'antd'
-import { MenuOutlined, CloseOutlined } from '@ant-design/icons'
+import { MenuOutlined, PlusOutlined } from '@ant-design/icons'
+import { styles } from './styles'
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react'
 
 import { UserContext } from 'Context'
-import Menu from './Menu'
+import Menu from 'components/common/Menu'
 import titleLogo from 'img/title_logo.png'
 
 const Header: React.FC = () => {
@@ -20,52 +20,23 @@ const Header: React.FC = () => {
     setShowMenu(false)
   }, [locationHook.pathname])
 
-  const styles = {
-    container: css`
-      width: 100%;
-      height: 48px;
-      padding: 5px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: fixed;
-      top: 0;
-      left: 0;
-      box-shadow: 0 0 3px rgba(250, 250, 250, 0.95);
-      background-color: rgba(250, 250, 250, 0.95);
-      z-index: 1000;
-    `,
-    title: css`
-      display: flex;
-      align-items: center;
-    `,
-    titleImg: css`
-      height: 1.5em;
-      margin-right: 0.5em;
-    `,
-    titleText: css`
-      color: #ce8d75;
-      margin: 0;
-      margin-bottom: 2px;
-    `,
-  }
   return (
     <>
-      <div css={styles.container}>
+      <header css={styles.header}>
         <Link to='/' css={styles.title}>
           <img css={styles.titleImg} src={titleLogo} />
-          <h2 css={styles.titleText}>trip diary</h2>
+          <div css={styles.titleText}>trip diary</div>
         </Link>
         {user ? (
           <Button type='text' shape='circle' onClick={() => setShowMenu(!showMenu)}>
-            {showMenu ? <CloseOutlined /> : <MenuOutlined />}
+            {showMenu ? <PlusOutlined rotate={45} /> : <MenuOutlined />}
           </Button>
         ) : (
           <Button type='text' shape='round'>
             <Link to='/login'>ログイン</Link>
           </Button>
         )}
-      </div>
+      </header>
       {user && showMenu && <Menu setShowMenu={setShowMenu} />}
     </>
   )
