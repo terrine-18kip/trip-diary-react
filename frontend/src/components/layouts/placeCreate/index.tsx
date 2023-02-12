@@ -4,9 +4,9 @@ import { PlusOutlined } from '@ant-design/icons'
 import { styles } from './styles'
 /** @jsxImportSource @emotion/react */
 
-import CategoryIcon from '../../elements/CategoryIcon/index'
-import { InputPlace } from '../../../types/Types'
-import { categories } from '../../../data/SpotData'
+import CategoryIcon from 'components/elements/CategoryIcon/index'
+import { InputPlace } from 'types/Types'
+import { categories } from 'data/SpotData'
 import { useAddPlace } from './hooks'
 import { TripContext } from 'Context'
 

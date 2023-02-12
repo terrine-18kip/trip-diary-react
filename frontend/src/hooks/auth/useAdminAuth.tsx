@@ -23,10 +23,6 @@ export const useAdminAuth = () => {
     await axios.post('/entry', data)
   }
 
-  const login = async (data: Entry) => {
-    await axios.post(`/login`, data)
-  }
-
   const logout = async () => {
     const result = confirm('ログアウトしますか？')
     if (!result) return
@@ -61,5 +57,5 @@ export const useAdminAuth = () => {
     }
   }
 
-  return { initializeCsrf, entry, login, logout, updateName, updateEmail, updatePassword }
+  return { initializeCsrf, entry, logout, updateName, updateEmail, updatePassword }
 }
