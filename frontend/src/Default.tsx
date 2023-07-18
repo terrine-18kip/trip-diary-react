@@ -12,7 +12,7 @@ import TripCreate from 'components/trip/TripCreate'
 import TripDetail from 'components/trip/TripDetail'
 import TripEdit from 'components/trip/TripEdit'
 import PlanList from 'components/plan/PlanList'
-import PlaceList from 'components/pages/place/index'
+import PlaceList from 'components/pages/Place/index'
 import TripLayout from 'components/layouts/TripLayout'
 
 const Default: React.FC = () => {
