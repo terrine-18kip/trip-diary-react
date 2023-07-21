@@ -85,7 +85,14 @@ const SpotList: React.FC<Props> = ({ plan }) => {
           </div>
 
           <Modal showModal={showCreate} setShowModal={setShowCreate}>
-            <SpotCreate plan={plan} setFlag={setShowCreate} />
+            <SpotCreate
+              spot={{
+                plan_id: plan.id,
+                category_id: 0,
+                order: spots[spots.length - 1] ? spots[spots.length - 1].order + 1 : 0,
+              }}
+              setFlag={setShowCreate}
+            />
           </Modal>
 
           <Modal showModal={showEdit} setShowModal={setShowEdit}>

@@ -1,30 +1,28 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Button, Form, Input, InputNumber, Radio } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { css } from '@emotion/react'
 /** @jsxImportSource @emotion/react */
 
 import SpotCategory from './SpotCategory'
-import { InputSpot, Plan } from 'types/Types'
+import { InputSpot } from 'types/Types'
 import { categories } from 'data/SpotData'
 import { useAddSpot } from 'hooks/spot/useAddSpot'
 import { TripContext } from 'Context'
 
 type Props = {
-  plan: Plan
+  spot: InputSpot
   setFlag: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const SpotCreate: React.FC<Props> = ({ plan, setFlag }) => {
+const SpotCreate: React.FC<Props> = ({ spot, setFlag }) => {
   const { addSpot } = useAddSpot()
-  const spotOrder: number | undefined = plan.spots[plan.spots.length - 1]?.order + 1
-
   const { getTrip } = useContext(TripContext)
-  const [data, setData] = useState<InputSpot>({
-    plan_id: plan.id,
-    category_id: 0,
-    order: spotOrder || 0,
-  })
+  const [data, setData] = useState<InputSpot>(spot)
+
+  useEffect(() => {
+    setData(spot)
+  }, [spot])
 
   const handleSubmit = async () => {
     const res = await addSpot(data)
@@ -85,6 +83,7 @@ const SpotCreate: React.FC<Props> = ({ plan, setFlag }) => {
           <Input
             autoFocus
             placeholder='スポット名'
+            value={data.name}
             onChange={(event) => setData({ ...data, name: event.target.value })}
           />
         </div>
@@ -93,12 +92,14 @@ const SpotCreate: React.FC<Props> = ({ plan, setFlag }) => {
           <Input
             type='time'
             placeholder='開始時間'
+            value={data.start_time ? data.start_time : undefined}
             onChange={(event) => setData({ ...data, start_time: event.target.value })}
           />
           <span style={{ padding: '0 5px' }}>～</span>
           <Input
             type='time'
             placeholder='終了時間'
+            value={data.end_time ? data.end_time : undefined}
             onChange={(event) => setData({ ...data, end_time: event.target.value })}
           />
         </div>
@@ -125,6 +126,7 @@ const SpotCreate: React.FC<Props> = ({ plan, setFlag }) => {
         <div style={{ marginBottom: '10px' }}>
           <InputNumber
             placeholder='金額'
+            value={data.fee ?? undefined}
             addonAfter='円'
             formatter={(value) => String(value).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
             style={{ width: '100%' }}
@@ -135,6 +137,7 @@ const SpotCreate: React.FC<Props> = ({ plan, setFlag }) => {
         <div style={{ marginBottom: '10px' }}>
           <Input
             placeholder='リンク'
+            value={data.link ?? undefined}
             onChange={(event) => setData({ ...data, link: event.target.value })}
           />
         </div>
@@ -142,6 +145,7 @@ const SpotCreate: React.FC<Props> = ({ plan, setFlag }) => {
         <div style={{ marginBottom: '20px' }}>
           <Input
             placeholder='メモ'
+            value={data.memo ?? undefined}
             onChange={(event) => setData({ ...data, memo: event.target.value })}
           />
         </div>
