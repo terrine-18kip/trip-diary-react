@@ -45,6 +45,15 @@ const SpotList: React.FC<Props> = ({ plan }) => {
     setShowDetail(true)
   }
 
+  const openSpotCreate = () => {
+    setSpot({
+      plan_id: plan.id,
+      category_id: 0,
+      order: spots[spots.length - 1] ? spots[spots.length - 1].order + 1 : 0,
+    })
+    setShowCreate(true)
+  }
+
   return (
     <>
       <div css={styles.spots}>
@@ -76,16 +85,11 @@ const SpotList: React.FC<Props> = ({ plan }) => {
       {user && (
         <>
           <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-            <Button
-              shape='circle'
-              size='small'
-              icon={<PlusOutlined />}
-              onClick={() => setShowCreate(true)}
-            />
+            <Button shape='circle' size='small' icon={<PlusOutlined />} onClick={openSpotCreate} />
           </div>
 
           <Modal showModal={showCreate} setShowModal={setShowCreate}>
-            <SpotCreate plan={plan} setFlag={setShowCreate} />
+            <SpotCreate spot={spot} setFlag={setShowCreate} />
           </Modal>
 
           <Modal showModal={showEdit} setShowModal={setShowEdit}>
