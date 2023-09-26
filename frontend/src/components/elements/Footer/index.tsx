@@ -42,7 +42,7 @@ const Footer: React.FC = () => {
           opacity: 0.7;
         }
       }
-    `
+    `,
   }
 
   return (
