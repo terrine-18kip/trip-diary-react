@@ -57,7 +57,9 @@ const PrivacyPolicy: React.FC = () => {
 
       <h3>苦情や相談の担当窓口</h3>
       <p>当サイトは、個人情報の取扱いに関する担当窓口及び責任者を以下の通り設けます。</p>
-      <p></p>
+      <p style={{ overflowWrap: 'break-word' }}>
+        https://tayori.com/form/67f023637e2b6edb5fd2b1c9a98ed26853f9f2f5/
+      </p>
     </>
   )
 }
