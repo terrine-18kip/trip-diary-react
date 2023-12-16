@@ -7,6 +7,8 @@ import { TripProvider, UserProvider } from 'Context'
 import Header from 'components/elements/Header'
 import Footer from 'components/elements/Footer'
 import Top from 'components/trip/Top'
+import PrivacyPolicy from 'components/pages/PrivacyPolicy'
+import Terms from 'components/pages/Terms'
 import MyPage from 'components/auth/MyPage'
 import TripCreate from 'components/trip/TripCreate'
 import TripDetail from 'components/trip/TripDetail'
@@ -37,6 +39,8 @@ const Default: React.FC = () => {
         <main css={styles.container}>
           <Routes>
             <Route path='/' element={<Top />} />
+            <Route path='/privacy_policy' element={<PrivacyPolicy />} />
+            <Route path='/terms' element={<Terms />} />
             <Route path='/mypage' element={<MyPage />} />
             <Route path='/new' element={<TripCreate />} />
             <Route path='/:id/' element={<TripDetail />} />
