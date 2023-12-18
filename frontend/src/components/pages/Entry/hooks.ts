@@ -20,7 +20,7 @@ export const useEntry = () => {
       await axios.get('/sanctum/csrf-cookie')
       await axios.post('/entry', data)
       message.success('新規登録しました')
-      navigation('/')
+      navigation('/trip')
     } catch (error) {
       message.error('入力情報を確認してください')
     } finally {

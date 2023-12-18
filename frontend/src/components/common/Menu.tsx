@@ -70,7 +70,7 @@ const Menu: React.FC<Props> = ({ setShowMenu }) => {
           </Link>
         </li>
         <li>
-          <Link to='/'>旅の一覧</Link>
+          <Link to='/trip'>旅の一覧</Link>
         </li>
         <li>
           <a onClick={handleLogout}>ログアウト</a>
