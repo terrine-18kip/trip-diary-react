@@ -63,6 +63,11 @@ const Entry: React.FC = () => {
           />
         </Form.Item>
 
+        <p>
+          <Link to='/terms'>利用規約</Link>および
+          <Link to='/privacy_policy'>プライバシーポリシー</Link>に同意の上ご登録ください
+        </p>
+
         <Form.Item style={{ textAlign: 'center' }}>
           <Space direction='vertical'>
             <Button type='primary' htmlType='submit' loading={loading}>
