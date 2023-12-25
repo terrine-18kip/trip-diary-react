@@ -5,7 +5,7 @@ import { css } from '@emotion/react'
 
 import { UserContext } from 'Context'
 import { useAdminAuth } from 'hooks/auth/useAdminAuth'
-import MemberIcon from './MemberIcon'
+import MemberIcon from 'components/common/MemberIcon'
 
 type Props = {
   setShowMenu: React.Dispatch<React.SetStateAction<boolean>>

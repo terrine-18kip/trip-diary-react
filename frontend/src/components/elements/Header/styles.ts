@@ -11,9 +11,14 @@ export const styles = {
     position: fixed;
     top: 0;
     left: 0;
-    box-shadow: 0 0 3px rgba(250, 250, 250, 0.95);
+    box-shadow: 0 0 3px rgba(200, 200, 200, 0.7);
     background-color: rgba(250, 250, 250, 0.95);
     z-index: 1000;
+    transition: top 0.3s, opacity 0.3s;
+  `,
+  headerHidden: css`
+    top: -48px;
+    opacity: 0.5;
   `,
   title: css`
     display: flex;
