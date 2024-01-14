@@ -14,12 +14,13 @@ const Fv: React.FC = () => {
   const styles = {
     fv: css`
       height: 100vh;
-      margin: -45px -20px 0;
+      margin: -45px -20px 20px;
       background-image: url(${bgImg});
       background-size: cover;
       background-position: right;
+      position: relative;
       @media screen and (max-width: 768px) {
-        margin: -45px -1% 0;
+        margin: -45px -1% 20px;
       }
     `,
     title: css`
@@ -56,6 +57,43 @@ const Fv: React.FC = () => {
     `,
     button: css`
       margin-bottom: 15px;
+    `,
+    scroll: css`
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      transform: translate(-50%, 20%);
+    `,
+    scrollText: css`
+      margin-bottom: 5px;
+      color: #efd6c3;
+      font-size: 16px;
+    `,
+    scrollBar: css`
+      width: 1px;
+      height: 40px;
+      margin: 0 auto;
+      background-color: #efd6c3;
+      box-shadow: 0 0 2px #ce8d75;
+      animation: pathmove 1.6s ease-in-out infinite;
+      @keyframes pathmove {
+        0% {
+          transform: scale(1, 0);
+          transform-origin: 0 0;
+        }
+        40% {
+          transform: scale(1, 1);
+          transform-origin: 0 0;
+        }
+        40.1% {
+          transform: scale(1, 1);
+          transform-origin: 0 100%;
+        }
+        100% {
+          transform: scale(1, 0);
+          transform-origin: 0 100%;
+        }
+      }
     `,
   }
 
@@ -97,6 +135,11 @@ const Fv: React.FC = () => {
               </div>
             </>
           )}
+        </div>
+
+        <div css={styles.scroll}>
+          <div css={styles.scrollText}>scroll</div>
+          <div css={styles.scrollBar}></div>
         </div>
       </section>
     </>
