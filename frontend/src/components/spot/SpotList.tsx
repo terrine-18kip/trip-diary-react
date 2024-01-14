@@ -89,7 +89,7 @@ const SpotList: React.FC<Props> = ({ plan }) => {
           </div>
 
           <Modal showModal={showCreate} setShowModal={setShowCreate}>
-            <SpotCreate spot={spot} setFlag={setShowCreate} />
+            <SpotCreate plan={plan} setFlag={setShowCreate} />
           </Modal>
 
           <Modal showModal={showEdit} setShowModal={setShowEdit}>
