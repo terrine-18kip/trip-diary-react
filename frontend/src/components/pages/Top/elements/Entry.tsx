@@ -10,14 +10,33 @@ const Fv: React.FC = () => {
 
   const styles = {
     wrapper: css`
-      padding: 40px 20px;
+      padding: 60px 20px;
       text-align: center;
     `,
     title: css`
+      display: flex;
+      justify-content: center;
+      align-items: center;
       margin-bottom: 10px;
       color: #ce8d75;
       font-size: 16px;
       font-weight: 500;
+      &::before,
+      &::after {
+        content: '';
+        display: block;
+        width: 1.5px;
+        height: 1em;
+        background-color: #ce8d75;
+      }
+      &::before {
+        margin-right: 10px;
+        transform: rotate(-20deg);
+      }
+      &::after {
+        margin-left: 10px;
+        transform: rotate(20deg);
+      }
     `,
     text: css`
       margin-bottom: 10px;
@@ -41,7 +60,7 @@ const Fv: React.FC = () => {
           </>
         ) : (
           <>
-            <div css={styles.title}>\ まずは新規登録 /</div>
+            <div css={styles.title}>まずは新規登録</div>
             <div css={styles.text}>
               登録も利用も完全無料。
               <br />

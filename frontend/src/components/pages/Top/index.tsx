@@ -14,7 +14,7 @@ const Top: React.FC = () => {
     {
       id: 1,
       title: 'trip diaryについて',
-      text: 'trip diaryはあなたの旅の計画をお手伝い。自由に旅行の計画を立てて、オンラインで簡単におしゃれなしおりを作ることができるwebアプリです。',
+      text: 'trip diaryはあなたの旅の計画をお手伝い。\n自由に旅行の計画を立てて、オンラインで簡単におしゃれなしおりを作ることができるwebアプリです。',
       img: topAbout,
     },
     {

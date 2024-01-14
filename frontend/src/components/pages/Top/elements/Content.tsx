@@ -13,7 +13,9 @@ type Props = {
 const Content: React.FC<Props> = ({ content }) => {
   const styles = {
     content: css`
+      max-width: 600px;
       padding: 20px;
+      margin: 0 auto;
       text-align: center;
     `,
     title: css`
@@ -22,7 +24,9 @@ const Content: React.FC<Props> = ({ content }) => {
       font-size: 16px;
       font-weight: 500;
     `,
-    text: css``,
+    text: css`
+      white-space: pre-wrap;
+    `,
     img: css`
       width: 50%;
       max-width: 400px;
