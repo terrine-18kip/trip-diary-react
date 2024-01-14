@@ -1,5 +1,5 @@
 import React from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, ScrollRestoration } from 'react-router-dom'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
@@ -27,6 +27,7 @@ const Layout: React.FC = () => {
       <TripProvider>
         <Header />
         <main css={styles.container}>
+          <ScrollRestoration />
           <Outlet />
         </main>
         <Footer />
