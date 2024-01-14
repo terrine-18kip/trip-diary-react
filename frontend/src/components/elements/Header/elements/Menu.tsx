@@ -5,7 +5,7 @@ import { css } from '@emotion/react'
 
 import { UserContext } from 'Context'
 import { useAdminAuth } from 'hooks/auth/useAdminAuth'
-import MemberIcon from './MemberIcon'
+import MemberIcon from 'components/common/MemberIcon'
 
 type Props = {
   setShowMenu: React.Dispatch<React.SetStateAction<boolean>>
@@ -70,7 +70,7 @@ const Menu: React.FC<Props> = ({ setShowMenu }) => {
           </Link>
         </li>
         <li>
-          <Link to='/'>旅の一覧</Link>
+          <Link to='/trip'>旅の一覧</Link>
         </li>
         <li>
           <a onClick={handleLogout}>ログアウト</a>

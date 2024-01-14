@@ -18,7 +18,7 @@ export const useLogin = () => {
       await axios.get('/sanctum/csrf-cookie')
       await axios.post('/login', data)
       message.success('ログインしました')
-      navigation('/')
+      navigation('/trip')
     } catch (error) {
       message.error('ログインに失敗しました')
     } finally {

@@ -8,7 +8,7 @@ import { css } from '@emotion/react'
 
 import { Trip } from 'types/Types'
 
-const Top: React.FC = () => {
+const Trips: React.FC = () => {
   const { user } = useContext(UserContext)
 
   const styles = {
@@ -36,8 +36,6 @@ const Top: React.FC = () => {
 
   return (
     <div>
-      <p>旅行の計画を立ててみんなと共有、思い出を残せるようなwebアプリを開発中です。</p>
-
       {user ? (
         <>
           <PageHeader
@@ -99,4 +97,4 @@ const Top: React.FC = () => {
   )
 }
 
-export default Top
+export default Trips
