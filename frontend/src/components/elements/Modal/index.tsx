@@ -12,6 +12,7 @@ const Modal: React.FC<Props> = ({ showModal, setShowModal, children }) => {
       visible={showModal}
       closable={false}
       footer={false}
+      destroyOnClose
       onCancel={() => setShowModal(false)}
     >
       {children}
