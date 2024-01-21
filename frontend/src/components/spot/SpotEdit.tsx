@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Button, Form, Input, InputNumber, Radio } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 /** @jsxImportSource @emotion/react */
@@ -20,10 +20,6 @@ const SpotEdit: React.FC<Props> = ({ spot, setFlag, setShowDetail }) => {
   const { updateSpot } = useUpdateSpot()
   const { getTrip } = useContext(TripContext)
   const [data, setData] = useState<InputSpot>(spot)
-
-  useEffect(() => {
-    setData(spot)
-  }, [spot])
 
   const handleSubmitUpdate = async () => {
     const res = await updateSpot(spot.id, data)
