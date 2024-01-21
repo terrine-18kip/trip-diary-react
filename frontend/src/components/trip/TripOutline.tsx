@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Card, Button } from 'antd'
+import { Menu, Card, Button, Dropdown, message } from 'antd'
 import {
   ArrowLeftOutlined,
   EditOutlined,
@@ -10,6 +10,9 @@ import {
   LockOutlined,
   GlobalOutlined,
   UserOutlined,
+  MoreOutlined,
+  DownOutlined,
+  LinkOutlined,
 } from '@ant-design/icons'
 import { css } from '@emotion/react'
 /** @jsxImportSource @emotion/react */
@@ -28,6 +31,9 @@ const TripOutline: React.FC = () => {
   const [showMember, setShowMember] = useState<boolean>(false)
 
   const styles = {
+    wrapper: css`
+      padding: 10px 5px;
+    `,
     column: css`
       margin-bottom: 10px;
     `,
@@ -54,86 +60,112 @@ const TripOutline: React.FC = () => {
     return <></>
   }
 
-  return (
-    <Card
-      title={
+  const copyUrl = async () => {
+    await navigator.clipboard.writeText(location.href)
+    message.success('クリップボードにコピーしました')
+  }
+
+  const menu = (
+    <Menu>
+      <Menu.Item icon={<LinkOutlined />} onClick={copyUrl}>
+        URLをコピー
+      </Menu.Item>
+      {user && (
         <>
-          <Link key='edit' to='/'>
-            <Button type='text' shape='circle' icon={<ArrowLeftOutlined />} />
-          </Link>
-          {trip.title}
-        </>
-      }
-      extra={
-        user && (
-          <>
+          <Menu.Item icon={<EditOutlined />}>
             <Link key='edit' to={`/${trip.uniqid}/edit`}>
-              <Button type='text' shape='circle' icon={<EditOutlined />} />
+              旅を編集する
             </Link>
-            <Button
-              type='text'
-              shape='circle'
-              icon={<DeleteOutlined />}
-              onClick={() => deleteTrip(trip.id)}
-            />
+          </Menu.Item>
+          <Menu.Item icon={<UserOutlined />}>
+            <Link key='edit' to={`/${trip.uniqid}/edit`}>
+              メンバーを編集する
+            </Link>
+          </Menu.Item>
+          <Menu.Item danger icon={<DeleteOutlined />} onClick={() => deleteTrip(trip.id)}>
+            旅を削除する
+          </Menu.Item>
+        </>
+      )}
+    </Menu>
+  )
+
+  return (
+    <div css={styles.wrapper}>
+      <Card
+        title={
+          <>
+            <Link key='edit' to='/trip'>
+              <Button type='text' shape='circle' icon={<ArrowLeftOutlined />} />
+            </Link>
+            {trip.title}
           </>
-        )
-      }
-      bordered={false}
-    >
-      <div css={styles.column}>
-        <div css={styles.key}>
-          <ScheduleOutlined /> 期間
-        </div>
-        <div>
-          {trip.start_date} {trip.start_date && trip.end_date && '～'} {trip.end_date}
-        </div>
-      </div>
-
-      <div css={styles.column}>
-        <div css={styles.key}>
-          <FileTextOutlined /> メモ
-        </div>
-        <div>{trip.memo}</div>
-      </div>
-
-      {trip.privacy_id === 1 && (
+        }
+        extra={
+          <>
+            <Dropdown overlay={menu} trigger={['click']}>
+              <Button type='text' shape='circle' icon={<MoreOutlined />} />
+            </Dropdown>
+            <Button type='text' shape='circle' icon={<DownOutlined />} />
+          </>
+        }
+        bordered={false}
+        size='small'
+      >
         <div css={styles.column}>
-          <span css={styles.key}>
-            <LockOutlined /> 非公開
-          </span>
-          <span css={styles.privacyText}>参加メンバーのみが閲覧可能</span>
+          <div css={styles.key}>
+            <ScheduleOutlined /> 期間
+          </div>
+          <div>
+            {trip.start_date} {trip.start_date && trip.end_date && '～'} {trip.end_date}
+          </div>
         </div>
-      )}
 
-      {trip.privacy_id === 2 && (
         <div css={styles.column}>
-          <span css={styles.key}>
-            <GlobalOutlined /> 公開
-          </span>
-          <span css={styles.privacyText}>リンクを知っている全員が閲覧可能</span>
+          <div css={styles.key}>
+            <FileTextOutlined /> メモ
+          </div>
+          <div>{trip.memo}</div>
         </div>
-      )}
 
-      <div css={styles.column}>
-        <div css={styles.key}>
-          <UserOutlined /> メンバー {user && <a onClick={() => setShowMember(true)}>編集</a>}
-        </div>
-        <div css={styles.members}>
-          {trip.users?.map((member) => {
-            return (
-              <span key={member.id}>
-                <MemberIcon member={member} size='small' />
-              </span>
-            )
-          })}
-        </div>
-      </div>
+        {trip.privacy_id === 1 && (
+          <div css={styles.column}>
+            <span css={styles.key}>
+              <LockOutlined /> 非公開
+            </span>
+            <span css={styles.privacyText}>参加メンバーのみが閲覧可能</span>
+          </div>
+        )}
 
-      <Modal showModal={showMember} setShowModal={setShowMember}>
-        <TripMember setFlag={setShowMember} />
-      </Modal>
-    </Card>
+        {trip.privacy_id === 2 && (
+          <div css={styles.column}>
+            <span css={styles.key}>
+              <GlobalOutlined /> 公開
+            </span>
+            <span css={styles.privacyText}>リンクを知っている全員が閲覧可能</span>
+          </div>
+        )}
+
+        <div css={styles.column}>
+          <div css={styles.key}>
+            <UserOutlined /> メンバー {user && <a onClick={() => setShowMember(true)}>編集</a>}
+          </div>
+          <div css={styles.members}>
+            {trip.users?.map((member) => {
+              return (
+                <span key={member.id}>
+                  <MemberIcon member={member} size='small' />
+                </span>
+              )
+            })}
+          </div>
+        </div>
+
+        <Modal showModal={showMember} setShowModal={setShowMember}>
+          <TripMember setFlag={setShowMember} />
+        </Modal>
+      </Card>
+    </div>
   )
 }
 
