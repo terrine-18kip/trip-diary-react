@@ -35,6 +35,18 @@ const TripOutline: React.FC = () => {
     wrapper: css`
       padding: 10px 5px;
     `,
+    header: css`
+      display: flex;
+      align-items: center;
+    `,
+    headerDate: css`
+      color: #666666;
+      font-size: 12px;
+      font-weight: 400;
+      span {
+        margin-right: 5px;
+      }
+    `,
     showDetail: css`
       display: grid;
       grid-template-rows: 1fr;
@@ -83,6 +95,21 @@ const TripOutline: React.FC = () => {
     message.success('クリップボードにコピーしました')
   }
 
+  const title = (
+    <div css={styles.header}>
+      <Link key='edit' to='/trip'>
+        <Button type='text' shape='circle' icon={<ArrowLeftOutlined />} />
+      </Link>
+      <div>
+        <div>{trip.title}</div>
+        <div css={styles.headerDate}>
+          <ScheduleOutlined />
+          {trip.start_date} {trip.start_date && trip.end_date && '～'} {trip.end_date}
+        </div>
+      </div>
+    </div>
+  )
+
   const menu = (
     <Menu>
       <Menu.Item icon={<LinkOutlined />} onClick={copyUrl}>
@@ -110,16 +137,7 @@ const TripOutline: React.FC = () => {
 
   const detail = (
     <div css={showDetail ? styles.showDetail : styles.hideDetail}>
-      <div>
-        <div css={styles.column}>
-          <div css={styles.key}>
-            <ScheduleOutlined /> 期間
-          </div>
-          <div>
-            {trip.start_date} {trip.start_date && trip.end_date && '～'} {trip.end_date}
-          </div>
-        </div>
-
+      <div style={{ overflow: 'hidden' }}>
         <div css={styles.column}>
           <div css={styles.key}>
             <FileTextOutlined /> メモ
@@ -166,14 +184,7 @@ const TripOutline: React.FC = () => {
   return (
     <div css={styles.wrapper}>
       <Card
-        title={
-          <>
-            <Link key='edit' to='/trip'>
-              <Button type='text' shape='circle' icon={<ArrowLeftOutlined />} />
-            </Link>
-            {trip.title}
-          </>
-        }
+        title={title}
         extra={
           <>
             <Dropdown overlay={menu} trigger={['click']}>
