@@ -28,11 +28,24 @@ const TripOutline: React.FC = () => {
   const { trip } = useContext(TripContext)
   const { deleteTrip } = useDeleteTrip()
 
+  const [showDetail, setShowDetail] = useState<boolean>(false)
   const [showMember, setShowMember] = useState<boolean>(false)
 
   const styles = {
     wrapper: css`
       padding: 10px 5px;
+    `,
+    showDetail: css`
+      display: grid;
+      grid-template-rows: 1fr;
+      transition: padding 0.3s, grid-template-rows 0.3s;
+      padding: 12px;
+    `,
+    hideDetail: css`
+      display: grid;
+      grid-template-rows: 0fr;
+      padding: 0 12px;
+      transition: padding 0.3s, grid-template-rows 0.3s;
     `,
     column: css`
       margin-bottom: 10px;
@@ -53,6 +66,11 @@ const TripOutline: React.FC = () => {
       display: flex;
       align-items: center;
       flex-wrap: wrap;
+    `,
+    iconTransition: css`
+      svg {
+        transition: transform 0.3s;
+      }
     `,
   }
 
@@ -90,28 +108,9 @@ const TripOutline: React.FC = () => {
     </Menu>
   )
 
-  return (
-    <div css={styles.wrapper}>
-      <Card
-        title={
-          <>
-            <Link key='edit' to='/trip'>
-              <Button type='text' shape='circle' icon={<ArrowLeftOutlined />} />
-            </Link>
-            {trip.title}
-          </>
-        }
-        extra={
-          <>
-            <Dropdown overlay={menu} trigger={['click']}>
-              <Button type='text' shape='circle' icon={<MoreOutlined />} />
-            </Dropdown>
-            <Button type='text' shape='circle' icon={<DownOutlined />} />
-          </>
-        }
-        bordered={false}
-        size='small'
-      >
+  const detail = (
+    <div css={showDetail ? styles.showDetail : styles.hideDetail}>
+      <div>
         <div css={styles.column}>
           <div css={styles.key}>
             <ScheduleOutlined /> 期間
@@ -148,7 +147,7 @@ const TripOutline: React.FC = () => {
 
         <div css={styles.column}>
           <div css={styles.key}>
-            <UserOutlined /> メンバー {user && <a onClick={() => setShowMember(true)}>編集</a>}
+            <UserOutlined /> メンバー
           </div>
           <div css={styles.members}>
             {trip.users?.map((member) => {
@@ -160,7 +159,39 @@ const TripOutline: React.FC = () => {
             })}
           </div>
         </div>
+      </div>
+    </div>
+  )
 
+  return (
+    <div css={styles.wrapper}>
+      <Card
+        title={
+          <>
+            <Link key='edit' to='/trip'>
+              <Button type='text' shape='circle' icon={<ArrowLeftOutlined />} />
+            </Link>
+            {trip.title}
+          </>
+        }
+        extra={
+          <>
+            <Dropdown overlay={menu} trigger={['click']}>
+              <Button type='text' shape='circle' icon={<MoreOutlined />} />
+            </Dropdown>
+            <Button
+              type='text'
+              shape='circle'
+              onClick={() => setShowDetail(!showDetail)}
+              icon={<DownOutlined rotate={showDetail ? 180 : 0} css={styles.iconTransition} />}
+            />
+          </>
+        }
+        bordered={false}
+        size='small'
+        bodyStyle={{ padding: 0 }}
+      >
+        {detail}
         <Modal showModal={showMember} setShowModal={setShowMember}>
           <TripMember setFlag={setShowMember} />
         </Modal>
