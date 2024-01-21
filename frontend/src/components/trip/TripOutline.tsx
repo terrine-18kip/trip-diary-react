@@ -32,14 +32,13 @@ const TripOutline: React.FC = () => {
   const [showMember, setShowMember] = useState<boolean>(false)
 
   const styles = {
-    wrapper: css`
-      padding: 10px 5px;
-    `,
     header: css`
       display: flex;
       align-items: center;
     `,
     headerDate: css`
+      display: flex;
+      align-items: center;
       color: #666666;
       font-size: 12px;
       font-weight: 400;
@@ -105,6 +104,7 @@ const TripOutline: React.FC = () => {
         <div css={styles.headerDate}>
           <ScheduleOutlined />
           {trip.start_date} {trip.start_date && trip.end_date && '～'} {trip.end_date}
+          {!trip.start_date && !trip.end_date && '未定'}
         </div>
       </div>
     </div>
@@ -133,6 +133,20 @@ const TripOutline: React.FC = () => {
         </>
       )}
     </Menu>
+  )
+
+  const extra = (
+    <>
+      <Dropdown overlay={menu} trigger={['click']}>
+        <Button type='text' shape='circle' icon={<MoreOutlined />} />
+      </Dropdown>
+      <Button
+        type='text'
+        shape='circle'
+        onClick={() => setShowDetail(!showDetail)}
+        icon={<DownOutlined rotate={showDetail ? 180 : 0} css={styles.iconTransition} />}
+      />
+    </>
   )
 
   const detail = (
@@ -182,32 +196,12 @@ const TripOutline: React.FC = () => {
   )
 
   return (
-    <div css={styles.wrapper}>
-      <Card
-        title={title}
-        extra={
-          <>
-            <Dropdown overlay={menu} trigger={['click']}>
-              <Button type='text' shape='circle' icon={<MoreOutlined />} />
-            </Dropdown>
-            <Button
-              type='text'
-              shape='circle'
-              onClick={() => setShowDetail(!showDetail)}
-              icon={<DownOutlined rotate={showDetail ? 180 : 0} css={styles.iconTransition} />}
-            />
-          </>
-        }
-        bordered={false}
-        size='small'
-        bodyStyle={{ padding: 0 }}
-      >
-        {detail}
-        <Modal showModal={showMember} setShowModal={setShowMember}>
-          <TripMember setFlag={setShowMember} />
-        </Modal>
-      </Card>
-    </div>
+    <Card title={title} extra={extra} bordered={false} size='small' bodyStyle={{ padding: 0 }}>
+      {detail}
+      <Modal showModal={showMember} setShowModal={setShowMember}>
+        <TripMember setFlag={setShowMember} />
+      </Modal>
+    </Card>
   )
 }
 
