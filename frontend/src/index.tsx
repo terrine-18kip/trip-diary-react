@@ -18,7 +18,7 @@ import TripCreate from 'components/trip/TripCreate'
 import TripDetail from 'components/trip/TripDetail'
 import TripEdit from 'components/trip/TripEdit'
 import 'antd/dist/antd.min.css'
-import 'index.css'
+import './index.css'
 import reportWebVitals from 'reportWebVitals'
 
 const router = createBrowserRouter(
