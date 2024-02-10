@@ -6,6 +6,8 @@ import {
   Route,
   RouterProvider,
 } from 'react-router-dom'
+import { Helmet, HelmetProvider } from 'react-helmet-async'
+
 import Layout from 'Layout'
 import Top from 'components/pages/Top'
 import Login from './components/pages/Login'
@@ -40,7 +42,9 @@ const router = createBrowserRouter(
 
 ReactDOM.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <HelmetProvider>
+      <RouterProvider router={router} />
+    </HelmetProvider>
   </React.StrictMode>,
   document.getElementById('root'),
 )

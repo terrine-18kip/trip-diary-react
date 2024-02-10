@@ -11,7 +11,10 @@ const usePageTracking = () => {
 
   useEffect(() => {
     ReactGA.initialize(ga4TrackingId)
-    ReactGA.send('pageview')
+    ReactGA.send({
+      hitType: 'pageview',
+      page: location.pathname,
+    })
   }, [location])
 }
 

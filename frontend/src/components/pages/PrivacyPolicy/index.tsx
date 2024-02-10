@@ -1,8 +1,11 @@
 import React from 'react'
+import Head from 'components/elements/Head'
 
 const PrivacyPolicy: React.FC = () => {
   return (
     <>
+      <Head title='プライバシーポリシー' />
+
       <h1>プライバシーポリシー</h1>
       <p>
         当サイトは、当サイトが取得した個人情報の取扱いに関し、個人情報の保護に関する法律、個人情報保護に関するガイドライン等の指針、その他個人情報保護に関する関係法令を遵守します。

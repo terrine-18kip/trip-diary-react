@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import { PageHeader, Button, Form, Input, Space } from 'antd'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
+
+import Head from 'components/elements/Head'
 import { T, useLogin } from './hooks'
 
 const Login: React.FC = () => {
@@ -22,36 +24,40 @@ const Login: React.FC = () => {
   }
 
   return (
-    <div css={styles.container}>
-      <PageHeader title='ログイン' />
-      <Form labelCol={{ span: 6 }} onFinish={() => login(data)}>
-        <Form.Item
-          name='email'
-          label='メールアドレス'
-          rules={[{ required: true, message: 'メールアドレスを入力してください' }]}
-        >
-          <Input onChange={(event) => setData({ ...data, email: event.target.value })} />
-        </Form.Item>
+    <>
+      <Head title='ログイン' />
 
-        <Form.Item
-          name='password'
-          label='パスワード'
-          rules={[{ required: true, message: 'パスワードを入力してください' }]}
-        >
-          <Input.Password
-            onChange={(event) => setData({ ...data, password: event.target.value })}
-          />
-        </Form.Item>
-        <Form.Item style={{ textAlign: 'center' }}>
-          <Space direction='vertical'>
-            <Button type='primary' htmlType='submit' loading={loading}>
-              ログイン
-            </Button>
-            <Link to='/entry'>新規登録はこちら</Link>
-          </Space>
-        </Form.Item>
-      </Form>
-    </div>
+      <div css={styles.container}>
+        <PageHeader title='ログイン' />
+        <Form labelCol={{ span: 6 }} onFinish={() => login(data)}>
+          <Form.Item
+            name='email'
+            label='メールアドレス'
+            rules={[{ required: true, message: 'メールアドレスを入力してください' }]}
+          >
+            <Input onChange={(event) => setData({ ...data, email: event.target.value })} />
+          </Form.Item>
+
+          <Form.Item
+            name='password'
+            label='パスワード'
+            rules={[{ required: true, message: 'パスワードを入力してください' }]}
+          >
+            <Input.Password
+              onChange={(event) => setData({ ...data, password: event.target.value })}
+            />
+          </Form.Item>
+          <Form.Item style={{ textAlign: 'center' }}>
+            <Space direction='vertical'>
+              <Button type='primary' htmlType='submit' loading={loading}>
+                ログイン
+              </Button>
+              <Link to='/entry'>新規登録はこちら</Link>
+            </Space>
+          </Form.Item>
+        </Form>
+      </div>
+    </>
   )
 }
 
