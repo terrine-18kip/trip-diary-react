@@ -24,7 +24,7 @@ const TripDetail: React.FC = () => {
     `,
   }
 
-  if (loading) return <Loading />
+  if (!trip && loading) return <Loading />
   if (unauthorized) return <NotFound />
   if (!trip) return <></>
 

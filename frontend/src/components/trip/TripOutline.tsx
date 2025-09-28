@@ -122,10 +122,8 @@ const TripOutline: React.FC = () => {
               旅を編集する
             </Link>
           </Menu.Item>
-          <Menu.Item icon={<UserOutlined />}>
-            <Link key='edit' to={`/${trip.uniqid}/edit`}>
-              メンバーを編集する
-            </Link>
+          <Menu.Item icon={<UserOutlined />} onClick={() => setShowMember(true)}>
+            メンバーを編集する
           </Menu.Item>
           <Menu.Item danger icon={<DeleteOutlined />} onClick={() => deleteTrip(trip.id)}>
             旅を削除する

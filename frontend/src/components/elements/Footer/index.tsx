@@ -8,7 +8,7 @@ import titleLogo from 'img/title_logo.png'
 const Footer: React.FC = () => {
   const styles = {
     footer: css`
-      padding: 40px 20px;
+      padding: 40px 20px 120px;
       color: #fff;
       text-align: center;
       background-color: #ce8d75e0;
