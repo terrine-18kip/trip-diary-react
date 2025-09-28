@@ -6,6 +6,8 @@ import {
   Route,
   RouterProvider,
 } from 'react-router-dom'
+import { Helmet, HelmetProvider } from 'react-helmet-async'
+
 import Layout from 'Layout'
 import Top from 'components/pages/Top'
 import Login from './components/pages/Login'
@@ -18,7 +20,7 @@ import TripCreate from 'components/trip/TripCreate'
 import TripDetail from 'components/trip/TripDetail'
 import TripEdit from 'components/trip/TripEdit'
 import 'antd/dist/antd.min.css'
-import 'index.css'
+import './index.css'
 import reportWebVitals from 'reportWebVitals'
 
 const router = createBrowserRouter(
@@ -40,7 +42,9 @@ const router = createBrowserRouter(
 
 ReactDOM.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <HelmetProvider>
+      <RouterProvider router={router} />
+    </HelmetProvider>
   </React.StrictMode>,
   document.getElementById('root'),
 )

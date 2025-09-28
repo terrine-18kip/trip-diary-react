@@ -6,6 +6,7 @@ import { ScheduleOutlined, FileTextOutlined } from '@ant-design/icons'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
+import Head from 'components/elements/Head'
 import { Trip } from 'types/Types'
 
 const Trips: React.FC = () => {
@@ -38,6 +39,8 @@ const Trips: React.FC = () => {
     <div>
       {user ? (
         <>
+          <Head title='旅の一覧' />
+
           <PageHeader
             title='自分の旅'
             extra={

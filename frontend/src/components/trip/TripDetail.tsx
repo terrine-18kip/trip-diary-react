@@ -3,6 +3,7 @@ import { css } from '@emotion/react'
 /** @jsxImportSource @emotion/react */
 
 import { TripContext } from 'Context'
+import Head from 'components/elements/Head'
 import TripOutline from 'components/trip/TripOutline'
 import PlanList from 'components/plan/PlanList'
 import NotFound from 'components/common/NotFound'
@@ -23,16 +24,20 @@ const TripDetail: React.FC = () => {
     `,
   }
 
-  if (loading) return <Loading />
+  if (!trip && loading) return <Loading />
   if (unauthorized) return <NotFound />
   if (!trip) return <></>
 
   return (
-    <div css={styles.wrapper}>
-      <TripOutline />
-      <div css={styles.space}></div>
-      <PlanList />
-    </div>
+    <>
+      <Head title={trip.title} />
+
+      <div css={styles.wrapper}>
+        <TripOutline />
+        <div css={styles.space}></div>
+        <PlanList />
+      </div>
+    </>
   )
 }
 

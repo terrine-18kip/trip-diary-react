@@ -6,8 +6,12 @@ import { css } from '@emotion/react'
 import { TripProvider, UserProvider } from 'Context'
 import Header from 'components/elements/Header'
 import Footer from 'components/elements/Footer'
+// import Ad from 'components/elements/Ad'
+import usePageTracking from 'hooks/useTracking'
 
 const Layout: React.FC = () => {
+  usePageTracking()
+
   const styles = {
     container: css`
       width: 100%;
@@ -29,6 +33,7 @@ const Layout: React.FC = () => {
         <main css={styles.container}>
           <ScrollRestoration />
           <Outlet />
+          {/* <Ad /> */}
         </main>
         <Footer />
       </TripProvider>

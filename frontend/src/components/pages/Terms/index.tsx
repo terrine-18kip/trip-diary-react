@@ -1,8 +1,11 @@
 import React from 'react'
+import Head from 'components/elements/Head'
 
 const Terms: React.FC = () => {
   return (
     <>
+      <Head title='利用規約' />
+
       <h1>利用規約</h1>
       <p>
         この利用規約（以下、「当規約」といいます）は、当サイトの利用条件を定めるものです。ご利用ユーザーの皆さま（以下、「ユーザー」といいます）には、当規約に従って、当サイトをご利用いただきます。

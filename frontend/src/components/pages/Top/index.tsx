@@ -1,6 +1,7 @@
 import React from 'react'
 /** @jsxImportSource @emotion/react */
 
+import Head from 'components/elements/Head'
 import Fv from './elements/Fv'
 import Content from './elements/Content'
 import Entry from './elements/Entry'
@@ -39,6 +40,7 @@ const Top: React.FC = () => {
 
   return (
     <>
+      <Head />
       <Fv />
       {contents.map((content) => {
         return <Content content={content} key={content.id} />
